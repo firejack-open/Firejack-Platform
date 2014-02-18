@@ -1,0 +1,54 @@
+.x-container-breadcrumbs {
+
+	.x-btn-breadcrumb-small {
+		background: #ecf0f1;
+		
+		.x-btn-inner {
+			font-size: 21px;
+			font-family: $vrr;
+			color: #8c8c8c;
+			height: 50px;
+			line-height: 50px;
+			padding-left: 25px;
+		}
+		&:first-child {
+			.x-btn-arrow {
+				display: none;
+			}
+
+			.x-btn-inner {
+				padding-left: 0;
+			}
+		}
+	}
+
+	.x-btn-breadcrumb-small-over,
+	.x-btn-breadcrumb-small-active {		
+		.x-btn-inner {
+			color: #2896dd;
+		}
+	}
+
+	.x-btn-breadcrumb-small-active {
+		background: #bcc2c7;
+		
+		.x-btn-arrow {
+			background: sprite($sprite, wizard-breadcrumps-steps-light_gray-to-dark_gray) no-repeat;
+		}
+
+		+ .x-btn-breadcrumb-small {
+			.x-btn-arrow {
+				background: sprite($sprite, wizard-breadcrumps-steps-dark_gray-to-light_gray) no-repeat;
+			}
+		}
+	}
+
+	.x-btn-arrow {
+		position: absolute;
+		left: 0;
+		top: 0;		
+		width: 24px;
+		height: 50px;
+		background: sprite($sprite, wizard-breadcrumps-steps-light_gray-to-light_gray) no-repeat;
+	}
+}

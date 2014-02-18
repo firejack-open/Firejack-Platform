@@ -1,0 +1,148 @@
+.x-mask {
+	background: #282828;
+	opacity: 0.9;
+}
+
+.x-window-wizards {
+	font-family: $vrr;
+	background: #fff;	
+
+	//close btn
+	.x-tool img {
+		width: 18px;
+		height: 17px;
+		background: sprite($sprite,close-btn) no-repeat;
+	}	
+	.x-tool-over .x-tool-close {		
+		background: sprite($sprite,close-btn-h) no-repeat;
+	}
+
+		/* -- Header -- */
+		.x-window-header-top {
+			background: #8c8c8c;
+			padding: 15px 20px;
+		}
+		
+		// Headers Icons
+
+		.x-window-header-icon {
+			width: 34px;
+			height: 32px;
+		}
+
+		.add-form-icon {
+			background: sprite($sprite,wizard-add-form-icon) no-repeat;
+		}
+
+		.add-report-icon {
+			background: sprite($sprite,wizard-add-report-icon) no-repeat;
+		}		
+
+		.add-wizard-icon {
+			background: sprite($sprite,wizard-add-wizard-icon) no-repeat;
+		}		
+
+		.add-process-icon {
+			background: sprite($sprite,wizard-add-process-icon) no-repeat;
+		}
+
+		.add-database-icon {
+			background: sprite($sprite,wizard-add-database-icon) no-repeat;
+		}
+
+		.add-relationship-icon {
+			background: sprite($sprite,wizard-add-relationship-icon) no-repeat;
+		}
+
+		// End Headers Icons
+
+		.x-window-header-text-container {
+			
+		}
+
+		.x-window-header-wizards {
+			.x-box-inner  {
+				line-height: 34px;
+			}
+		}		
+
+		.x-window-header-text {			
+			font-size: 26px;
+			color: #ecf0f1;
+			padding-left: 10px;
+			top: 5px;
+			position: relative;
+		}
+
+		/* -- Body -- */
+		.x-window-body {
+			padding: 0;
+			border-top: 1px solid #e6e6e6;
+			background: #fff;
+		}
+
+		/* -- Footer -- */
+		.x-toolbar-footer {
+			padding: 10px;
+			margin: 0;
+			background: #fff;
+		}
+
+	//body
+	
+	.x-window-body-wizards {		
+		border-top: 1px solid #e6e6e6;
+	}
+	
+	.form-panel {
+		.x-panel-body {
+			border-bottom: 1px solid #e6e6e6 !important;			
+		}
+	}
+
+
+	//footer
+	.x-toolbar-footer {
+		// padding-top: 20px;	
+	}
+
+
+	//Status ico 
+
+	.status-active,
+	.status-inactive {
+		width: 28px;
+		height: 28px;
+		margin: 0 15px;
+	}
+	.status-active {
+		background: sprite($sprite,status-active) no-repeat;
+	}
+
+	.status-inactive {
+		background: sprite($sprite,status-inactive) no-repeat;
+	}
+
+	//Blue Panel Header
+	
+	.x-panel-header-blue {
+		font-size: 20px;
+		color: #fff;
+		background: #2896dd;
+		padding: 21px 15px 15px;
+	}
+
+	//Blue Background
+	.blue-bg {
+		background: #2896dd;
+	}
+
+	// Import design components
+
+	@import "gateway/_x-grid";
+	
+	@import "gateway/_x-forms";
+	@import "gateway/_x-tree-panel";	
+	@import "gateway/_x-breadcrumbs";	
+	@import "gateway/_x-box-select";	
+}

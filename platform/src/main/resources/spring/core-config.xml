@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <import resource="hibernate-config.xml"/>
+    <import resource="export-import-config.xml"/>
+    <import resource="velocity-config.xml"/>
+    <import resource="spring-core-config.xml"/>
+    <import resource="service-config.xml"/>
+
+    <task:annotation-driven/>
+
+    <ehcache:annotation-driven cache-manager="ehCacheManager"/>
+
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" destroy-method="destroy">
+        <property name="cacheManagerName" value="ehCacheManager"/>
+        <property name="configLocation">
+            <bean class="org.springframework.core.io.ClassPathResource">
+                <constructor-arg index="0" value="/ehcache/ehcache-config.xml"/>
+            </bean>
+        </property>
+    </bean>
+
+	<context:component-scan base-package="net.firejack.platform.generate"/>
+    <context:component-scan base-package="net.firejack.platform.core.cache"/>
+    <context:component-scan base-package="net.firejack.platform.core.store"/>
+    <context:component-scan base-package="net.firejack.platform.core.config"/>
+    <context:component-scan base-package="net.firejack.platform.model.service.mail"/>
+    <context:component-scan base-package="net.firejack.platform.core.utils"/>
+    <context:component-scan base-package="net.firejack.platform.core.schedule"/>
+
+    <bean class="net.firejack.platform.core.utils.Factory">
+        <property name = "adapters">
+            <list>
+                <bean class="net.firejack.platform.core.adapter.DateTimeAdapter"/>
+                <bean class="net.firejack.platform.core.adapter.XmlGregorianCalendarAdapter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Temporary File Cleaner Processor -->
+    <bean id="temporaryFileCleanerProcessor" class="net.firejack.platform.core.processor.TemporaryFileCleanerProcessor"/>
+
+    <task:scheduler id="temporaryFileCleanerScheduler"/>
+
+    <task:scheduled-tasks scheduler="temporaryFileCleanerScheduler">
+        <task:scheduled ref="temporaryFileCleanerProcessor" method="removeTemporaryFiles" cron="0 */10 * * * ?"/>
+    </task:scheduled-tasks>
+
+    <!-- Application Message Bundle -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:/messages/messages"/>
+        <property name="cacheSeconds" value="0"/>
+    </bean>
+
+    <!--Thread Pool Task Executor-->
+    <bean id = "taskExecutor" class = "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name = "corePoolSize" value = "5" />
+        <property name = "maxPoolSize" value = "10" />
+        <property name = "queueCapacity" value = "25" />
+    </bean>
+
+    <!-- Scheduler Factory for dynamically manage jobs -->
+    <bean id="scheduleFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="destroy"/>
+
+    <bean id="sessionManager" class="net.firejack.platform.utils.SessionManager"/>
+
+    <bean id="template" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- Stories -->
+    <bean id="registryNodeStore" class="net.firejack.platform.core.store.registry.RegistryNodeStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.RegistryNodeModel"/>
+    </bean>
+    <!--<bean id="domainStore" class="net.firejack.platformcore.store.registry.RegistryNodeStore">-->
+        <!--<property name="clazz" value="net.firejack.platformcore.model.registry.domain.DomainModel"/>-->
+    <!--</bean>-->
+    <bean id="subDomainStore" class="net.firejack.platform.core.store.registry.RegistryNodeStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.domain.SubDomain"/>
+    </bean>
+    <bean id="fieldableStore" class="net.firejack.platform.core.store.registry.FieldContainerStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.FieldContainerRegistryNode"/>
+    </bean>
+    <bean id="resourceStore" class="net.firejack.platform.core.store.registry.resource.ResourceStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.ResourceModel"/>
+        <property name="resourceVersionStore" ref="resourceVersionStore"/>
+    </bean>
+    <bean id="resourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.AbstractResourceVersionModel"/>
+        <property name="resourceStore" ref="resourceStore"/>
+    </bean>
+    <bean id="textResourceStore" class="net.firejack.platform.core.store.registry.resource.TextResourceStore">
+        <property name="resourceVersionStore" ref="textResourceVersionStore"/>
+    </bean>
+    <bean id="textResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.TextResourceVersionModel"/>
+        <property name="resourceStore" ref="textResourceStore"/>
+    </bean>
+    <bean id="htmlResourceStore" class="net.firejack.platform.core.store.registry.resource.HtmlResourceStore">
+        <property name="resourceVersionStore" ref="htmlResourceVersionStore"/>
+    </bean>
+    <bean id="htmlResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.HtmlResourceVersionModel"/>
+        <property name="resourceStore" ref="htmlResourceStore"/>
+    </bean>
+    <bean id="imageResourceStore" class="net.firejack.platform.core.store.registry.resource.ImageResourceStore">
+        <property name="resourceVersionStore" ref="imageResourceVersionStore"/>
+    </bean>
+    <bean id="imageResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.ImageResourceVersionModel"/>
+        <property name="resourceStore" ref="imageResourceStore"/>
+    </bean>
+    <bean id="audioResourceStore" class="net.firejack.platform.core.store.registry.resource.ResourceStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.AudioResourceModel"/>
+        <property name="resourceVersionStore" ref="audioResourceVersionStore"/>
+    </bean>
+    <bean id="audioResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.AudioResourceVersionModel"/>
+        <property name="resourceStore" ref="audioResourceStore"/>
+    </bean>
+    <bean id="videoResourceStore" class="net.firejack.platform.core.store.registry.resource.ResourceStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.VideoResourceModel"/>
+        <property name="resourceVersionStore" ref="videoResourceVersionStore"/>
+    </bean>
+    <bean id="videoResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.VideoResourceVersionModel"/>
+        <property name="resourceStore" ref="videoResourceStore"/>
+    </bean>
+    <bean id="documentResourceStore" class="net.firejack.platform.core.store.registry.resource.ResourceStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.DocumentResourceModel"/>
+        <property name="resourceVersionStore" ref="documentResourceVersionStore"/>
+    </bean>
+    <bean id="documentResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.DocumentResourceVersionModel"/>
+        <property name="resourceStore" ref="documentResourceStore"/>
+    </bean>
+    <bean id="fileResourceStore" class="net.firejack.platform.core.store.registry.resource.ResourceStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.FileResourceModel"/>
+        <property name="resourceVersionStore" ref="fileResourceVersionStore"/>
+    </bean>
+    <bean id="fileResourceVersionStore" class="net.firejack.platform.core.store.registry.resource.ResourceVersionStore">
+        <property name="clazz" value="net.firejack.platform.core.model.registry.resource.FileResourceVersionModel"/>
+        <property name="resourceStore" ref="fileResourceStore"/>
+    </bean>
+
+
+    <util:map id="registryNodeStories"
+              key-type="net.firejack.platform.core.model.registry.RegistryNodeType"
+              value-type="net.firejack.platform.core.store.registry.IRegistryNodeStore">
+        <entry key="REGISTRY_NODE" value-ref="registryNodeStore"/>
+        <entry key="ROOT_DOMAIN" value-ref="rootDomainStore"/>
+        <entry key="DOMAIN" value-ref="domainStore"/>
+        <entry key="PACKAGE" value-ref="packageStore"/>
+        <entry key="SYSTEM" value-ref="systemStore"/>
+        <entry key="SERVER" value-ref="serverStore"/>
+        <entry key="DATABASE" value-ref="databaseStore"/>
+        <entry key="FILESTORE" value-ref="fileStore"/>
+        <entry key="ENTITY" value-ref="entityStore"/>
+        <entry key="SUB_ENTITY" value-ref="entityStore"/>
+        <entry key="REPORT" value-ref="reportStore"/>
+        <entry key="BI_REPORT" value-ref="bireportStore"/>
+        <entry key="WIZARD" value-ref="wizardStore"/>
+        <entry key="RELATIONSHIP" value-ref="relationshipStore"/>
+        <entry key="ACTION" value-ref="actionStore"/>
+        <entry key="DIRECTORY" value-ref="directoryStore"/>
+        <entry key="GROUP" value-ref="groupStore"/>
+        <entry key="PERMISSION" value-ref="permissionStore"/>
+        <entry key="ROLE" value-ref="roleStore"/>
+        <entry key="RESOURCE_LOCATION" value-ref="resourceLocationStore"/>
+        <entry key="FOLDER" value-ref="folderStore"/>
+        <entry key="NAVIGATION_ELEMENT" value-ref="navigationElementStore"/>
+        <entry key="TEXT_RESOURCE" value-ref="textResourceStore"/>
+        <entry key="HTML_RESOURCE" value-ref="htmlResourceStore"/>
+        <entry key="IMAGE_RESOURCE" value-ref="imageResourceStore"/>
+        <entry key="AUDIO_RESOURCE" value-ref="audioResourceStore"/>
+        <entry key="VIDEO_RESOURCE" value-ref="videoResourceStore"/>
+        <entry key="DOCUMENT_RESOURCE" value-ref="documentResourceStore"/>
+        <entry key="FILE_RESOURCE" value-ref="fileResourceStore"/>
+        <entry key="PROCESS" value-ref="processStore"/>
+        <entry key="ACTOR" value-ref="actorStore"/>
+        <entry key="CONFIG" value-ref="configStore"/>
+    </util:map>
+
+    <util:map id="resourceAccessFieldsStories"
+              key-type="net.firejack.platform.core.model.registry.RegistryNodeType"
+              value-type="net.firejack.platform.core.store.registry.IResourceAccessFieldsStore">
+        <entry key="DOMAIN" value-ref="domainStore"/>
+        <entry key="ENTITY" value-ref="entityStore"/>
+        <entry key="ACTION" value-ref="actionStore"/>
+        <entry key="NAVIGATION_ELEMENT" value-ref="navigationElementStore"/>
+    </util:map>
+
+	<util:map id = "lookupTree" key-type = "java.lang.Class" value-type = "net.firejack.platform.core.utils.LookupReference" />
+	<util:map id = "placeHolders" key-type = "java.lang.String" value-type = "java.lang.Class" />
+	<util:list id = "searchTables" list-class="java.util.LinkedList" value-type="net.firejack.platform.core.model.registry.RegistryNodeType" />
+</beans>

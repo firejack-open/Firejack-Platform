@@ -1,0 +1,56 @@
+package ${package};
+
+import java.util.*;
+import net.firejack.platform.core.adapter.SQLDateAdapter;
+import net.firejack.platform.core.annotation.Projection;
+import net.firejack.platform.core.domain.AbstractDTO;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import net.firejack.platform.web.jackson.*;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+@Component("${fullName}")
+@XmlRootElement(namespace = "$render.reverse($package)")
+@XmlType(namespace = "$render.reverse($package)")
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ${name} extends AbstractDTO {
+	private static final long serialVersionUID = $render.generateSerialUID()L;
+#foreach($field in $fields)
+
+#if (${field.typeName} == "java.sql.Date")
+	@JsonDeserialize(using = SqlDateDeserializer.class)
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
+#end
+#if (${field.typeName} == "java.sql.Time")
+	@JsonDeserialize(using = SqlTimeDeserializer.class)
+	@XmlJavaTypeAdapter(SQLTimeAdapter.class)
+#end
+	@Projection("${field.projection}")
+	private ${field.typeName} ${field.name};
+#end
+#foreach($field in $fields)
+
+	public ${field.typeName} get${field.method}() {
+		return this.${field.name};
+	}
+
+	public void set${field.method}(${field.typeName} ${field.name}) {
+		this.${field.name} = ${field.name};
+	}
+#end
+}

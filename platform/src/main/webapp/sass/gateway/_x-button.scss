@@ -1,0 +1,419 @@
+/* BEGIN buttons */
+
+.x-btn-wizard-small {
+  // @include border-radius(2px);
+  background-color: #fff;
+  border: 1px solid #ecf0f1;
+  
+  .x-btn-center {
+    // height: 24px;
+    // line-height: 24px;    
+  }
+
+  .x-btn-inner {
+    font-size: 21px;
+    color: #a7a7a7;
+    // height: 24px;
+    // line-height: 24px;
+  }
+
+  /* Main Wizard Window */
+  .x-btn-inner {
+    padding-top: 130px;
+  }
+  .x-btn-icon {
+    width: 124px;
+    height: 89px;
+    overflow: auto;
+    margin: 40px auto auto;
+    // position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    // z-index: 999;
+
+    &.page {
+      background: sprite($sprite,page-btn) no-repeat;
+    }
+
+    &.form {
+      background: sprite($sprite,form-btn) no-repeat;
+    }
+
+    &.wizard {
+      background: sprite($sprite,wizard-btn) no-repeat;
+    }
+
+    &.report {
+      background: sprite($sprite,report-btn) no-repeat;
+    }
+
+    &.process {
+      background: sprite($sprite,process-btn) no-repeat;
+    }
+
+    &.database {
+      background: sprite($sprite,database-btn) no-repeat;
+    }
+
+    &.directory {
+      background: sprite($sprite,directory-btn) no-repeat;
+    } 
+
+    &.data {
+      background: sprite($sprite,form-btn) no-repeat;
+    }
+
+    &.relationship {
+      background: sprite($sprite,relationship-btn) no-repeat;
+    }
+  }
+
+  /* End Main Wizard Window */
+}
+
+.x-btn-wizard-small-over {
+  background-color: #2896dd;
+
+  .x-btn-inner {
+    color: #fff;
+  }
+  
+  /* Main Wizard Window */
+
+  .x-btn-icon {
+
+    &.page {
+      background: sprite($sprite,page-btn-h);
+    }
+
+    &.form {
+      background: sprite($sprite,form-btn-h);
+    }
+
+    &.wizard {
+      background: sprite($sprite,wizard-btn-h);
+    }
+
+    &.report {
+      background: sprite($sprite,report-btn-h);
+    }
+
+    &.process {
+      background: sprite($sprite,process-btn-h);
+    }
+
+    &.database {
+      background: sprite($sprite,database-btn-h);
+    }
+
+    &.directory {
+      background: sprite($sprite,directory-btn-h);
+    } 
+
+    &.data {
+      background: sprite($sprite,form-btn-h);
+    }
+
+    &.relationship {
+      background: sprite($sprite,relationship-btn-h);
+    }
+  }
+  
+  /* End Main Wizard Window */
+}
+
+
+/* Common buttons styles 250x60 */
+
+.x-btn-red-small,
+.x-btn-blue-small,
+.x-btn-grey-small,
+.x-btn-light-green-small {
+  .x-btn-inner {
+    font-size: 21px;
+    color: #fff;
+    padding: 5px 10px;
+  }
+}
+
+.x-btn-red-toolbar-small,
+.x-btn-blue-toolbar-small,
+.x-btn-grey-toolbar-small,
+.x-btn-light-green-toolbar-small {
+  .x-btn-inner {
+    font-size: 13px;
+    color: #fff;
+    padding: 3px 8px;    
+  }
+}
+
+//Red button
+.x-btn-red-small,
+.x-btn-red-toolbar-small {
+  background: #ff0000;
+}
+
+.x-btn-red-small-over,
+.x-btn-red-toolbar-small-over {
+  background: #ff0000;
+}
+
+//Blue button
+.x-btn-blue-small,
+.x-btn-blue-toolbar-small {
+  background: #2896dd;
+}
+
+.x-btn-blue-small-over,
+.x-btn-blue-toolbar-small-over {
+  background: #007bcb;
+}
+
+//Light Green button
+.x-btn-light-green-small,
+.x-btn-light-green-toolbar-small {
+  background: #7E9E0C;
+}
+
+.x-btn-light-green-small-over,
+.x-btn-light-green-toolbar-small-over {
+  background: #739105;
+}
+
+
+//Grey button
+.x-btn-grey-small,
+.x-btn-grey-toolbar-small {
+  background: #bcc2c7;
+}
+
+.x-btn-grey-small-over,
+.x-btn-grey-toolbar-small-over {
+  background: #9fa4a8;
+}
+
+/* End Common buttons styles 250x60 */
+
+/* Row Editing Buttons (YES/NO) */
+  .x-grid-row-editor-buttons {
+
+    .x-btn-default-small {
+      background: #bcc2c7; //Grey button
+      border: none;
+      padding: 0;
+
+      &:first-child {
+        background: #2896dd; //Blue button
+      }
+      .x-btn-inner {
+        color: #fff;
+        height: auto;
+        line-height: normal;
+      }
+    }
+
+    .x-btn-default-small-over {
+      background: #9fa4a8; //Grey button
+      
+      &:first-child {
+        background: #007bcb; //Blue button
+      }
+    }
+  }
+
+/* End Row Editing Buttons (YES/NO) */
+
+//green
+.x-btn-green-small,
+.x-btn-green-toolbar-small {
+  background: #2ecc71;
+}
+
+.x-btn-green-small-over,
+.x-btn-green-toolbar-small-over {
+  background: #05c155;
+}
+
+//Custom buttons
+
+.x-btn-add-entity-toolbar-small {
+  background: #2ecc71 sprite($sprite,add-entity) no-repeat;
+}
+
+.group-field-type-menu {
+  
+  .x-menu-item {
+    border-top: 1px solid #ecf0f1;
+  }
+
+  .x-menu-body {    
+    background: #bcc2c7 !important;
+    // @include border-radius(5px);
+    padding: 0;
+  }
+
+  .x-menu-item-link {
+    margin: 0;
+    padding-left: 10px;
+    line-height: 51px;
+    @include border-radius(0);    
+  }
+  .x-menu-item-text {
+    font-size: 18px;
+    color: #f8f8f8;
+  }
+
+  .x-menu-item-arrow {    
+    top: 50%;
+    right: 20px;
+    margin-top: -9px;
+    width: 8px;
+    height: 19px;
+    background: sprite($sprite,arrow-w-r) no-repeat;
+  }
+
+  .x-menu-item-active {
+    .x-menu-item-link {      
+      background: #a7a7a7;
+      border: none;
+    }
+    .x-menu-item-text {      
+      color: #fff;      
+    }
+  }
+
+  .x-menu-icon-separator {
+    display: none;
+  }
+
+  .x-menu-item-disabled {
+    background: #868686;
+
+    .x-menu-item-text {
+      color: #3f3e3e;
+    }
+  }
+}
+
+.field-type-menu {
+
+  .x-menu-item {
+    white-space: normal;
+  }
+
+  .x-menu-body {    
+    background: #a7a7a7 !important;
+    padding: 0;
+  }
+
+  .x-menu-item-link {
+    margin: 0;
+    padding: 22px 20px;
+    @include border-radius(0);    
+  }
+  .x-menu-item-text {
+    font-size: 14px;
+    color: #f8f8f8;
+
+    &.header {
+      padding-bottom: 5px;
+    }
+  }
+
+  .x-menu-item-arrow {    
+    top: 50%;
+    right: 20px;
+    margin-top: -4px;
+    width: 8px;
+    height: 19px;
+    background: sprite($sprite,arrow-w-r) no-repeat;
+  }
+
+  .x-menu-item-active {
+    .x-menu-item-link {      
+      background: #2896dd;
+      border: none;
+    }
+    .x-menu-item-text {      
+      color: #fff;
+    }
+  }
+
+  .x-menu-icon-separator {
+    display: none;
+  }
+
+  .x-menu-item-disabled {
+    background: #868686;
+
+    .x-menu-item-text {
+      color: #3f3e3e;
+    }
+  }
+}
+
+//Add Relationship menu
+
+.entity-record {
+  background: #a7a7a7;
+  padding: 22px 20px;
+  font-size: 14px;
+  color: #f8f8f8;
+  cursor: pointer;
+
+  &:hover {
+    background: #2896dd;
+  }
+}
+
+.x-btn-entity-search-small {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  margin-top: -13px;
+  
+  .entity-search-btn {
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 26px;
+    background: sprite($sprite,search) no-repeat;
+  }
+}
+
+.entity-search-panel {
+  .x-form-field {
+    border: none;
+    background: none;
+    font-size: 18px;
+    &:hover {
+      border: none;
+    }
+  }
+  .x-form-item {
+    margin: 0;
+  }
+}
+
+.entity-list {
+  background: #e0e0e0;
+}
+.add-relationship-window {
+  .x-btn-blue-toolbar-small {
+    .x-btn-inner {
+      font-size: 21px;
+      color: #fff;
+    }
+  }
+}
+
+
+// Grid delete btn
+
+.grid-delete {
+  width: 30px;
+  height: 30px;
+  background: sprite($sprite,grid-delete-btn-white) no-repeat;
+}
+
+
+/* END buttons */

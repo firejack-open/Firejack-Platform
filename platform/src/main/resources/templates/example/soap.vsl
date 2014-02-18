@@ -1,0 +1,58 @@
+SOAP invocation requires an HTTP [$method] to the following URL: [$url]
+~#br#~~#br#~
+An example request is provided below.
+~#br#~~#br#~
+~#pre#~
+$method http://${host}:${port}${event}${url} HTTP/1.1
+Accept-Encoding: gzip,deflate
+Content-Type: text/xml;charset=UTF-8
+SOAPAction: ""
+User-Agent: Jakarta Commons-HttpClient/3.1
+Content-Length: $request_length
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:end="http://endpoint.${service}/" xmlns:dom="domain.${service}">
+    <soapenv:Header>
+        <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken wsu:Id="UsernameToken-1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+                <wsse:Username>$username</wsse:Username>
+                <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">$password</wsse:Password>
+                <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">LSU/oawvFA65HLUFMuIBwA==</wsse:Nonce>
+                <wsu:Created>$date</wsu:Created>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soapenv:Header>
+    <soapenv:Body>
+        <end:$name>
+$request
+        </end:$name>
+    </soapenv:Body>
+</soapenv:Envelope>
+~#/pre#~
+~#br#~~#br#~
+An example response is provided below.
+~#br#~~#br#~
+~#pre#~
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/xml;charset=UTF-8
+Content-Length: $response_length
+Date: $date
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Header>
+        <opf.authentication.token xmlns="uri:uri">ac1d9694-a92b-481d-9ecf-44214215678f</opf.authentication.token>
+    </soap:Header>
+    <soap:Body>
+        <ns1:$name xmlns:ns1="http://endpoint.${service}.service.platform.firejack.net/">
+            <return>
+                <data>
+$response
+                </data>
+                <message>Action completed successfully</message>
+                <success>true</success>
+                <total>1</total>
+            </return>
+        </ns1:$name>
+    </soap:Body>
+</soap:Envelope>
+~#/pre#~

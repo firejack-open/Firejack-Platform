@@ -1,0 +1,28 @@
+package ${package};
+
+import java.util.*;
+
+import net.firejack.platform.core.model.SpecifiedIdsFilter;
+import net.firejack.platform.core.store.IAbstractStore;
+import net.firejack.platform.core.utils.Paging;
+import net.firejack.platform.core.utils.SearchQuery;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projection;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+public interface ${name} extends IAbstractStore<${model.name},${model.key.name}>  {
+#foreach($method in $methods)
+#if($method.render)
+	    $!{method.description}
+	#if($method.returnType)$render.renderType($method.returnType)#else void#end ${method.type}($render.renderParams($method.params));
+#end
+#end
+}

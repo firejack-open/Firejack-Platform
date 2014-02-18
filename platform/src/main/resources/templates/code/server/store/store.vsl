@@ -1,0 +1,42 @@
+package ${package};
+
+import java.util.*;
+import java.net.URLDecoder;
+import javax.annotation.PostConstruct;
+
+import net.firejack.platform.core.model.SpecifiedIdsFilter;
+import net.firejack.platform.core.store.AbstractStore;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import net.firejack.platform.core.utils.SearchQuery;
+import net.firejack.platform.core.utils.Paging;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Restrictions;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+@Component("${fullName}")
+public class ${name} extends AbstractStore<${model.name},${model.key.name}> implements ${interface.name} {
+
+	@PostConstruct
+	public void init() {
+		setClazz(${model.name}.class);
+	}
+#foreach($method in $methods)
+#if($method.render)
+	$!{method.description}
+	$render.renderTransaction($method)
+	public#if($method.returnType) $render.renderType($method.returnType)#else void#end ${method.type}($render.renderParams($method.params)) {
+		$render.renderMethod($method);
+	}
+#end
+#end
+}

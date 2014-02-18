@@ -1,0 +1,80 @@
+<?xml version="1.0"?><!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+		"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<query name = "package.load">
+		<![CDATA[
+           SELECT pkg
+           FROM PackageModel pkg
+           WHERE pkg.lookup = :lookup
+        ]]>
+	</query>
+
+	<query name = "db.load">
+        <![CDATA[
+           SELECT db
+           FROM DatabaseModel db
+            JOIN db.parent sys
+            JOIN sys.associatedPackages ap
+           WHERE ap.lookup = :lookup
+        ]]>
+    </query>
+
+	<query name = "UID.loadByUid">
+		<![CDATA[
+           FROM UID uid
+           WHERE uid.uid = :uid
+        ]]>
+	</query>
+
+    <query name = "Domain.loadDatabaseAssociations">
+        <![CDATA[
+           SELECT
+              domain.lookup, database
+           FROM DomainModel domain
+              LEFT JOIN domain.database database
+           WHERE domain.lookup LIKE :lookupPattern AND domain.dataSource = true
+        ]]>
+    </query>
+
+    <query name = "Entity.updateSecurityEnabledFlagOnPackage">
+        <![CDATA[
+           update EntityModel em set em.securityEnabled = :securityEnabled
+           where em.lookup like :packageLookupPattern
+        ]]>
+    </query>
+
+    <query name = "PackageChangesModel.cleanAllPackageChange">
+        <![CDATA[
+               DELETE FROM PackageChangesModel pcm
+               WHERE pcm.packageModel.id = :packageId
+           ]]>
+    </query>
+
+    <query name = "Package.updateParentPath">
+        <![CDATA[
+           update RegistryNodeModel rn set rn.parentPath = :parentPath
+           where rn.class IN ('ENT','ACT') AND rn.lookup like :packageLookupPattern
+        ]]>
+    </query>
+
+</hibernate-mapping>

@@ -1,0 +1,685 @@
+<!--
+  ~ Firejack Platform - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+
+<package name="platform" path="net.firejack" fromVersion="1.0.0" toVersion="1.1.0" prefix="opf">
+
+    <create-table name="opf_uid">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="uid" type="TINY_TEXT" required="true"/>
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    <add-index table="opf_uid" name="UK_UID" index-type="UNIQUE">
+        <column name="uid"/>
+    </add-index>
+
+    
+    <create-table name="opf_lookup">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="hash" type="TINY_TEXT" required="true"/>
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    <add-index table="opf_lookup" name="UK_HASH" index-type="UNIQUE">
+        <column name="hash"/>
+    </add-index>
+
+
+    <add-column table="opf_activity" name="notify" type="FLAG" required="true"/>
+    
+    <add-column table="opf_activity" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_activity" name="child_count" type="INTEGER_NUMBER" required="true" default="0"/>
+    
+    <add-column table="opf_activity" name="id_uid" type="NUMERIC_ID"/>
+
+    <drop-foreign-key table="opf_activity" name="FK_ACTIVITY_PROCESS"/>
+    
+    <modify-column table="opf_activity" old-name="id_process" new-name="id_parent" type="NUMERIC_ID"/>
+    <add-foreign-key table="opf_activity" name="FK_ACTIVITY_PROCESS" field="id_parent"
+                     reference-table="opf_registry_node" reference-field="id"/>
+    
+    <add-foreign-key table="opf_activity" name="FK_ACTIVITY_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+    
+
+    <add-column table="opf_config" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_config" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_config" name="FK_CONFIG_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+    <drop-foreign-key table="opf_config" name="FK_CONFIG_REGISTRY_NODE_PARENT"/>
+
+    <add-foreign-key table="opf_config" name="FK_CONFIG_REGISTRY_NODE_PARENT" field="id_parent"
+            reference-table="opf_registry_node" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_permission" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_permission" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_permission" name="FK_PERMISSION_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_registry_node" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_registry_node" name="distribution_email" type="SHORT_TEXT"/>
+
+    <add-column table="opf_registry_node" name="server_directory" type="URL"/>
+    
+    <add-column table="opf_registry_node" name="on_update_option" type="INTEGER_NUMBER"/>
+    
+    <add-column table="opf_registry_node" name="on_delete_option" type="INTEGER_NUMBER"/>
+    
+    <add-column table="opf_registry_node" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_registry_node" name="FK_REGISTRY_NODE_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+    <drop-index table="opf_registry_node" name="uk_action_param_name_parent" index-type="UNIQUE"/>
+
+    <add-index table="opf_registry_node" name="UK_NAME_PARENT" index-type="UNIQUE">
+        <column name="id_parent"/>
+        <column name="name"/>
+    </add-index>
+
+
+    <add-column table="opf_registry_node_field" name="child_count" type="INTEGER_NUMBER" required="true" default="0"/>
+
+    <modify-column table="opf_registry_node_field" old-name="field_name" new-name="name" type="SHORT_TEXT"/>
+
+    <add-column table="opf_registry_node_field" name="lookup" type="MEDIUM_TEXT" required="true"/>
+
+    <add-column table="opf_registry_node_field" name="path" type="MEDIUM_TEXT" required="true"/>
+
+    <drop-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD"/>
+
+    <modify-column table="opf_registry_node_field" old-name="id_registry_node" new-name="id_parent" type="NUMERIC_ID"/>
+
+    <add-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD" field="id_parent"
+             reference-table="opf_registry_node" reference-field="id"/>
+
+    <add-column table="opf_registry_node_field" name="id_hash" type="NUMERIC_ID" required="true"/>
+
+    <add-column table="opf_registry_node_field" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_role" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_role" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_role" name="FK_ROLE_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_status" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_status" name="child_count" type="INTEGER_NUMBER" required="true" default="0"/>
+    
+    <add-column table="opf_status" name="id_uid" type="NUMERIC_ID"/>
+    
+    <drop-foreign-key table="opf_status" name="FK_STATUS_PROCESS"/>
+    
+    <modify-column table="opf_status" old-name="id_process" new-name="id_parent" type="NUMERIC_ID"/>
+    <add-foreign-key table="opf_status" name="FK_STATUS_PROCESS" field="id_parent"
+                     reference-table="opf_registry_node" reference-field="id"/>
+    
+    <add-foreign-key table="opf_status" name="FK_STATUS_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+    
+    <add-column table="opf_user_profile_field" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_user_profile_field" name="id_uid" type="NUMERIC_ID"/>
+
+    <add-foreign-key table="opf_user_profile_field" name="FK_USER_PROFILE_FIELD_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_user_profile_field_group" name="id_hash" type="NUMERIC_ID" required="true"/>
+    
+    <add-column table="opf_user_profile_field_group" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_user_profile_field_group" name="FK_USER_PROFILE_FIELD_GROUP_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+    
+
+    <add-column table="opf_user_profile_field_value" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_user_profile_field_value" name="FK_USER_PROFILE_FIELD_VALUE_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+    
+    <create-table name="opf_permission_assignment">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="id_permission" type="NUMERIC_ID" required="true"/>
+        <column name="id_source_package" type="NUMERIC_ID" required="true"/>
+        <column name="id_role" type="NUMERIC_ID" required="true"/>
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    
+    <add-foreign-key table="opf_permission_assignment" name="FK_PERMISSION_ASSIGNMENT_PERMISSION" field="id_permission"
+            reference-table="opf_permission" reference-field="id" on-delete="CASCADE"/>
+    
+    <add-foreign-key table="opf_permission_assignment" name="FK_PERMISSION_ASSIGNMENT_PACKAGE" field="id_source_package"
+            reference-table="opf_registry_node" reference-field="id" on-delete="CASCADE"/>
+    
+    <add-foreign-key table="opf_permission_assignment" name="FK_PERMISSION_ASSIGNMENT_ROLE" field="id_role"
+            reference-table="opf_role" reference-field="id" on-delete="CASCADE"/>
+
+    
+    <add-index table="opf_permission_assignment" name="UK_PERMISSION_PACKAGE_ROLE_TYPE" index-type="UNIQUE">
+        <column name="id_permission"/>
+        <column name="id_role"/>
+        <column name="id_source_package"/>
+    </add-index>
+
+    <add-column table="opf_action_parameter" name="child_count" type="INTEGER_NUMBER" required="true" default="0"/>
+
+    <add-column table="opf_action_parameter" name="lookup" type="MEDIUM_TEXT" required="true"/>
+
+    <add-column table="opf_action_parameter" name="path" type="MEDIUM_TEXT" required="true"/>
+
+    <modify-column table="opf_action_parameter" old-name="type" new-name="field_type" type="INTEGER_NUMBER"/>
+
+    <drop-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_ACTION"/>
+
+    <modify-column table="opf_action_parameter" old-name="id_action" new-name="id_parent" type="NUMERIC_ID"/>
+
+    <add-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_ACTION" field="id_parent"
+             reference-table="opf_registry_node" reference-field="id"/>
+
+    <add-column table="opf_action_parameter" name="id_hash" type="NUMERIC_ID" required="true"/>
+
+    <add-column table="opf_action_parameter" name="id_uid" type="NUMERIC_ID"/>
+    
+    <add-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_activity
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_activity`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_activity`;
+
+            UPDATE opf_activity a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_activity" name="FK_ACTIVITY_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_config
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_config`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_config`;
+
+            UPDATE opf_config a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_config" name="FK_CONFIG_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_registry_node
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_registry_node`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_registry_node`;
+
+            UPDATE opf_registry_node a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <drop-foreign-key table="opf_registry_node" name="FK_PACKAGE_PACKAGE_VERSION"/>
+
+    <drop-column table="opf_registry_node" name="id_package_version"/>
+
+    <drop-table name="opf_package_version"/>
+
+    <add-foreign-key table="opf_registry_node" name="FK_REGISTRY_NODE_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, '.permission', 16384)) FROM `opf_permission`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(CONCAT(lookup, '.permission')), 1, 8), '-', MID(MD5(CONCAT(lookup, '.permission')), 9, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 13, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 17, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 21, 12))
+                FROM `opf_permission`;
+
+            UPDATE opf_permission a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, '.permission', 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(CONCAT(lookup, '.permission')), 1, 8), '-', MID(MD5(CONCAT(lookup, '.permission')), 9, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 13, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 17, 4), '-', MID(MD5(CONCAT(lookup, '.permission')), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_permission" name="FK_PERMISSION_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_role
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            DELETE FROM opf_user_role WHERE ID = 183;
+
+            DELETE FROM opf_role WHERE ID = 10;
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_role`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_role`;
+
+            UPDATE opf_role a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_role" name="FK_ROLE_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_status
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_status`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_status`;
+
+            UPDATE opf_status a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_status" name="FK_STATUS_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_user_profile_field
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_user_profile_field`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_user_profile_field`;
+
+            UPDATE opf_user_profile_field a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_user_profile_field" name="FK_USER_PROFILE_FIELD_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_user_profile_field_group
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_user_profile_field_group`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_user_profile_field_group`;
+
+            UPDATE opf_user_profile_field_group a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_user_profile_field_group" name="FK_USER_PROFILE_FIELD_GROUP_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id"
+            on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_registry_node_field f
+            SET f.path = (SELECT rn.lookup FROM opf_registry_node rn WHERE rn.id = f.id_parent),
+                f.lookup = (SELECT CONCAT(rn.lookup, '.', LOWER(REPLACE(f.name, '_', '-'))) FROM opf_registry_node rn WHERE rn.id = f.id_parent);
+
+            UPDATE opf_registry_node_field
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_registry_node_field`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_registry_node_field`;
+
+            UPDATE opf_registry_node_field a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id" on-delete="CASCADE"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_action_parameter ap
+            SET ap.path = (SELECT rn.lookup FROM opf_registry_node rn WHERE rn.id = ap.id_parent),
+                ap.lookup = (SELECT CONCAT(rn.lookup, '.', LOWER(REPLACE(ap.name, '_', '-'))) FROM opf_registry_node rn WHERE rn.id = ap.id_parent);
+
+            UPDATE opf_action_parameter
+            SET name = CONCAT(name, ' ', id), lookup = CONCAT(lookup, '-', id)
+            WHERE lookup IN (
+              SELECT lookup
+              FROM (
+                SELECT 'opf_registry_node', lookup FROM opf_registry_node
+                  UNION
+                SELECT 'opf_role', lookup FROM opf_role
+                  UNION
+                SELECT 'opf_config', lookup FROM opf_config
+                  UNION
+                SELECT 'opf_activity', lookup FROM opf_activity
+                  UNION
+                SELECT 'opf_status', lookup FROM opf_status
+                  UNION
+                SELECT 'opf_user_profile_field', lookup FROM opf_user_profile_field
+                  UNION
+                SELECT 'opf_user_profile_field_group', lookup FROM opf_user_profile_field_group
+                  UNION
+                SELECT 'opf_action_parameter', lookup FROM opf_action_parameter
+                  UNION
+                SELECT 'opf_registry_node_field', lookup FROM opf_registry_node_field
+              )  AS lookup
+              GROUP BY lookup
+              HAVING COUNT(lookup) > 1
+            );
+
+            INSERT INTO `opf_lookup` (`hash`)
+                SELECT MD5(CONCAT(`lookup`, 16384)) FROM `opf_action_parameter`;
+
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(lookup), 1, 8), '-', MID(MD5(lookup), 9, 4), '-', MID(MD5(lookup), 13, 4), '-', MID(MD5(lookup), 17, 4), '-', MID(MD5(lookup), 21, 12))
+                FROM `opf_action_parameter`;
+
+            UPDATE opf_action_parameter a
+                SET a.id_hash = (SELECT l.id FROM opf_lookup l WHERE l.hash = MD5(CONCAT(a.lookup, 16384))),
+                    a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.lookup), 1, 8), '-', MID(MD5(a.lookup), 9, 4), '-', MID(MD5(a.lookup), 13, 4), '-', MID(MD5(a.lookup), 17, 4), '-', MID(MD5(a.lookup), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_LOOKUP" field="id_hash"
+            reference-table="opf_lookup" reference-field="id" on-delete="CASCADE"/>
+
+    <modify-column table="opf_activity" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_config" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_permission" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_registry_node" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_registry_node_field" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_role" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_status" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_user_profile_field" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_user_profile_field_group" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_user_profile_field_value" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+    <modify-column table="opf_action_parameter" old-name="id_uid" new-name="id_uid" type="NUMERIC_ID"  required="true" />
+</package>

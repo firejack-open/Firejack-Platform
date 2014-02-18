@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environments>
+    <environment>
+        <system name="opf-local" path="net.firejack">
+            <packages>
+                <package>net.firejack.platform</package>
+            </packages>
+            <port>[SERVER_PORT]</port>
+            <protocol>HTTP</protocol>
+            <serverName>[SERVER_NAME]</serverName>
+        </system>
+        <databases>
+            <database name="db" path="net.firejack.opf-local">
+                <password>[DB_PASSWORD]</password>
+                <port>3306</port>
+                <rdbms>MySQL</rdbms>
+                <protocol>JDBC</protocol>
+                <serverName>[DB_SERVER_NAME]</serverName>
+                <urlPath>[DB_NAME]</urlPath>
+                <username>[DB_USERNAME]</username>
+            </database>
+        </databases>
+        <servers>
+            <server name="server" path="net.firejack.opf-local">
+                <port>8080</port>
+                <protocol>HTTP</protocol>
+                <serverName>[SERVER_NAME]</serverName>
+            </server>
+        </servers>
+        <filestores>
+            <filestore name="base" path="net.firejack.opf-local">
+                <port>8080</port>
+                <serverDirectory>[FILESTORE_DIRECTORY]</serverDirectory>
+                <serverName>[SERVER_NAME]</serverName>
+            </filestore>
+            <filestore name="config" path="net.firejack.opf-local">
+                <port>8080</port>
+                <serverDirectory>[FILESTORE_DIRECTORY]</serverDirectory>
+                <serverName>[SERVER_NAME]</serverName>
+            </filestore>
+            <filestore name="content" path="net.firejack.opf-local">
+                <port>8080</port>
+                <serverDirectory>[FILESTORE_DIRECTORY]</serverDirectory>
+                <serverName>[SERVER_NAME]</serverName>
+            </filestore>
+        </filestores>
+        <directories>
+            <directory name="accounts" path="net.firejack.opf-local">
+                <directoryType>DATABASE</directoryType>
+                <serverName>[SERVER_NAME]</serverName>
+                <status>ACTIVE</status>
+                <urlPath>/openflame</urlPath>
+            </directory>
+        </directories>
+    </environment>
+</environments>

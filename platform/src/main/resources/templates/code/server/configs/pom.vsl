@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns = "http://maven.apache.org/POM/4.0.0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>${path}</groupId>
+    <artifactId>${name}</artifactId>
+    <packaging>war</packaging>
+    <version>${version}</version>
+    <name>${name}</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+	    <dependency>
+	        <groupId>net.firejack.platform</groupId>
+	        <artifactId>firejack-integration</artifactId>
+	        <version>1.5.3-SNAPSHOT</version>
+	    </dependency>
+
+        <!--MySQL driver-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.17</version>
+        </dependency>
+
+        <!--Oracle-->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+
+        <!--MSSQL-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>sqljdbc4</artifactId>
+            <version>4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.8</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+            <version>2.5</version>
+        </dependency>
+
+	    <!--  URL Rewrite -->
+	    <dependency>
+	        <groupId>org.tuckey</groupId>
+	        <artifactId>urlrewritefilter</artifactId>
+	        <version>3.1.0</version>
+	    </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>${warname}</finalName>
+        <defaultGoal>package</defaultGoal>
+        <directory>${target.dir}</directory>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <outputDirectory>${classes.dir.prefix}/classes</outputDirectory>
+        <testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
+        <testOutputDirectory>${classes.dir.prefix}/test-classes</testOutputDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${web_app_dir}/WEB-INF/lib</outputDirectory>
+                            <excludeScope>provided</excludeScope>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <warSourceDirectory>${web.app.source.dir}</warSourceDirectory>
+                    <webappDirectory>${web_app_dir}</webappDirectory>
+                    <attachClasses>true</attachClasses>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>${web.app.source.dir}</directory>
+                            <targetPath>.</targetPath>
+                            <includes>
+                                <include>**/*.html</include>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <filtering>false</filtering>
+                            <directory>${web.app.source.dir}</directory>
+                            <targetPath>.</targetPath>
+                            <excludes>
+                                <exclude>**/*.html</exclude>
+                                <exclude>**/web.xml</exclude>
+                            </excludes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>clean-exploaded</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <tasks>
+                                <delete dir = "${web_app_dir}" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+	        <plugin>
+             <groupId>net.firejack.platform</groupId>
+             <artifactId>firejack-plugin</artifactId>
+             <version>1.2</version>
+             <configuration>
+                 <target>
+                     ${web.app.source.dir}/js
+                 </target>
+                 <output>
+                     ${web_app_dir}/js/cmv-classes.js
+                 </output>
+                 <excludes>
+                     <exclude>fjk-classes.js</exclude>
+                     <exclude>fjk-classes-debug.js</exclude>
+                     <exclude>fjk-classes-dev.js</exclude>
+	                 <exclude>Application.js</exclude>
+                 </excludes>
+             </configuration>
+             <executions>
+                 <execution>
+                     <phase>compile</phase>
+                     <goals>
+                         <goal>optimize</goal>
+                     </goals>
+                 </execution>
+             </executions>
+         </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <target.dir>${build.dir}/${project.name}</target.dir>
+        <build.dir>${basedir}/build</build.dir>
+        <classes.dir.prefix>${basedir}/target</classes.dir.prefix>
+        <web_app_dir>${classes.dir.prefix}/webapp</web_app_dir>
+        <web.app.source.dir>${basedir}/src/main/webapp</web.app.source.dir>
+        <etc.resources>${basedir}/etc-resources</etc.resources>
+	    <etc.prop>${web_app_dir}/WEB-INF</etc.prop>
+        <etc.target>${classes.dir.prefix}/classes</etc.target>
+        <etc.resources2>${basedir}/etc-resources</etc.resources2>
+        <etc.target2>${target.dir}/etc-resources</etc.target2>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>maven-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven 1</name>
+            <url>http://download.java.net/maven/1/</url>
+        </repository>
+        <repository>
+            <id>jboss repository</id>
+            <url>http://repository.jboss.org</url>
+        </repository>
+        <repository>
+            <id>ibiblio repository</id>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+        </repository>
+        <repository>
+            <id>java repository</id>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>default maven2 repository</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>dev.opf.firejack.net libs-snapshot</id>
+            <url>http://dev.opf.firejack.net:9900/artifactory/libs-snapshot</url>
+        </repository>
+        <repository>
+            <id>dev.opf.firejack.net ext-release-local</id>
+            <url>http://dev.opf.firejack.net:9900/artifactory/ext-release-local</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dev.opf.firejack.net</id>
+            <name>dev.opf.firejack.net-releases</name>
+            <url>http://dev.opf.firejack.net:9900/artifactory/plugins-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>

@@ -1,0 +1,52 @@
+.x-btn-main-menu-toolbar {
+  padding: 0;
+  border: {
+    style: solid;
+    width: 0 1px 0 0;
+    color: #003c66;
+  };
+  background: none;
+  @include border-radius(0);
+  
+  &.x-btn-pressed,
+  &:hover {
+    background-color: #000204; // Old browsers
+    @include filter-gradient(#000204, #011d32, vertical); // IE6-9
+    @include background-image(linear-gradient(top, #000204 0%,#00080e 10%,#00090f 26%,#010e17 46%,#011f35 95%,#011d32 100%));
+
+    .x-btn-inner {
+      color: #fff;
+    } 
+  }
+
+  &.x-btn-pressed {
+    &:hover {
+      @include background-image(linear-gradient(#b60015,#cc0018));
+    }
+    // &:before {
+    //   position: absolute;
+    //   top: 100%;
+    //   left: 50%;
+    //   display: block;
+    //   margin-left: -5px;
+    //   width: 10px;
+    //   height: 5px;
+    //   background: sprite($sprite,top-nav-bar-item-arrow) no-repeat;
+    //   content: '';
+    // }       
+  }
+  
+  .x-btn-center {   
+    height: 38px;
+    border: none;
+    background: none;
+    position: relative;
+  }
+
+  .x-btn-inner {
+    padding: 0 12px 0 11px;
+    height: 38px;
+    color: #8dbfd9;
+    font: 13px/38px normal $ossb;
+  }
+}

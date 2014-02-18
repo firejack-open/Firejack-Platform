@@ -1,0 +1,1 @@
+This action allows an authorized client to search for existing ${name}s by providing search query parameters and sort orders. Required parameters and their descriptions are provided in the parameters list below.

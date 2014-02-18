@@ -1,0 +1,58 @@
+package ${package};
+
+import java.util.*;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import net.firejack.platform.web.statistics.annotation.TrackDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import net.firejack.platform.core.utils.SearchQuery;
+import net.firejack.platform.core.utils.SortField;
+import net.firejack.platform.core.utils.Paging;
+import net.firejack.platform.utils.WebUtils;
+import org.springframework.stereotype.Component;
+import net.firejack.platform.core.broker.ServiceBroker;
+import net.firejack.platform.core.request.ServiceRequest;
+import net.firejack.platform.core.response.ServiceResponse;
+import net.firejack.platform.core.domain.NamedValues;
+import net.firejack.platform.core.exception.BusinessFunctionException;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+#set ($request = $render.renderBrokerInput($httpMethod, $request.domain, $params))
+$!render.prepareDefaultType($method.type, $params)
+$!{description}
+@TrackDetails
+@Component("${fullName}")
+public class ${name} extends ServiceBroker<ServiceRequest<$request>, ServiceResponse<${response.name}>> {
+#if ($response.store)
+
+    @Autowired
+	private ${response.store.interface.name} store;
+#end
+
+	@Override
+	protected ServiceResponse<${response.name}> perform(ServiceRequest<$request> request) throws Exception {
+#if($request == "NamedValues")
+#foreach( $param  in $params)
+		${render.renderType($param)} ${param.name} = (${render.renderType($param)}) request.getData().get("${param.name}");
+#end
+#else
+		${request.domain.name} data = request.getData();
+#end
+		List<List<SearchQuery>> searchQueries = WebUtils.deserializeJSON(queryParameters, List.class, List.class, SearchQuery.class);
+
+		Integer total = store.advancedSearchCount(searchQueries);
+		List<${response.name}> models = null;
+		if (total > 0) {
+			List<SortField> sortFields = WebUtils.deserializeJSON(sortOrders, List.class, SortField.class);
+		    models = store.advancedSearchReport(searchQueries, new Paging(offset, limit, sortFields));
+		}
+
+		return new ServiceResponse<${response.name}>(models, "Action completed successfully.", true, total);
+	}
+}

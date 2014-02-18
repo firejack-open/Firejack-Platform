@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <!-- Schema Upgrade Process -->
+    <bean id="upgradeExecutor" class="net.firejack.platform.model.upgrader.UpgradeExecutor">
+        <property name="operators" ref="operators"/>
+    </bean>
+
+    <bean id="abstractOperator" class="net.firejack.platform.model.upgrader.operator.AbstractOperator" abstract="true">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="createTableOperator" class="net.firejack.platform.model.upgrader.operator.CreateTableOperator" parent="abstractOperator"/>
+    <bean id="dropTableOperator" class="net.firejack.platform.model.upgrader.operator.DropTableOperator" parent="abstractOperator"/>
+    <bean id="changeTableNameOperator" class="net.firejack.platform.model.upgrader.operator.ChangeTableNameOperator" parent="abstractOperator"/>
+    <bean id="addColumnOperator" class="net.firejack.platform.model.upgrader.operator.AddColumnOperator" parent="abstractOperator"/>
+    <bean id="modifyColumnOperator" class="net.firejack.platform.model.upgrader.operator.ModifyColumnOperator" parent="abstractOperator"/>
+    <bean id="dropColumnOperator" class="net.firejack.platform.model.upgrader.operator.DropColumnOperator" parent="abstractOperator"/>
+    <bean id="addForeignKeyOperator" class="net.firejack.platform.model.upgrader.operator.AddForeignKeyOperator" parent="abstractOperator"/>
+    <bean id="dropForeignKeyOperator" class="net.firejack.platform.model.upgrader.operator.DropForeignKeyOperator" parent="abstractOperator"/>
+    <bean id="addIndexOperator" class="net.firejack.platform.model.upgrader.operator.AddIndexOperator" parent="abstractOperator"/>
+    <bean id="dropIndexOperator" class="net.firejack.platform.model.upgrader.operator.DropIndexOperator" parent="abstractOperator"/>
+    <bean id="customSqlOperator" class="net.firejack.platform.model.upgrader.operator.CustomSqlOperator" parent="abstractOperator"/>
+
+    <util:map id="operators">
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.CreateTableType" value-ref="createTableOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.DropTableType" value-ref="dropTableOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.ChangeTableNameType" value-ref="changeTableNameOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.AddColumnType" value-ref="addColumnOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.ModifyColumnType" value-ref="modifyColumnOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.DropColumnType" value-ref="dropColumnOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.AddForeignKeyType" value-ref="addForeignKeyOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.DropForeignKeyType" value-ref="dropForeignKeyOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.AddIndexType" value-ref="addIndexOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.DropIndexType" value-ref="dropIndexOperator"/>
+        <entry key="net.firejack.platform.model.upgrader.operator.bean.CustomSqlType" value-ref="customSqlOperator"/>
+    </util:map>
+
+</beans>

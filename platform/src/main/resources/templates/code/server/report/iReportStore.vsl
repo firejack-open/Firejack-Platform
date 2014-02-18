@@ -1,0 +1,15 @@
+package ${package};
+
+import net.firejack.platform.core.store.IProjectionStore;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+public interface ${name} extends IProjectionStore<${model.model.name}, ${model.name}>  {
+}

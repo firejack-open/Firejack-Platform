@@ -1,0 +1,108 @@
+<!--
+  ~ Firejack Platform - Copyright (c) 2012 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<package name="platform" path="net.firejack" fromVersion="1.4.0" toVersion="1.5.0" prefix="opf">
+
+    <add-column table="opf_registry_node" name="base_dn" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="root_dn" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="ldap_schema_config" type="LOOKUP"/>
+    <add-column table="opf_registry_node" name="database_ref_name" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="source_database_ref_name" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="target_database_ref_name" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="data_source" type="FLAG"/>
+
+    <add-column table="opf_base_user" name="ldap_user_dn" type="SHORT_TEXT"/>
+
+    <drop-column table="opf_action_permission" name="created"/>
+    <drop-column table="opf_actor_group" name="created"/>
+    <drop-column table="opf_actor_role" name="created"/>
+    <drop-column table="opf_entity_context_role" name="created"/>
+    <drop-column table="opf_navigation_element_permission" name="created"/>
+    <drop-column table="opf_resource_location_permission" name="created"/>
+    <drop-column table="opf_role_permission" name="created"/>
+    <drop-column table="opf_secured_record_parent" name="created"/>
+
+
+    <create-table name="opf_entity_index">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="created" type="CREATION_TIME"/>
+        <column name="child_count" type="INTEGER_NUMBER" required="true" default="0"/>
+        <column name="name" type="SHORT_TEXT" required="true"/>
+        <column name="description" type="DESCRIPTION"/>
+        <column name="lookup" type="MEDIUM_TEXT" required="true"/>
+        <column name="path" type="MEDIUM_TEXT" required="true"/>
+        <column name="index_type" type="TINY_TEXT" required="true"/>
+        <column name="id_parent" type="NUMERIC_ID" required="true"/>
+        <column name="id_hash" type="NUMERIC_ID" required="true"/>
+        <column name="id_uid" type="NUMERIC_ID" required="true"/>
+    </create-table>
+
+    <add-foreign-key table="opf_entity_index" name="fk_entity_index" field="id_parent"
+            reference-table="opf_registry_node" reference-field="id"/>
+
+    <add-foreign-key table="opf_entity_index" name="fk_registry_node_index_lookup" field="id_hash"
+            reference-table="opf_lookup" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_entity_index" name="fk_registry_node_index_uid" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <create-table name="opf_entity_index_fields">
+        <column name="id_index" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="id_field" type="NUMERIC_ID" required="true" primary-key="true"/>
+    </create-table>
+
+    <add-foreign-key table="opf_entity_index_fields" name="fk_entity_index_fields_field" field="id_field"
+            reference-table="opf_registry_node_field" reference-field="id"/>
+
+    <add-foreign-key table="opf_entity_index_fields" name="fk_entity_index_fields_index" field="id_index"
+            reference-table="opf_entity_index" reference-field="id"/>
+
+
+    <create-table name="opf_index_entity_reference">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="created" type="CREATION_TIME"/>
+        <column name="column_name" type="SHORT_TEXT" required=""/>
+        <column name="id_entity" type="NUMERIC_ID" required="true"/>
+        <column name="id_index" type="NUMERIC_ID" required="true"/>
+    </create-table>
+
+    <add-foreign-key table="opf_index_entity_reference" name="fk_entity_reference_entity" field="id_entity"
+            reference-table="opf_registry_node" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_index_entity_reference" name="fk_entity_reference_index" field="id_index"
+            reference-table="opf_entity_index" reference-field="id" on-delete="CASCADE"/>
+
+    <add-index table="opf_index_entity_reference" name="UK_INDEX_REFERENCE_NAME" index-type="UNIQUE">
+        <column name="id_entity"/>
+        <column name="id_index"/>
+        <column name="column_name"/>
+    </add-index>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_log_entry SET type = 'ACTION';
+        ]]>
+    </custom-sql>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_metrics_entry SET type = 'ACTION';
+        ]]>
+    </custom-sql>
+</package>

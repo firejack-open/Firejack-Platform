@@ -1,0 +1,19 @@
+
+#foreach($import in $imports)
+#import "${import}.h"
+#end
+
+#if (! $classesString.isEmpty())
+@class $classesString;
+
+#end
+@interface ${name} :#if($extend) ${extend.name}#else GWEntity#end
+
+
+#foreach($property in $properties)
+#if (!$property.exclude)
+@property (nonatomic#if ($render.isRetain($property.typeClass)), retain#end) $property.typeClass${property.name};
+#end
+#end
+
+@end

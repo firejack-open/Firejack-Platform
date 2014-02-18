@@ -1,0 +1,493 @@
+/*
+ * Firejack Platform - Copyright (c) 2012 Firejack Technologies
+ *
+ * This source code is the product of the Firejack Technologies
+ * Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+ * Asanov) and licensed only under valid, executed license agreements
+ * between Firejack Technologies and its customers. Modification and / or
+ * re-distribution of this source code is allowed only within the terms
+ * of an executed license agreement.
+ *
+ * Any modification of this code voids any and all warranties and indemnifications
+ * for the component in question and may interfere with upgrade path. Firejack Technologies
+ * encourages you to extend the core framework and / or request modifications. You may
+ * also submit and assign contributions to Firejack Technologies for consideration
+ * as improvements or inclusions to the platform to restore modification
+ * warranties and indemnifications upon official re-distributed in patch or release form.
+ */
+
+@charset "UTF-8";
+/* CSS Document */
+
+/*html {*/
+    /*height: 100%;*/
+/*}*/
+
+body {
+    /*background-image: linear-gradient(bottom, rgb(101, 96, 96) 12%, rgb(132, 128, 128) 56%);*/
+    /*background-image: -o-linear-gradient(bottom, rgb(101, 96, 96) 12%, rgb(132, 128, 128) 56%);*/
+    /*background-image: -moz-linear-gradient(bottom, rgb(101, 96, 96) 12%, rgb(132, 128, 128) 56%);*/
+    /*background-image: -webkit-linear-gradient(bottom, rgb(101, 96, 96) 12%, rgb(132, 128, 128) 56%);*/
+    /*background-image: -ms-linear-gradient(bottom, rgb(101, 96, 96) 12%, rgb(132, 128, 128) 56%);*/
+    /*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(101, 96, 96)), color-stop(0.56, rgb(132, 128, 128)));*/
+    /*background-repeat: no-repeat;*/
+    /*height: 100%;*/
+    /*background-attachment: fixed;*/
+}
+
+/*.main-container {*/
+    /*margin: 0 auto;*/
+    /*width: 486px;*/
+    /*height: auto;*/
+    /*padding: 25px;*/
+    /*background-image: linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(248, 248, 248) 56%);*/
+    /*background-image: -o-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(248, 248, 248) 56%);*/
+    /*background-image: -moz-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(248, 248, 248) 56%);*/
+    /*background-image: -webkit-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(248, 248, 248) 56%);*/
+    /*background-image: -ms-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(248, 248, 248) 56%);*/
+    /*background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(196, 196, 195)), color-stop(0.56, rgb(248, 248, 248)));*/
+    /*border: 3px #9c9797 solid;*/
+    /*border-radius: 7px;*/
+    /*min-height: 673px;*/
+/*}*/
+
+/*.logo {
+    margin: -66px auto 0 90px;
+}*/
+
+/*.login-body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #646061;
+    font-size: 15px;
+    padding: 20px 0;
+    text-align: center;
+}*/
+
+.field input {
+    height: 28px !important;
+    width: 240px;
+    border: #CCC solid 1px;
+    border-radius: 5px;
+}
+.field label {
+    text-align: left;
+    line-height: 28px;
+}
+
+.field label span {
+    color: #646061;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 15px;
+}
+
+.login-form {
+    margin: 0 auto;
+}
+
+.login-form .x-panel-body {
+    background-color: transparent;
+}
+
+.login-form .x-panel-body p {
+    padding: 15px 0;
+    color: #646061;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 15px;
+}
+
+.login-button {
+    background: #5f8cab none;
+    border: 2px #c1bfbf solid;
+    border-radius: 0;
+    float: right;
+    margin-top: 10px;
+    margin-right: 60px;
+}
+
+.login-button button {
+    height: 32px;
+}
+
+.login-button .x-btn-inner {
+    color: #ebebeb;
+    font-size: 18px;
+    padding: 7px 40px;
+    text-decoration: none;
+    height: 32px;
+    line-height: 16px;
+}
+
+.login-button:hover {
+    background-color: #7ba0ba;
+    border: #c3c3c2 solid 2px;
+    color: #f8f8f7;
+}
+
+.x-btn-social-small {
+    margin-right: 10px;
+    background: #2896dd;
+}
+.x-btn-social-small .x-btn-icon {
+    width: 32px;
+    height: 32px;
+    top: 0;
+    left: 0;
+}
+.x-btn-social-small .google-login-icon {
+    background-image: url("../images/login/g-plus.png");
+}
+.x-btn-social-small .facebook-login-icon {
+    background-image: url("../images/login/facebook.png");
+}
+.x-btn-social-small .twitter-login-icon {
+    background-image: url("../images/login/twitter.png");
+}
+.x-btn-social-small .linkedin-login-icon {
+    background-image: url("../images/login/linkedin.png");
+}
+.x-btn-social-small .bookmarks-login-icon {
+    background-image: url("../images/login/bookmark.png");
+}
+.x-btn-social-small .mail-login-icon {
+    background-image: url("../images/login/mail.png");
+}
+
+.x-btn-social-small-over {
+    background: #2078b1;
+}
+
+
+h3 {
+    color: #738999;
+    font-size: 14px;
+    font-family: source_sans_pro_semibold, sans-serif;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.not-member-yet {
+    margin-top: 30px;
+}
+
+.signup-button {
+    background: #e38b0d none;
+    border: 2px #c1bfbf solid;
+    border-radius: 0;
+    margin-top: 5px;
+}
+
+.signup-button:hover {
+    background-color: #eaa645;
+    border: #c3c3c2 solid 2px;
+    color: #f8f8f7;
+}
+
+.signup-button button {
+    height: 40px;
+}
+
+.signup-button .x-btn-inner {
+    color: #ebebeb;
+    font-size: 18px;
+    padding: 10px 50px;
+    text-decoration: none;
+    height: 40px;
+    line-height: 20px;
+}
+
+hr {
+    color: #f9f9f9;
+    margin-top: 30px;
+}
+
+.getstarted {
+    border-radius: 5px;
+    border: 1px #bcbbba solid;
+    background-image: linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(233, 233, 233) 56%);
+    background-image: -o-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(233, 233, 233) 56%);
+    background-image: -moz-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(233, 233, 233) 56%);
+    background-image: -webkit-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(233, 233, 233) 56%);
+    background-image: -ms-linear-gradient(bottom, rgb(196, 196, 195) 12%, rgb(233, 233, 233) 56%);
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(196, 196, 195)), color-stop(0.56, rgb(233, 233, 233)));
+    padding: 14px 155px;
+    margin-top: 20px;
+    max-width: 500px;
+}
+
+.getstarted .x-btn-inner {
+    font-size: 18px;
+    color: #646061;
+    text-decoration: none;
+}
+
+.getstarted-icon {
+    background-image: url("../images/login/getstarted.png")
+}
+
+.firejack {
+    margin: 0 auto;
+    width: 140px;
+    padding: 30px 0;
+}
+
+.forgot-password a {
+    color: #646061;
+    cursor: pointer;
+}
+
+.forgot-password a:hover {
+    color: #5a5a5a;
+    text-decoration: underline;
+}
+
+.filter-message {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 3px;
+    border: #b8c5cc 1px solid;
+    background: #f8f8f8;
+    background: -moz-linear-gradient(top,  #f8f8f8 0%, #e8e8e8 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e8e8e8));
+    background: -webkit-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+    background: -o-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+    background: -ms-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+    background: linear-gradient(to bottom,  #f8f8f8 0%,#e8e8e8 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#e8e8e8',GradientType=0 );
+    color: #333;
+
+}
+.filter-message .info {
+    color: #0066FF;
+}
+
+.filter-message .warning {
+    color: #dfdf00;
+}
+
+.filter-message .error {
+    color: #ff0000;
+}
+
+/* --- Login block---*/
+.b-login {
+    width: 710px;
+    margin: 100px auto 0;
+    padding: 40px;
+    position: relative;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+.b-login .login-top {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.b-login h2 {
+    color: #4c6a80;
+    font-size: 25px;
+    font-weight: normal;
+    margin: 0;
+}
+.b-login .logo {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+.b-login a {
+    color: #478acc;
+    font-family: source_sans_pro, sans-serif;
+    cursor: pointer;
+}
+.b-login .form-login {
+    overflow: hidden;
+    border-style: solid;
+    border-width: 1px 0;
+    border-color: #e6e6e6;
+    padding: 40px 0 30px;
+    margin-bottom: 35px;
+}
+.b-login .form-leftside {
+    float: left;
+    width: 290px;
+}
+.b-login .form-rightside {
+    float: right;
+    width: 290px;
+}
+.b-login .x-form-cb-wrap {
+    font-family: source_sans_pro, sans-serif;
+}
+.b-login .x-form-text {
+    display: block;
+    width: 290px;
+    border: 1px solid #b8c5cc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y4ZmNmZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f8fcff), color-stop(100%, #ffffff));
+    background-image: -webkit-linear-gradient(top, #f8fcff 0%, #ffffff 100%);
+    background-image: -moz-linear-gradient(top, #f8fcff 0%, #ffffff 100%);
+    background-image: -o-linear-gradient(top, #f8fcff 0%, #ffffff 100%);
+    background-image: linear-gradient(top, #f8fcff 0%, #ffffff 100%);
+}
+.b-login .form-checkbox {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.b-login .buttons {
+    text-align: right;
+}
+
+
+/* --- End Login block---*/
+
+
+/* TEMP */
+
+/*fonts*/
+
+
+/*@font-face {*/
+    /*font-family: 'signikalight';*/
+    /*src: url('../fonts/signika-light-webfont.eot');*/
+    /*src: url('../fonts/signika-light-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/signika-light-webfont.woff') format("woff"), url('../fonts/signika-light-webfont.ttf') format("truetype"), url('../fonts/signika-light-webfont.svg#signikalight') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'signikasemibold';*/
+    /*src: url('../fonts/signika-semibold-webfont.eot');*/
+    /*src: url('../fonts/signika-semibold-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/signika-semibold-webfont.woff') format("woff"), url('../fonts/signika-semibold-webfont.ttf') format("truetype"), url('../fonts/signika-semibold-webfont.svg#signikasemibold') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'signikaregular';*/
+    /*src: url('../fonts/signika-regular-webfont.eot');*/
+    /*src: url('../fonts/signika-regular-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/signika-regular-webfont.woff') format("woff"), url('../fonts/signika-regular-webfont.ttf') format("truetype"), url('../fonts/signika-regular-webfont.svg#signikaregular') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'source_sans_pro';*/
+    /*src: url('../fonts/sourcesanspro-regular-webfont.eot');*/
+    /*src: url('../fonts/sourcesanspro-regular-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/sourcesanspro-regular-webfont.woff') format("woff"), url('../fonts/sourcesanspro-regular-webfont.ttf') format("truetype"), url('../fonts/sourcesanspro-regular-webfont.svg#source_sans_proregular') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'source_sans_pro';*/
+    /*src: url('../fonts/sourcesanspro-bold-webfont.eot');*/
+    /*src: url('../fonts/sourcesanspro-bold-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/sourcesanspro-bold-webfont.woff') format("woff"), url('../fonts/sourcesanspro-bold-webfont.ttf') format("truetype"), url('../fonts/sourcesanspro-bold-webfont.svg#source_sans_probold') format("svg");*/
+    /*font-weight: bold;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'source_sans_pro';*/
+    /*src: url('../fonts/sourcesanspro-italic-webfont.eot');*/
+    /*src: url('../fonts/sourcesanspro-italic-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/sourcesanspro-italic-webfont.woff') format("woff"), url('../fonts/sourcesanspro-italic-webfont.ttf') format("truetype"), url('../fonts/sourcesanspro-italic-webfont.svg#source_sans_proitalic') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: italic;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'source_sans_pro';*/
+    /*src: url('../fonts/sourcesanspro-bolditalic-webfont.eot');*/
+    /*src: url('../fonts/sourcesanspro-bolditalic-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/sourcesanspro-bolditalic-webfont.woff') format("woff"), url('../fonts/sourcesanspro-bolditalic-webfont.ttf') format("truetype"), url('../fonts/sourcesanspro-bolditalic-webfont.svg#source_sans_probold_italic') format("svg");*/
+    /*font-weight: bold;*/
+    /*font-style: italic;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'source_sans_pro_semibold';*/
+    /*src: url('../fonts/sourcesanspro-semibold-webfont.eot');*/
+    /*src: url('../fonts/sourcesanspro-semibold-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/sourcesanspro-semibold-webfont.woff') format("woff"), url('../fonts/sourcesanspro-semibold-webfont.ttf') format("truetype"), url('../fonts/sourcesanspro-semibold-webfont.svg#source_sans_pro_semiboldRg') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'cuprumregular';*/
+    /*src: url('../fonts/cuprum-regular-webfont.eot');*/
+    /*src: url('../fonts/cuprum-regular-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/cuprum-regular-webfont.woff') format("woff"), url('../fonts/cuprum-regular-webfont.ttf') format("truetype"), url('../fonts/cuprum-regular-webfont.svg#cuprumregular') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+/*@font-face {*/
+    /*font-family: 'cuprumbold';*/
+    /*src: url('../fonts/cuprum-bold-webfont.eot');*/
+    /*src: url('../fonts/cuprum-bold-webfont.eot?#iefix') format("embedded-opentype"), url('../fonts/cuprum-bold-webfont.woff') format("woff"), url('../fonts/cuprum-bold-webfont.ttf') format("truetype"), url('../fonts/cuprum-bold-webfont.svg#cuprumbold') format("svg");*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+/*}*/
+
+h2 {
+    font: normal 20px cuprumregular, sans-serif;
+    color: #478acc;
+    margin-bottom: 20px;
+}
+
+/*forms*/
+.x-border-box .b-login .x-form-text {
+    height: 28px;
+    line-height: normal;
+}
+
+.x-border-box .b-login .x-form-item-label {
+    color: #738999;
+    font-size: 14px;
+    font-family: source_sans_pro_semibold, sans-serif;
+}
+
+.b-login .x-btn-submit-small .x-btn-center {
+    height: 28px;
+}
+
+.b-login .x-btn-submit-small .x-btn-inner {
+    line-height: 28px;
+    padding: 0 15px;
+    color: #fff;
+    font-family: source_sans_pro_semibold, sans-serif;
+    font-size: 13px;
+    text-shadow: 1px 1px 0px #333;
+}
+
+.b-login .x-btn-submit-small {
+    border: 1px solid #6e8f03;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    border-radius: 2px;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzliYmUxMiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzZhOTkxMyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #9bbe12), color-stop(100%, #6a9913));
+    background-image: -webkit-linear-gradient(#9bbe12, #6a9913);
+    background-image: -moz-linear-gradient(#9bbe12, #6a9913);
+    background-image: -o-linear-gradient(#9bbe12, #6a9913);
+    background-image: linear-gradient(#9bbe12, #6a9913);
+}
+
+.b-login .x-btn-submit-small.x-btn-pressed,
+.b-login .x-btn-submit-small:hover {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzZhOTkxMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzliYmUxMiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6a9913), color-stop(100%, #9bbe12));
+    background-image: -webkit-linear-gradient(#6a9913, #9bbe12);
+    background-image: -moz-linear-gradient(#6a9913, #9bbe12);
+    background-image: -o-linear-gradient(#6a9913, #9bbe12);
+    background-image: linear-gradient(#6a9913, #9bbe12);
+}

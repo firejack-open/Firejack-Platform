@@ -1,0 +1,145 @@
+<!--
+  ~ Firejack Platform - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<package name="platform" path="net.firejack" fromVersion="1.1.0" toVersion="1.1.1" prefix="opf">
+
+    <drop-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_UID"/>
+
+    <add-foreign-key table="opf_action_parameter" name="FK_ACTION_PARAMETER_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <add-column table="opf_case_explanation" name="id_uid" type="NUMERIC_ID" required="true"/>
+
+    <custom-sql>
+        <![CDATA[
+            INSERT INTO `opf_uid` (`uid`)
+                SELECT CONCAT(MID(MD5(short_description), 1, 8), '-', MID(MD5(short_description), 9, 4), '-', MID(MD5(short_description), 13, 4), '-', MID(MD5(short_description), 17, 4), '-', MID(MD5(short_description), 21, 12))
+                FROM `opf_case_explanation`;
+
+            UPDATE opf_case_explanation a
+                SET a.id_uid = (SELECT u.id FROM opf_uid u WHERE u.uid = CONCAT(MID(MD5(a.short_description), 1, 8), '-', MID(MD5(a.short_description), 9, 4), '-', MID(MD5(a.short_description), 13, 4), '-', MID(MD5(a.short_description), 17, 4), '-', MID(MD5(a.short_description), 21, 12)));
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_case_explanation" name="FK_CASE_EXPLANATION_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <create-table name="opf_collection_membership">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="sort_position" type="INTEGER_NUMBER" required="true"/>
+        <column name="created" type="CREATION_TIME"/>
+        <column name="id_reference" type="NUMERIC_ID" required="true"/>
+        <column name="id_collection" type="NUMERIC_ID" required="true"/>
+    </create-table>
+
+    <add-index table="opf_collection_membership" name="UK_COLLECTION_REFERENCE" index-type="UNIQUE">
+        <column name="id_reference"/>
+        <column name="id_collection"/>
+    </add-index>
+
+    <add-foreign-key table="opf_collection_membership" name="FK_COLLECTION_MEMBERSHIP_COLLECTION" field="id_collection"
+            reference-table="opf_registry_node" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_collection_membership" name="FK_COLLECTION_MEMBERSHIP_REGISTRY_NODE" field="id_reference"
+            reference-table="opf_registry_node" reference-field="id" on-delete="CASCADE"/>
+
+
+    <rename-table name="opf_log_track" new-name="opf_log_entry"/>
+
+    <rename-table name="opf_metric_track" new-name="opf_metrics_entry"/>
+
+
+    <drop-foreign-key table="opf_permission" name="FK_PERMISSION_UID"/>
+
+    <add-foreign-key table="opf_permission" name="FK_PERMISSION_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <drop-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD_UID"/>
+
+    <add-foreign-key table="opf_registry_node_field" name="FK_REGISTRY_NODE_FIELD_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <drop-foreign-key table="opf_role" name="FK_ROLE_UID"/>
+
+    <add-foreign-key table="opf_role" name="FK_ROLE_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <drop-foreign-key table="opf_user_profile_field" name="FK_USER_PROFILE_FIELD_UID"/>
+
+    <add-foreign-key table="opf_user_profile_field" name="FK_USER_PROFILE_FIELD_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <create-table name="opf_process_field">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="value_type" type="SHORT_TEXT" required="true"/>
+        <column name="name" type="SHORT_TEXT" required="true"/>
+        <column name="global" type="FLAG" required="true"/>
+        <column name="format" type="SHORT_TEXT"/>
+        <column name="order_position" type="INTEGER_NUMBER" required="true"/>
+        <column name="id_registry_node_field" type="NUMERIC_ID" required="true"/>
+        <column name="id_registry_node_type" type="NUMERIC_ID" required="true"/>
+        <column name="id_process" type="NUMERIC_ID" required="true"/>
+        <column name="id_uid" type="NUMERIC_ID" required="true" />
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    <add-foreign-key table="opf_process_field" name="FK_PROCESS_FIELD_REGISTRY_NODE_FIELD" field="id_registry_node_field"
+            reference-table="opf_registry_node_field" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_process_field" name="FK_PROCESS_FIELD_REGISTRY_NODE_ENTITY" field="id_registry_node_type"
+            reference-table="opf_registry_node_field" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_process_field" name="FK_PROCESS_FIELD_PROCESS" field="id_process"
+            reference-table="opf_registry_node_field" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_process_field" name="FK_PROCESS_FIELD_UID" field="id_uid"
+            reference-table="opf_uid" reference-field="id" on-delete="CASCADE"/>
+
+
+    <create-table name="opf_process_field_case_value">
+        <column name="id" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="value_type" type="SHORT_TEXT" required="true"/>
+        <column name="boolean_value" type="FLAG"/>
+        <column name="date_value" type="EVENT_TIME"/>
+        <column name="integer_value" type="INTEGER_NUMBER"/>
+        <column name="long_value" type="LARGE_NUMBER"/>
+        <column name="double_value" type="DECIMAL_NUMBER"/>
+        <column name="string_value" type="LONG_TEXT"/>
+        <column name="id_case" type="NUMERIC_ID" required="true"/>
+        <column name="id_process_field" type="NUMERIC_ID" required="true"/>
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    <add-index table="opf_process_field_case_value" name="UK_CASE_ENTITY_FIELD" index-type="UNIQUE">
+        <column name="id_process_field"/>
+        <column name="id_case"/>
+    </add-index>
+
+    <add-foreign-key table="opf_process_field_case_value" name="FK_PROCESS_FIELD_CASE_VALUE_CASE" field="id_case"
+            reference-table="opf_case" reference-field="id" on-delete="CASCADE"/>
+
+    <add-foreign-key table="opf_process_field_case_value" name="FK_PROCESS_FIELD_CASE_VALUE_PROCESS_FIELD" field="id_process_field"
+            reference-table="opf_process_field" reference-field="id" on-delete="CASCADE"/>
+
+</package>

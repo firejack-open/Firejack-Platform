@@ -1,0 +1,49 @@
+package ${package};
+
+import java.util.*;
+import javax.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+$render.renderTable($type, $name, $table, $unique, $abstracts)
+#if($key.composite)
+@IdClass(${key.name}.class)
+#end
+public#if($abstracts) abstract#end class ${name} #if ($parent.name)extends #if($imports.contains($parent))$parent.name#else$parent.fullName#end#end {
+	private static final long serialVersionUID = $render.generateSerialUID()L;
+
+#foreach($field in $fields)
+	/**
+	*$!{field.description}
+	*/
+	private ${field.typeName} ${field.name};
+#end
+
+#foreach($field in $fields)
+	/**
+	*$!{field.description}
+	*@return
+	*/
+	$render.renderColumn($field, $key)
+	public ${field.typeName} get${field.method}() {
+		return this.${field.name};
+	}
+
+	/**
+	*$!{field.description}
+	*@param ${field.name}
+	*/
+	public void set${field.method}(${field.typeName} ${field.name}) {
+		this.${field.name} = ${field.name};
+	}
+#end
+}

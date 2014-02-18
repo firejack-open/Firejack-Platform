@@ -1,0 +1,435 @@
+//
+//  PromethusApi.m
+//  Prometheus
+//
+//  Created by Eugene Maystrenko on 6/20/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#import "${name}.h"
+
+@implementation API
+
+static $name *instance;
+
++ (id) shared {
+    @synchronized([API class]) {
+        if (!instance) {
+            instance = [[self alloc] init];
+
+            NSString *opf_url = [Util getProperty:OPENFLAME_URL];
+            NSString *gw_url = [Util getProperty:GATEWAY_URL];
+            NSString *package = [Util getProperty:PACKAGE];
+
+            if (!opf_url && !gw_url && !package) {
+                [self registerDefaultsFromSettingsBundle];
+            }
+
+            instance.openflameUrl = [Util getProperty:OPENFLAME_URL];
+            instance.gatewayUrl = [Util getProperty:GATEWAY_URL];
+            instance.package = [Util getProperty:PACKAGE];
+            instance.queue = [ASINetworkQueue queue];
+
+            [[NSNotificationCenter defaultCenter] addObserver:instance
+                                                     selector:@selector(changedUserSettings:)
+                                                         name:NSUserDefaultsDidChangeNotification
+                                                       object:nil];
+        }
+        return instance;
+    }
+}
+
++ (void) registerDefaultsFromSettingsBundle {
+    NSString *settingsBundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
+    if(settingsBundle) {
+        NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:[settingsBundle stringByAppendingPathComponent:@"Root.plist"]];
+        NSArray *preferences = [settings objectForKey:@"PreferenceSpecifiers"];
+
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        for(NSDictionary *prefSpecification in preferences) {
+            NSString *key = [prefSpecification objectForKey:@"Key"];
+            if(key) {
+                [userDefaults setObject:[prefSpecification objectForKey:@"DefaultValue"] forKey:key];
+            }
+        }
+
+        [userDefaults synchronize];
+    }
+}
+
+- (void) changedUserSettings:(NSNotification *) notification {
+    self.openflameUrl = [Util getProperty:OPENFLAME_URL];
+    self.gatewayUrl = [Util getProperty:GATEWAY_URL];
+    self.package = [Util getProperty:PACKAGE];
+}
+
+- (void) dealloc {
+    [_openflameUrl release];
+    [_gatewayUrl release];
+    [_token release];
+    [_queue release];
+    [_user release];
+    [_package release];
+    [super dealloc];
+}
+
+- (void) executeQueue {
+    [_queue setDelegate:self];
+    [_queue setQueueDidFinishSelector:@selector(queueComplete:)];
+    [_queue setRequestDidFailSelector:@selector(requestWentWrong:)];
+    [_queue go];
+}
+
+- (void) resetQueue {
+    [_queue reset];
+}
+
+- (void)requestWentWrong:(ASIHTTPRequest *)request {
+    NSError *error = [request error];
+    NSString *desc = [error localizedDescription];
+    [self error:desc];
+}
+
+- (void)queueComplete:(ASINetworkQueue *)queue {
+    [_queue reset];
+}
+
+- (OFAuthentication *) login:(NSString *)username password:(NSString *)password {
+
+    NSString *url = [Util append:_openflameUrl, @"/rest/authority/sts/sign-in", nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request addRequestHeader:@"user-name" value:username];
+    [request addRequestHeader:@"password" value:password];
+
+    [request setRequestMethod:@"POST"];
+    [request startSynchronous];
+
+    OFAuthentication *auth = [self data:request bean:[OFAuthentication class]];
+    if (auth) {
+        self.token = auth.token;
+        self.user = auth.user;
+
+        [Util setProperty:USERNAME value:username];
+        [Util setProperty:PASSWORD value:password];
+        [Util setProperty:PASSWORD_HINT value:password];
+    }
+
+    return auth;
+}
+
+- (void) logout {
+    self.token = nil;
+    self.user = nil;
+
+    [Util removeProperty:PASSWORD];
+
+    NSString *url = [Util append:_openflameUrl, @"/console/logout", nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request setRequestMethod:@"GET"];
+    [request startSynchronous];
+}
+
+- (void) image:(NSString *) lookup delegate:(id<ASIHTTPRequestDelegate>) async {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/image/stream/",lookup,nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=",self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request setDelegate:[async retain]];
+    [request startAsynchronous];
+
+}
+
+- (void) imageAttachment:(NSString *) url delegate:(id<ASIHTTPRequestDelegate>) async {
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=",self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request setDelegate:async];
+    [request startAsynchronous];
+
+}
+
+- (OFImageFile *) uploadPhoto:(NSData *) image {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/upload/image",nil];
+
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request addData:image withFileName:@"image.png" andContentType:@"image/png" forKey:@"file"];
+    [request startSynchronous];
+
+    return [self data:request bean:[OFImageFile class]];
+}
+
+- (OFFolder *) readFolder:(NSString *) lookup {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/folder/list-by-lookup/", lookup, nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request startSynchronous];
+
+    return [self data:request bean:[OFFolder class]];
+}
+
+- (OFImageResourceVersion *) createImageResource:(OFImageFile *) file name:(NSString *) name entity:(NSString *) lookup {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/image/version/new-by-path/", lookup ,@".opf-resource.image", nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    OFImageResourceVersion *imageVersion = [[OFImageResourceVersion alloc] init];
+    imageVersion.title = name;
+    imageVersion.culture = @"AMERICAN";
+    imageVersion.width = file.width;
+    imageVersion.height = file.height;
+    imageVersion.resourceFileOriginalName = file.orgFilename;
+    imageVersion.resourceFileTemporaryName = file.filename;
+
+    NSString *json = [Util serialize:imageVersion];
+    [imageVersion release];
+
+    [request setRequestMethod:@"POST"];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=", self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request addRequestHeader:@"Content-Type" value:@"application/json; charset=UTF-8"];
+    [request appendPostData:[json dataUsingEncoding:NSUTF8StringEncoding]];
+    [request startSynchronous];
+
+    return [self data:request bean:[OFImageResourceVersion class]];
+}
+
+- (OFImageResourceVersion *) updateImageResource:(OFImageFile *) file name:(NSString *) name resource:(NSString *) lookup {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/image/version/by-lookup/", lookup, nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    OFImageResourceVersion *imageVersion = [[OFImageResourceVersion alloc] init];
+    imageVersion.title = name;
+    imageVersion.culture = @"AMERICAN";
+    imageVersion.width = file.width;
+    imageVersion.height = file.height;
+    imageVersion.resourceFileOriginalName = file.orgFilename;
+    imageVersion.resourceFileTemporaryName = file.filename;
+
+    NSString *json = [Util serialize:imageVersion];
+    [imageVersion release];
+
+    [request setRequestMethod:@"PUT"];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=", self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request addRequestHeader:@"Content-Type" value:@"application/json; charset=UTF-8"];
+    [request appendPostData:[json dataUsingEncoding:NSUTF8StringEncoding]];
+    [request startSynchronous];
+
+    return [self data:request bean:[OFImageResourceVersion class]];
+}
+
+- (BOOL) deleteImageResource:(NSString *) lookup {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/image/by-lookup/", lookup, nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request setRequestMethod:@"DELETE"];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=", self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request addRequestHeader:@"Content-Type" value:@"application/json; charset=UTF-8"];
+    [request startSynchronous];
+
+    return [self status:request];
+}
+
+- (void) uploadImage:(NSString *)name data:(NSData *) image progress:(id) progress delegate:(id<ASIHTTPRequestDelegate>) async {
+    NSString *url = [Util append:_openflameUrl, @"/rest/content/resource/upload/image?ttl=2h",nil];
+
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+    [request addData:image withFileName:name andContentType:@"image/png" forKey:@"file"];
+    [request setDelegate:async];
+    [request setUploadProgressDelegate:progress];
+    [request startAsynchronous];
+}
+
+- (NSArray *) loadMenu {
+    NSString *url = [Util append:_openflameUrl, @"/rest/mobile/menu/", _package, nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request setRequestMethod:@"GET"];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=", self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request startSynchronous];
+
+    return [self dataList:request total:nil bean:[GWMenuItem class]];
+}
+
+- (void) loadRule:(GWModel *) entity target:(id) target selector:(SEL) selector {
+    NSString *url = [Util append:_gatewayUrl, @"/rest/rule?id=CMV.", entity.lookup, nil];
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request setRequestMethod:@"GET"];
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=", self.token,nil]];
+    [request setUseCookiePersistence:NO];
+    [request setDelegate:target];
+    [request setDidFinishSelector:selector];
+    request.transient = entity;
+
+    [_queue addOperation:request];
+}
+
+- (NetworkStatus) checkConnection {
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    return [reachability currentReachabilityStatus];
+}
+
+#pragma mark -
+#pragma mark Gateway services
+
+#foreach($m in $methods)
+$!render.signatureMethod($m) {
+    NSString *url = $!render.requestParameter($m)
+
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+
+    [request addRequestHeader:@"Cookie" value:[Util append:TOKEN,@"=",_token, nil]];
+    [request setUseCookiePersistence:NO];
+    [request setRequestMethod:@"$!{m.method}"];
+#if($m.type == "create" || $m.type == "update")
+    [request addRequestHeader:@"Content-Type" value:@"application/json; charset=UTF-8"];
+    [request appendPostData:[[Util serialize:$!render.requestData($m)] dataUsingEncoding:NSUTF8StringEncoding]];
+#end
+    [request startSynchronous];
+
+#if($m.type == "create" || $m.type == "update")
+    return [self data:request bean:[$m.returnType.entity.name class]];
+#elseif($m.type == "read")
+    return [self data:request bean:[$m.returnType.entity.name class]];
+#elseif($m.type == "readAll")
+    return [self dataList:request total:total bean:[$m.returnType.entity.name class]];
+#elseif($m.type == "search")
+    return [self dataList:request total:total bean:[$m.returnType.entity.name class]];
+#elseif($m.type == "advancedSearch")
+    return [self dataList:request total:total bean:[$m.returnType.entity.name class]];
+#elseif($m.type == "delete")
+    return [self status:request];
+#elseif($m.returnType.fieldType == "LIST")
+    return [self dataList:request total:total bean:[$m.returnType.entity.name class]];
+#elseif($m.returnType.fieldType == "OBJECT")
+    return [self data:request bean:[$m.returnType.entity.name class]];
+#elseif($m.returnType.fieldType == "FLAG")
+    return [self status:request];
+#end
+}
+
+#end
+
+#pragma mark -
+#pragma mark processing response data
+
+- (BOOL) status:(ASIHTTPRequest *) request {
+    NSError *error = [request error];
+    if (!error) {
+        NSString *response = [request responseString];
+
+        NSLog(@"%@",response);
+        NSDictionary *dic = [Util deserialize:response];
+
+        BOOL success = [[Util get:dic key:@"success"] boolValue];
+        NSString *message = [Util get:dic key:@"message"];
+        NSArray *list = [Util get:dic key:@"data"];
+
+        if (!success && list) {
+            if (!message) message = @"";
+            for (NSDictionary *data in list) {
+                GWServerError *entity = [[GWServerError alloc] initWithDictionary:data];
+                if ([entity.msg rangeOfString:@"org.hibernate.exception.ConstraintViolationException"].location != NSNotFound) {
+                    message = [Util append:message, @"The Entity could not be deleted because it has parent entity attached to it", @"\n", nil];
+                    [entity release];
+                    continue;
+                }
+                message = [Util append:message, entity.msg, @"\n", nil];
+                [entity release];
+            }
+            [self error:message];
+        } else if (!success){
+            [self error:message];
+        }
+
+        return success;
+    } else {
+        NSString *message = [[error userInfo] objectForKey:@"NSLocalizedDescription"];
+        [self error:message];
+        return NO;
+    }
+    return YES;
+}
+
+- (NSMutableArray *) dataList:(ASIHTTPRequest *) request total:(NSNumber **) total bean:(Class) bean {
+    NSError *error = [request error];
+    if (!error) {
+        NSString *response = [request responseString];
+
+        if (! response && request.responseStatusCode >= 400) {
+            [self error:request.responseStatusMessage];
+        }
+
+        NSLog(@"Class %@",bean);
+        NSLog(@"%@",response);
+        NSDictionary *dic = [Util deserialize:response];
+
+        BOOL success = [[Util get:dic key:@"success"] boolValue];
+        NSString *message = [Util get:dic key:@"message"];
+        NSArray *list = [Util get:dic key:@"data"];
+        if (total != nil) {
+            *total = [Util get:dic key:@"total"];
+        }
+
+        if (success && list) {
+            NSMutableArray *datas = [NSMutableArray array];
+            for (NSDictionary *data in list) {
+                id entity = [[bean alloc] initWithDictionary:data];
+                [datas addObject:entity];
+                [entity release];
+            }
+            return datas;
+        } else if (!success && list) {
+            message = @"";
+            for (NSDictionary *data in list) {
+                GWServerError *entity = [[GWServerError alloc] initWithDictionary:data];
+                message = [Util append:message, entity.msg, @"\n", nil];
+                [entity release];
+            }
+            [self error:message];
+        } else if (!success){
+            [self error:message];
+        }
+
+    } else {
+        NSString *message = [[error userInfo] objectForKey:@"NSLocalizedDescription"];
+        [self error:message];
+    }
+
+
+    return nil;
+}
+
+- (id) data:(ASIHTTPRequest *) request bean:(Class) bean {
+    NSArray *datas = [self dataList:request total:nil bean:bean];
+    id data = nil;
+    if ([datas count] != 0) {
+        data = [[[datas objectAtIndex:0] retain] autorelease];
+    }
+
+    return data;
+}
+
+#pragma mark -
+#pragma mark Prometheus Delegate
+
+- (void) error:(NSString *) message {
+    if ([self.delegate respondsToSelector:@selector(error:)]) {
+		[self.delegate error:message];
+	}
+}
+
+@end

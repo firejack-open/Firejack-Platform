@@ -1,0 +1,234 @@
+/*
+ * Firejack Platform - Copyright (c) 2011 Firejack Technologies
+ *
+ * This source code is the product of the Firejack Technologies
+ * Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+ * Asanov) and licensed only under valid, executed license agreements
+ * between Firejack Technologies and its customers. Modification and / or
+ * re-distribution of this source code is allowed only within the terms
+ * of an executed license agreement.
+ *
+ * Any modification of this code voids any and all warranties and indemnifications
+ * for the component in question and may interfere with upgrade path. Firejack Technologies
+ * encourages you to extend the core framework and / or request modifications. You may
+ * also submit and assign contributions to Firejack Technologies for consideration
+ * as improvements or inclusions to the platform to restore modification
+ * warranties and indemnifications upon official re-distributed in patch or release form.
+ */
+
+
+
+.search-container {
+    background-color: #F9F9F9;
+    display: block;
+    height: 60px;
+    margin: 3px auto 0;
+    width: 940px;
+}
+
+.asset-type {
+    float: left;
+    margin-top: 10px;
+    padding-left: 20px;
+    width: 192px;
+}
+
+.dropdown-asset {
+    float: right;
+    margin-top: -36px;
+}
+
+.search {
+    float: right;
+    margin-right: 28px;
+    margin-top: -3px;
+    width: 600px;
+}
+
+.searchbox {
+    border: 1px solid #BCBCBC;
+    border-radius: 7px 7px 7px 7px;
+    float: left;
+    margin-top: 1px;
+    padding: 5px 6px 5px 6px;
+    width: 420px;
+}
+
+a.translatebutton {
+    background-color: #646976;
+    border: 2px solid #DDDDDD;
+    border-radius: 6px 6px 6px 6px;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    font-size: 13px;
+    padding: 5px 5px 4px 0;
+    text-decoration: none;
+    width: 120px;
+}
+
+a.translatebutton:hover {
+    background-color: #7B808C;
+}
+
+a:link {
+    color: #356387;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.search img {
+    margin-left: 5px;
+    margin-right: 41px;
+    margin-top: -2px;
+    position: absolute;
+}
+
+.titlebar {
+    background-color: #646060;
+    height: 34px;
+    margin: 0 auto;
+    width: 700px;
+}
+
+h1 {
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    padding: 5px 0 0 20px;
+}
+
+#mm_main_content_area-results {
+    background-color: #F3F4F5;
+    margin: 0 auto;
+    padding: 7px 20px 20px;
+    width: 660px;
+}
+
+.mm-static-content {
+    background-color: white;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.text-content {
+    padding: 20px;
+}
+
+h2 {
+    background: none repeat scroll 0 0 transparent;
+    color: #64605F;
+    font-family: "MyriadProRegular","myriad-pro-1","myriad-pro-2","Helvetica","Arial","sans-serif";
+    font-size: 21px;
+    font-weight: 500;
+    padding-bottom: 4px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 100;
+    line-height: 6px;
+}
+
+/*.tricon-empty h3 {
+    line-height: 6px;
+}*/
+
+h2, h3, h4, h5, h6 {
+    margin-bottom: 6px;
+    margin-top: 10px;
+}
+
+h3, h4, h5, h6 {
+    margin-bottom: 18px;
+}
+
+h3 {
+    padding-bottom: 10px;
+}
+
+.search-result-data-view {
+    overflow-y: auto;
+}
+
+.result-mouseover {
+    background-color: #F5F8FA;
+    border: 0 solid #888888;
+    border-bottom-width: 1px;
+    padding: 10px;
+}
+
+.result {
+    border: 0 solid #888888;
+    border-bottom-width: 1px;
+    padding: 10px;
+    position: relative;
+}
+
+.path {
+    color: #0F77C0;
+    margin-top: -26px;
+}
+
+.type-result {
+    /*background-image: -moz-linear-gradient(center bottom , #DDDDDD 33%, #F2F2F2 67%);*/
+    /*border: 1px solid #AAACB0;*/
+    /*border-radius: 5px 5px 5px 5px;*/
+    float: right;
+    margin-top: -35px;
+    min-width: 70px;
+    padding: 5px 14px 3px;
+    text-align: center;
+}
+
+.paragraph {
+    padding-top: 15px;
+    padding-bottom: 22px;
+}
+
+.buttons {
+    background-color: #F5F4F4;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 1px solid #DDDDDD;
+    padding: 2px;
+}
+
+.margin {
+    /*margin-right: 10px;*/
+}
+
+a.editbutton {
+    background-color: #3B698B;
+    border: 2px solid #DDDDDD;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-size: 11px;
+    margin-right: 2px;
+    padding: 4px 0 3px;
+    text-align: center;
+    text-decoration: none;
+    width: 30px;
+}
+
+a.editbutton:hover {
+    background-color: #9CBBD0;
+}
+
+a.docbutton {
+    background-color: #64605F;
+    border: 2px solid #DDDDDD;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    font-size: 11px;
+    padding: 4px 0 3px;
+    text-align: center;
+    text-decoration: none;
+    width: 91px;
+}
+
+a.docbutton:hover {
+    background-color: #868382;
+}

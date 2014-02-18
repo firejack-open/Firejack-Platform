@@ -1,0 +1,32 @@
+Ext.require([
+    'OPF.prometheus.wizard.BaseWizard',
+    'CMV.$model.fullName'
+]);
+
+Ext.define('CMV.$fullName', {
+    extend: 'OPF.prometheus.wizard.BaseWizard',
+    alias: 'widget.cmv.$lookup',
+
+    title: '$originalName',
+    model: 'CMV.$model.fullName',
+
+    forms: [
+#foreach($form in $forms)
+        {
+            displayName: '$form.displayName',
+            fields: [
+#foreach($field in $form.fields)
+                {
+                    name: '$field.field',
+                    displayName: '$field.displayName',
+                    editable: $field.editable,
+                    defaultValue: '$!{field.defaultValue}'
+                }#if($velocityHasNext),
+#end
+#end
+            ]
+        }#if($velocityHasNext),
+#end
+#end
+    ]
+});

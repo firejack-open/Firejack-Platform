@@ -1,0 +1,208 @@
+#import "ModelManager.h"
+
+static BOOL archive;
+
+@implementation ModelManager
+
+- (id)initWithCoder:(NSCoder *) decoder {
+    self = [super init];
+    if (self) {
+        self.data = [decoder decodeObjectForKey:@"data"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *) coder {
+    [coder encodeObject:_data forKey:@"data"];
+}
+
+- (void) dealloc {
+    [_data release];
+    [super dealloc];
+}
+
++ (ModelManager *) manager {
+	ModelManager *modelManager = nil;
+	NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+	archive = [version isEqualToString:[Util getProperty:VERSION]];
+
+	if (archive) {
+	    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/model.data"]];
+	    modelManager = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+	} else {
+        modelManager = [[[ModelManager alloc] init] autorelease];
+        modelManager.data = [NSMutableDictionary dictionary];
+
+#foreach($entity in $entities)
+        [self createModel:modelManager.data lookup:@"${entity.lookup}" name:@"${entity.name}" controller:@"${entity.grid.name}" callback:^(GWModel *model) {
+            model.heading = @"$!{entity.heading}";
+            model.subHeading = @"$!{entity.subHeading}";
+            model.description = @"$!{entity.description}";
+
+#foreach($property in $entity.properties)
+#if (!$property.relationship)
+            [self addProperty:model name:@"${property.name}" display:@"${property.column}" type:${render.metadataType($property)} attribute:${render.metadataAttribute($property)}];
+#end
+#end
+
+#foreach($property in $entity.properties)
+#if ($property.relationship)
+            [self addRelationship:model name:@"$!{property.name}" display:@"$!{property.column}" target:@"${property.entity.lookup}" path:@"${property.displayName}" type:${render.metadataType($property)} attribute:${render.metadataAttribute($property)}];
+#end
+#end
+
+#foreach($method in $entity.methods)
+#if (!$method.custom)
+            [self addAction:model type:${render.actionType($method)} selector:@"${render.methodSelector($method)}"];
+#end
+#end
+        }];
+
+#end
+
+		[self reindexReference:modelManager];
+    }
+    return modelManager;
+}
+
+- (void) persist {
+    if (!archive) {
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/model.data"]];
+
+        [NSKeyedArchiver archiveRootObject:self toFile:path];
+        [Util setProperty:VERSION value:version];
+        archive = YES;
+    }
+}
+
++ (void) createModel:(NSMutableDictionary *) data lookup:(NSString *) lookup name:(NSString *) name controller:(NSString *) controller  callback:(void(^)(GWModel *model)) callback {
+    GWModel *model = [[GWModel alloc] init];
+    model.lookup = lookup;
+    model.name = name;
+    model.controller = controller;
+    [data setObject:model forKey:lookup];
+    callback(model);
+    [model release];
+}
+
++ (void) addProperty:(GWModel *) model name:(NSString *) name display:(NSString *) display type:(GWPropertyType) type attribute:(GWPropertyAttribute) attribute {
+    NSMutableArray *properties = (NSMutableArray *) model.property;
+    if (!properties) {
+        properties = [NSMutableArray array];
+        model.property = properties;
+    }
+
+    GWProperty *property = [[GWProperty alloc] init];
+    property.name = name;
+    property.type = type;
+    property.display = display;
+    property.attribute = attribute;
+
+    [properties addObject:property];
+    [property release];
+}
+
++ (void) addRelationship:(GWModel *) model name:(NSString *) name display:(NSString *) display target:(NSString *) target path:(NSString *) path type:(GWPropertyType) type attribute:(GWPropertyAttribute) attribute {
+    NSMutableArray *properties = (NSMutableArray *) model.property;
+    if (!properties) {
+        properties = [NSMutableArray array];
+        model.property = properties;
+    }
+
+    GWRelationship *relationship = [[GWRelationship alloc] init];
+    relationship.name = name;
+    relationship.type = type;
+    relationship.display = display;
+    relationship.attribute = attribute;
+    relationship.target = target;
+    relationship.path = path;
+
+    if (type == GWPropertyTypeParent) {
+        model.parent = relationship;
+    } else {
+        [properties addObject:relationship];
+    }
+    [relationship release];
+}
+
++ (void) addAction:(GWModel *) model type:(GWActionType) type selector:(NSString *) selector {
+    NSMutableArray *actions = (NSMutableArray *) model.actions;
+    if (!actions) {
+        actions = [NSMutableArray arrayWithCapacity:GWActionTypeSize];
+        for (int i = 0; i < GWActionTypeSize; i++) {
+            [actions addObject:@""];
+        }
+        model.actions = actions;
+    }
+
+    actions[type] = selector;
+}
+
+
++ (void) reindexReference:(ModelManager *) manager {
+    NSDictionary *data =  manager.data;
+    for (GWModel *model in [data allValues]) {
+        for (GWProperty *property in model.property) {
+            if ([property isKindOfClass:[GWRelationship class]]) {
+                GWRelationship *relationship = (GWRelationship *) property;
+                GWModel *reference = data[relationship.target];
+                relationship.reference = reference;
+            }
+        }
+
+        if (model.parent) {
+            model.parent.reference = data[model.parent.target];
+        }
+    }
+}
+
+- (void) loadRules {
+    if (!archive) {
+        for (GWModel *model in [_data allValues]) {
+            [[API shared] loadRule:model target:self selector:@selector(requestDone:)];
+        }
+        [[API shared] executeQueue];
+    }
+}
+
+- (void)requestDone:(ASIHTTPRequest *)request {
+    NSArray *list = [[API shared] dataList:request total:nil bean:[GWPropertyRule class]];
+    GWModel *model = (GWModel *) request.transient;
+    for (GWPropertyRule *item in list) {
+        for (GWProperty *property in model.property) {
+            NSMutableArray *constraints = [NSMutableArray array];
+
+            if ([property.name isEqualToString:item.name]) {
+                for (GWRuleParameter *rule in item.rules) {
+                    GWConstraint *constraint = nil;
+
+                    if ([rule.name isEqualToString:@"EnumValue"]) {
+                        constraint = [[GWEnumConstraint alloc] initWithConstraint:rule];
+                    } else if ([rule.name isEqualToString:@"Length"]) {
+                        constraint = [[GWLengthConstraint alloc] initWithConstraint:rule];
+                    } else if ([rule.name isEqualToString:@"Match"] || [rule.name isEqualToString:@"NotMatch"]) {
+                        constraint = [[GWMatchConstraint alloc] initWithConstraint:rule];
+                    } else if ([rule.name isEqualToString:@"NotBlank"]) {
+                        constraint = [[GWBlankConstraint alloc] initWithConstraint:rule];
+                    } else if ([rule.name isEqualToString:@"NotNull"]) {
+                        constraint = [[GWNullConstraint alloc] initWithConstraint:rule];
+                    } else {
+                        continue;
+                    }
+
+                    [constraints addObject:constraint];
+                    [constraint release];
+                }
+                property.constraints = constraints;
+                property.defaultValue = item.defaultValue;
+            }
+        }
+    }
+}
+
+- (GWModel *) model:(NSString *) lookup {
+    return [_data objectForKey:lookup];
+}
+
+@end

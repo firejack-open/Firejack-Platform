@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+	<display-name>${name}</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:app-config.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>net.firejack.platform.model.config.listener.ConfigContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+    <!--
+    OpenFlame Security Filter Configuration.
+    This filter requires configuration of several parameters
+    -->
+    <filter>
+        <filter-name>opfSecurityFilter</filter-name>
+        <filter-class>net.firejack.platform.model.config.filter.ConfigOpenFlameFilter</filter-class>
+        <init-param>
+            <!--
+            If application will have own login page, then this url will be used
+            in html form as value for "action" attribute.
+            Don't change this value without necessity.
+            -->
+            <param-name>sign-in-handler-url</param-name>
+            <param-value>/authentication/sign-in</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            If application will have own forgot password feature, then this url will be used
+            for reset password action.
+            Don't change this value without necessity.
+            -->
+            <param-name>reset-password-handler-url</param-name>
+            <param-value>/authentication/reset-password</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            If application will have own logout feature, then this url will be used in links or
+            in JS redirects, in order to make logout for current session.
+            Don't change this value without necessity.
+            -->
+            <param-name>sign-out-handler-url</param-name>
+            <param-value>/authentication/sign-out</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what name will be used for login form "username" parameter.
+            -->
+            <param-name>username-form-parameter</param-name>
+            <param-value>username</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what name will be used for login form "password" parameter.
+            -->
+            <param-name>password-form-parameter</param-name>
+            <param-value>password</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what name will be used for forgot password form "email" parameter.
+            -->
+            <param-name>email-form-parameter</param-name>
+            <param-value>email</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what password will be send to server in encrypted value.
+            -->
+            <param-name>encrypted-form-parameter</param-name>
+            <param-value>encrypted</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what url to use for login page.
+            This url will be used for redirects by Security Filter
+            -->
+            <param-name>sign-in-page-url</param-name>
+            <param-value>/login</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what url to use as home page.
+            Security Filter will redirect user to this particular url
+            after successful authentication
+            -->
+            <param-name>default-page</param-name>
+            <param-value>/home</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter specifies what url to use for displaying access-denied page
+            -->
+            <param-name>access-denied-page</param-name>
+            <param-value>/access-denied</param-value>
+        </init-param>
+        <init-param>
+            <!--
+            This parameter helps to configure REST and SOAP entrypoints.
+            For instance, this particular parameter value says to security filter
+            that all requests with url that starts with /ws url-prefix should be
+            interpreted as Web Service, i.e. Soap call. And on other hand,
+            if request url starts with /rest prefix then assume that it is simple
+            REST service request. There are only two types of protocol supported now:
+            "HTTP" and "SOAP". In case of situations when the parameter declared in
+            way similar to:
+
+            <param-value>
+                <![CDATA[<protocol-mappings>
+                    <protocol name="HTTP" prefix="/"/>
+                    <protocol name="SOAP" prefix="/ws"/>
+                </protocol-mappings>]]>
+            </param-value>
+
+            As you could see from example, "HTTP" protocol url range includes "SOAP"
+            protocol url range
+            Firstly, security filter will check if url starts with /ws - if yes,
+            then security filter will assume that it is "SOAP" request, otherwise request
+            will be treated as "HTTP" request
+            -->
+            <param-name>protocol-prefixes</param-name>
+            <param-value>
+                <![CDATA[<protocol-mappings>
+	                <protocol name="HTTP" prefix="/"/>
+	                <protocol name="HTTP" prefix="/sys"/>
+                    <protocol name="HTTP" prefix="/rest"/>
+                    <protocol name="SOAP" prefix="/ws"/>
+                </protocol-mappings>]]>
+            </param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>opfSecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<filter>
+	    <filter-name>urlRewriteFilter</filter-name>
+	    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>urlRewriteFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+    <!--
+     This servlet declaration adds CXF framework to our application and provides support for
+     Web Services Authentication Headers
+    -->
+	<servlet>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>net.firejack.platform.model.config.servlet.ConfigCXFServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet>
+		<servlet-name>ClientServlet</servlet-name>
+		<servlet-class>net.firejack.platform.model.config.servlet.GatewayServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClientServlet</servlet-name>
+		<url-pattern>/app/*</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>Jersey Spring Web Application</servlet-name>
+		<servlet-class>net.firejack.platform.model.config.servlet.ConfigSpringServlet</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>
+                net.firejack.platform.web.resource,
+                net.firejack.platform.core.provider,
+                net.firejack.platform.provider,
+                org.codehaus.jackson.jaxrs;
+            </param-value>
+		</init-param>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey Spring Web Application</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Config Servlet</servlet-name>
+		<servlet-class>net.firejack.platform.model.config.servlet.ConfigServlet</servlet-class>
+		<init-param>
+			<param-name>properties</param-name>
+			<param-value>gateway.properties</param-value>
+		</init-param>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Config Servlet</servlet-name>
+		<url-pattern>/sys/conf/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

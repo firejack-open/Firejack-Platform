@@ -1,0 +1,79 @@
+<!--
+  ~ Firejack Platform - Copyright (c) 2012 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<package name="platform" path="net.firejack" fromVersion="1.3.0" toVersion="1.4.0" prefix="opf">
+
+    <rename-table name="opf_user" new-name="opf_base_user"/>
+
+    <add-column table="opf_base_user" name="type" type="TINY_TEXT" required="true"/>
+    <add-column table="opf_base_user" name="consumer_key" type="SHORT_TEXT"/>
+    <add-column table="opf_base_user" name="consumer_secret" type="SHORT_TEXT"/>
+    <add-column table="opf_base_user" name="id_system" type="NUMERIC_ID"/>
+    <add-column table="opf_base_user" name="facebook_id" type="NUMERIC_ID"/>
+    <add-column table="opf_base_user" name="twitter_id" type="NUMERIC_ID"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_base_user SET type = 'USR', id_system = NULL;
+
+            INSERT INTO opf_base_user (username, email, type, consumer_key, consumer_secret, id_system, id_registry_node)
+                SELECT name, 'admin@admin.net', 'SYS', server_name, MD5(server_name), id,
+                       (SELECT id FROM opf_registry_node WHERE lookup = 'net.firejack.openflame.accounts')
+                FROM `opf_registry_node`
+                WHERE lookup = 'net.firejack.opf_local';
+		]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_base_user" name="FK_SYSTEM_USER_SYSTEM" field="id_system"
+            reference-table="opf_registry_node" reference-field="id"/>
+
+
+    <create-table name="opf_entity_context_role">
+        <column name="id_entity" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="id_role" type="NUMERIC_ID" required="true" primary-key="true"/>
+        <column name="created" type="CREATION_TIME"/>
+    </create-table>
+
+    <add-foreign-key table="opf_entity_context_role" name="FK_ENTITY_CONTEXT_ROLE_ENTITY" field="id_entity"
+            reference-table="opf_registry_node" reference-field="id"/>
+
+    <add-foreign-key table="opf_entity_context_role" name="FK_ENTITY_CONTEXT_ROLE_ROLE" field="id_role"
+            reference-table="opf_role" reference-field="id"/>
+
+
+    <add-column table="opf_registry_node" name="hint" type="SHORT_TEXT"/>
+    <add-column table="opf_registry_node" name="security_enabled" type="FLAG"/>
+    <add-column table="opf_registry_node" name="public_key" type="SECRET_KEY"/>
+    <add-column table="opf_registry_node" name="active" type="FLAG"/>
+    <add-column table="opf_registry_node" name="id_main" type="NUMERIC_ID"/>
+    <add-column table="opf_registry_node" name="id_database" type="NUMERIC_ID"/>
+
+    <custom-sql>
+        <![CDATA[
+            UPDATE opf_registry_node SET security_enabled = 0 WHERE type = 'ENT';
+            UPDATE opf_registry_node SET id_main = NULL;
+        ]]>
+    </custom-sql>
+
+    <add-foreign-key table="opf_registry_node" name="FK_MAIN_REGISTRY_NODE" field="id_main"
+            reference-table="opf_registry_node" reference-field="id"/>
+
+    <add-foreign-key table="opf_registry_node" name="FK_DATABASE_REGISTRY_NODE" field="id_database"
+            reference-table="opf_registry_node" reference-field="id"/>
+
+</package>

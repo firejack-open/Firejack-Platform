@@ -1,0 +1,18 @@
+Hello $task.assignee.username,
+
+You have been assigned a task or a task has been assigned to your group. Details are provided below:
+
+###set ( $assignee = '' )
+###if( $task.assignee )
+##    #set ( $assignee = $task.assignee.username )
+###elseif( $task.activity )
+##    #set ( $assignee = $task.activity.actor. )
+###end
+
+Assignee: $task.assignee.username or [actor]
+Process: $task.processCase.process.name
+Task: [task name]
+Status: $task.processCase.status
+Description: $task.description
+Process Started: $task.processCase.startDate
+Last Update: $task.updateDate

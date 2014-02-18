@@ -1,0 +1,1005 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"min-",
+				"min-height"
+			],
+			[
+				"bac",
+				"background"
+			],
+			[
+				"font-s",
+				"font-size"
+			],
+			[
+				"bo",
+				"bottom"
+			],
+			[
+				"no",
+				"normal"
+			],
+			[
+				"border-r",
+				"border-right"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"font-",
+				"font-size"
+			],
+			[
+				"list-s",
+				"list-style"
+			],
+			[
+				"border-c",
+				"border-color"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"border-",
+				"border-radius"
+			],
+			[
+				"fl",
+				"float"
+			],
+			[
+				"cur",
+				"cursor"
+			],
+			[
+				"fon",
+				"font-style"
+			],
+			[
+				"borde",
+				"border"
+			],
+			[
+				"cu",
+				"cursor"
+			],
+			[
+				"pos",
+				"position"
+			],
+			[
+				"bcga",
+				"background-image"
+			],
+			[
+				"border-s",
+				"border-style"
+			],
+			[
+				"le",
+				"left"
+			],
+			[
+				"ba",
+				"background"
+			],
+			[
+				"n",
+				"normal"
+			],
+			[
+				"abs",
+				"absolute"
+			],
+			[
+				"con",
+				"content"
+			],
+			[
+				"hi",
+				"hidden"
+			],
+			[
+				"au",
+				"auto"
+			],
+			[
+				"ab",
+				"absolute"
+			],
+			[
+				"non",
+				"none"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"z-",
+				"z-index"
+			],
+			[
+				"ou",
+				"outline"
+			],
+			[
+				"col",
+				"color"
+			],
+			[
+				"fo",
+				"font-size"
+			],
+			[
+				"tra",
+				"transparent"
+			],
+			[
+				"blo",
+				"block"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"b",
+				"bg	background"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"dis",
+				"display"
+			],
+			[
+				"ri",
+				"right"
+			],
+			[
+				"text-",
+				"text-decoration"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"wi",
+				"width"
+			],
+			[
+				"di",
+				"display"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "gateway/_x-tree-panel.scss",
+			"settings":
+			{
+				"buffer_size": 3462,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "gateway/_x-forms.scss",
+			"settings":
+			{
+				"buffer_size": 2725,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": ".grid-panel {\n	.x-panel-header-default {\n		border: none;\n		background: none;\n	}\n\n	.x-panel-header-horizontal {\n		padding: 4px 0;\n	}\n\n	.x-panel-header-default-top {\n		@include box-shadow(none);\n	}\n\n	.x-panel-header-text-default {\n		color: #738999;\n		font-size: 14px;\n		font-weight: normal;\n	}\n}\n\n.x-grid {\n	margin-bottom: 0;\n}\n\n//Grids Header\n.x-column-header {\n	font-size: 13px;\n	color: #ffffff;\n	background: #2896dd;\n	border-color: #0273bc;\n	text-shadow: none;\n}\n\n.x-column-header-over,\n.x-column-header-sort-ASC,\n.x-column-header-sort-DESC {\n	color: #808080;\n	background: #d4eaf8;\n}\n\n.x-column-header-inner {\n	// line-height: 30px;\n	line-height: 53px;\n	font-size: 18px;\n}\n\n.x-column-header-trigger {\n	background: sprite($sprite,grid-column-header-trigger-btn) no-repeat;\n}\n\n.x-grid-row-focused {\n\n}\n\n.x-grid-row .x-grid-cell {\n	color: #478acc;\n	font-size: 13px;\n\n	&.cell-invalid {\n		outline: 1px solid #ff0000;\n	}\n}\n\n.x-grid-row .x-grid-cell-first {\n	color: #7f7f7f;\n}\n\n//Sorting  A to Z\n.x-column-header-sort-ASC {\n\n}\n\n//Sorting  Z to A\n.x-column-header-sort-DESC {\n\n}\n\n.x-grid-with-row-lines .x-grid-cell {\n	border-width: 0 1px 0 0;\n}\n\n//Common Grid Row\n.x-grid-with-row-lines {\n	.x-grid-cell-inner {\n		padding: 15px 6px;\n		font-size: 16px;\n		line-height: 30px;\n	}\n}\n\n//Check Column in Form Wizard\n.required-ico,\n.searchable-ico,\n.visible-ico {\n	width: 50px;\n	height: 60px;\n	&:hover {\n		background-color: #d4eaf8;\n\n		.x-column-header-over {\n			background: transparent;\n		}\n	}\n}\n\n.required-ico {\n	background: #2896dd sprite($sprite,grid-required) no-repeat;\n}\n\n.searchable-ico {\n	background: #2896dd sprite($sprite,grid-searchable) no-repeat;\n}\n\n.visible-ico {\n	background: #2896dd sprite($sprite,grid-visible) no-repeat;\n}\n\n//Cell Images \n.cell-img {\n	vertical-align: middle;\n	.x-form-display-field {\n		text-align: center;\n	}\n}\n\n//Toolbar for add entity btn\n.x-toolbar-left-grid {\n	padding: 0;\n	// border-right: 1px solid #bcc2c7 !important;\n}\n\n//Row Action Toolbar\n.row-action-toolbar {\n	position: absolute;\n	height: 60px;\n	line-height: 60px;\n	// background: #191919;\n	background: #282828;\n	opacity: 0.9;\n	z-index: 100;\n	\n	.x-btn-action-small {\n		margin: 0 0 0 40px;\n		.x-btn-icon {\n			width: 26px;\n			height: 26px;\n			top: 0;\n			left: 0;\n		}\n	}\n	\n	// .add-btn {\n	// 	background: sprite($sprite,grid-add-btn) no-repeat;\n	// }\n\n	.edit-btn {\n		background: sprite($sprite,grid-edit-btn) no-repeat;\n	}\n\n	.delete-btn {\n		background: sprite($sprite,grid-delete-btn) no-repeat;\n	}\n}\n\n.x-html-editor-tb {\n	display: none;\n}\n\n// Row Editor\n.x-grid-row-editor {\n	.x-box-item {\n		.x-form-display-field {\n			padding: 17px 0;\n			height: 50px;\n			font-size: 16px;\n			// text-align: center;\n\n			// Cut long text\n			overflow:hidden; \n		  white-space:nowrap; \n		  text-overflow:ellipsis;\n		}\n	}\n}\n\n",
+			"file": "gateway/_x-grid.scss",
+			"file_size": 2783,
+			"file_write_time": 130344319543814753,
+			"settings":
+			{
+				"buffer_size": 2785,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "gateway/_x-breadcrumbs.scss",
+			"settings":
+			{
+				"buffer_size": 965,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Searching 31 files for \"blue\"\n\n/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-button.scss:\n  125  /* Common buttons styles 250x60 */\n  126  \n  127: .x-btn-blue-small,\n  128  .x-btn-grey-small,\n  129  .x-btn-light-green-small {\n  ...\n  135  }\n  136  \n  137: .x-btn-blue-toolbar-small,\n  138  .x-btn-grey-toolbar-small,\n  139  .x-btn-light-green-toolbar-small {\n  ...\n  145  }\n  146  \n  147: //Blue button\n  148: .x-btn-blue-small,\n  149: .x-btn-blue-toolbar-small {\n  150    background: #2896dd;\n  151  }\n  152  \n  153: .x-btn-blue-small-over,\n  154: .x-btn-blue-toolbar-small-over {\n  155    background: #007bcb;\n  156  }\n  ...\n  190  \n  191        &:first-child {\n  192:         background: #2896dd; //Blue button\n  193        }\n  194        .x-btn-inner {\n  ...\n  203        \n  204        &:first-child {\n  205:         background: #007bcb; //Blue button\n  206        }\n  207      }\n  ...\n  386  }\n  387  .add-relationship-window {\n  388:   .x-btn-blue-toolbar-small {\n  389      .x-btn-inner {\n  390        font-size: 21px;\n\n/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-progress-bar.scss:\n  111  	}\n  112  \n  113: 	//Blue button\n  114  	.x-btn-default-small {\n  115  	  background: #2896dd;\n\n/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-window.scss:\n  123  	}\n  124  \n  125: 	//Blue Panel Header\n  126  	\n  127: 	.x-panel-header-blue {\n  128  		font-size: 20px;\n  129  		color: #fff;\n  ...\n  132  	}\n  133  \n  134: 	//Blue Background\n  135: 	.blue-bg {\n  136  		background: #2896dd;\n  137  	}\n\n15 matches across 3 files\n",
+			"settings":
+			{
+				"buffer_size": 1623,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "gateway/_x-button.scss",
+			"settings":
+			{
+				"buffer_size": 6856,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 285.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"https://sublime.wbond.net/testing/packages.json",
+			"cd ~/Library/Application\\ Support/Sublime\\ Text\\ 3/Packages/",
+			"cd Packages/ git clone https://github.com/wbond/sublime_package_control.git \"Package Control\" cd \"Package Control\" git checkout python3"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-tree-panel.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-window.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-panel.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/wizards.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-forms.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-boundlist.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-grid.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-button.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-progress-bar.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/mixins/_mixins_default.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-box-select.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/screen/_footer.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/modules/_m-social-sharebuttons.scss",
+		"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway/_x-breadcrumbs.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/css/style.css",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/components/_c-reference-search.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/admin/_m-admin-edit-mode.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/navigation/_box-select.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/_b-login.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-admin-panel.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/_grid.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/style.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/_fonts.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/wizards.scss",
+		"/home/sidney/projects/openflame/trunk/openflame-console/src/main/webapp/css/clds4.css",
+		"/home/sidney/projects/coolmovies/src/main/webapp/js/cmv-classes.js",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/_home-container.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/_settings.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/elements/_buttons.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/screen/default/_layout.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/elements/_search-tags.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-main-left-menu.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-search-manager-component.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/default/_forms.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/_old-style.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/screen/default/_common.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/admin/_resource-edit.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/elements/search-tags",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/screen/default/_footer.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-top-menu.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-header-search.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/js/net/firejack/openflame/prometheus/component/header/HeaderComponent.js",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/blocks/elements/_button.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/mixins/_mixins_default.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/css/style2.css",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/modules/_m-breathcrumps.scss",
+		"/home/sidney/projects/coolmovies/src/main/webapp/sass/screen/default/_header.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/gateway/_advanced-search.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/blocks/_b-new-request-popup.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/gateway/_advansed-search.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/app-BACKUP.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/blocks/_b-help.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4/default/widgets/_window.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/widgets/_window.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4/default/variables/_window.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/variables/panel/top-nav-panel/_top-nav-panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/src/main/webapp/css/style.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/docs/source/_window.scss2.html",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/resources/theme/css/app.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/_settings.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/slice-src/custom.js",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/screen/default/_common.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/blocks/_b-admin.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/app.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/blocks/_b-requests.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/variables/btn/top-nav-panel-btns/_top-nav-panel-btns.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/modules/_m-top-navigation-toolbar.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/bofa.sublime-project",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/modules/_m-top-navigation-toolbar.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/css/style.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/blocks/_b-alert-list.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/widgets/_toolbar.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/config.rb",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/widgets/_button.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/ext/resources/themes/stylesheets/ext4/default/widgets/_button.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/resources/theme/css/app_2.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4/default/widgets/_panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4/default/widgets/_button.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/ext/resources/themes/stylesheets/neptune/default/widgets/_button.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/variables/_toolbar.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4/default/variables/_button.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass/variables/btn/top-nav-btns/_top-nav-btns.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/build/MyApp/production/resources/theme/css/app.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/resources/theme/app.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/manifest.js",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/css/my-ext-theme.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/sass/my-ext-theme.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/sass/variables/panel/top-nav-panel/_top-nav-panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/variables/_panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/widgets/_panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/sass/themes/panel/top-nav-panel/_top-nav-panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/css/chuck.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design/css/styleold.css",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/modules/_m-dashboard-grid.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/screen/default/_header.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/_styleold.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/screen/default/_common.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/style.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/blocks/_b-alert-list.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/examples/panel/bubble-panel/resources/sass/bubble-panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/blocks/_b-requests.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/sass/mixins/_buttons.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design-new-test/resources/sass/themes/panel/_top-nav-panel.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/blocks/default/_grids.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/screen/default/_layout.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/screen/default/_sidebars.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/screen/default/_footer.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/_settings.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/sass/_import.scss",
+		"/home/sidney/projects/bofa/bofa-wpt/design/config.rb",
+		"/home/sidney/projects/bofa/bofa-wpt/design/css/bankofamerica.css",
+		"/home/sidney/www/bofa-wpt/design/css/style.css",
+		"/home/sidney/www/bofa-wpt/design/sass/screen/default/_header.scss",
+		"/home/sidney/www/bofa-wpt/design/sass/screen/default/_layout.scss",
+		"/home/sidney/www/bofa-wpt/design/sass/screen/default/_footer.scss",
+		"/home/sidney/www/bofa-wpt/design/sass/screen/default/_sidebars.scss",
+		"/home/sidney/www/bofa-wpt/design/sass/blocks/_b-alert-list.scss",
+		"/home/sidney/www/acquirors/design/bofa.sublime-project",
+		"/home/sidney/www/acquirors/design/sass/blocks/elements/_rating.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-stocks.scss",
+		"/home/sidney/www/acquirors/design/sass/screen/default/_common.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-user-top.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-user-profile.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/elements/_item.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-discussion-article.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-trending.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-discussions.scss",
+		"/home/sidney/www/acquirors/design/sass/blocks/_b-my-acquirors.scss"
+	],
+	"find":
+	{
+		"height": 46.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/screen",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/screen",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/gateway",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass/screen",
+			"/home/sidney/projects/openflame/trunk/platform/src/main/webapp/sass",
+			"/home/sidney/projects/coolmovies/src/main/webapp/sass",
+			"/home/sidney/projects/coolmovies/src/main/webapp/js",
+			"/home/sidney/projects/coolmovies/src/main/webapp/sass",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/ext4",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/packages/theme/sass",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/ext",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/temp/ext",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs/resources/themes/stylesheets/neptune/default/variables",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs",
+			"/home/sidney/projects/bofa/bofa-wpt/design/sass",
+			"/home/sidney/projects/bofa/bofa-wpt/design-new-test/extjs",
+			"/home/sidney/projects/bofa/bofa-wpt/design/sass",
+			"/home/sidney/www/acquirors/design/sass/blocks",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design/sass/blocks",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design/sass/blocks",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design_original/scss",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors/design",
+			"/home/sidney/www/acquirors/design/sass",
+			"/home/sidney/www/acquirors",
+			"/home/sidney/www/acquirors/src",
+			"/home/sidney/www/acquirors",
+			"/home/sidney/www/acquirors/src",
+			"/home/sidney/www/acquirors",
+			"/home/sidney/www/acquirors/src",
+			"/home/sidney/www/acquirors"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			",\n",
+			"red",
+			"blue",
+			"advanced-search-panel",
+			"search-manager-component",
+			"search-operand-buttons",
+			"breadcrumbs",
+			"x-form-item-label",
+			"30px",
+			"white",
+			"opf-image",
+			"btn-add-report",
+			"actions",
+			"x-panel-body-default",
+			"treecolumn-value-empty",
+			"x-grid-row-selected",
+			"background",
+			"x-grid-row-editor",
+			"16px 0 0 40px",
+			"tree",
+			"trigger",
+			"x-panel-header-blue",
+			"row-action",
+			"x-grid-row-editor",
+			"boundlist",
+			"#478acc",
+			"a4adb5",
+			"x-panel-white",
+			".x-boundlist-item",
+			"searchable-ico",
+			"0 6px 0",
+			"x-tree-panel",
+			"height: 30px;",
+			"x-tree-panel",
+			"height: 30px;",
+			"height: 50px;",
+			"add-form-icon",
+			"height: 50px;",
+			"padding: 17px 0;",
+			"20px 0",
+			"wizard-progress-bar",
+			"2896dd",
+			"x-grid-checkheader",
+			"x-grid-row-editor",
+			"1px solid #ff0000",
+			"15px 6px",
+			"x-grid-cell-inner",
+			".m-breadcrumbs",
+			".notice-container",
+			"0px 5px",
+			"x-grid-row-editor",
+			"4883ac",
+			".social",
+			"x-btn-blue-toolbar-small",
+			"main-controls-menu",
+			"x-column-header-trigger",
+			"30px",
+			"x-column-header-inner",
+			"directory",
+			"social",
+			".x-form-checkbox",
+			".x-form-field",
+			".main-controls-menu-btn",
+			".x-grid-cell-inner",
+			"x-grid-row-over",
+			";\n",
+			"error",
+			"#bcc2c7",
+			"x-tree-elbow-end-plus",
+			"x-tree-elbow-plus",
+			"x-grid-cell-inner",
+			".x-btn-blue-small",
+			"x-window-wizards",
+			"error-container",
+			"		.x-btn-user-menu-small {\n			.x-btn-inner {\n				color: \n			}\n		}",
+			"height: 12px;",
+			"m-admin-panel",
+			"x-form-checkbox",
+			"1px solid #c9d7de",
+			"report",
+			"panel",
+			"margin-bottom: 20px;",
+			".m-admin-panel",
+			"user-select",
+			"x-item-selected",
+			"selected",
+			"x-form-field",
+			"x-boxselect-list",
+			".x-form-item",
+			".x-boxselect-item-text",
+			"30px",
+			"30\n\n\n",
+			".x-window",
+			"6e8f03",
+			".x-column-header",
+			"x-btn-inner",
+			"text-align: center;",
+			"v",
+			"text-align: center;",
+			"body-panel",
+			"f7fbfe",
+			"x-btn-close-small",
+			"home-cont",
+			"1px solid #e6e6e6;",
+			"left-panel",
+			"дуае-panel",
+			".body-panel",
+			"edit-btn",
+			"bofa-request-grid",
+			"tag",
+			"search-tag",
+			"search-tags-bar",
+			"b-left-menu",
+			"title-panel-title-text",
+			"0 0 10px 10px",
+			"arrow-up",
+			"action-panel",
+			"content-panel-content-text",
+			"title-panel-title-text",
+			".title-panel-title-text",
+			"text-transform: capitalize;",
+			"search-manager-component",
+			"x-form-text",
+			"search-button",
+			"value",
+			".search-tags-bar",
+			"search-button",
+			"x-btn-admin-deploy-small"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"cuprum-regular",
+			"4db0e9",
+			"91c8e8",
+			"<a href=\"#\"><img alt='American International Research Institute' src='images/tmp/empty-item.png' width='31' height='31'></a>",
+			"<a class='name' href='#'>John Appleseed</a>",
+			"\"",
+			"insiders-item",
+			"merge"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "gateway/_x-tree-panel.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3462,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1284,
+								1284
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 869.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "gateway/_x-forms.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2725,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								428,
+								428
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 151.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "gateway/_x-grid.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2785,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1832,
+								1832
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1813.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "gateway/_x-breadcrumbs.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								324,
+								324
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1623,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										187,
+										191
+									],
+									[
+										296,
+										300
+									],
+									[
+										424,
+										428
+									],
+									[
+										450,
+										454
+									],
+									[
+										476,
+										480
+									],
+									[
+										558,
+										562
+									],
+									[
+										589,
+										593
+									],
+									[
+										735,
+										739
+									],
+									[
+										877,
+										881
+									],
+									[
+										982,
+										986
+									],
+									[
+										1186,
+										1190
+									],
+									[
+										1381,
+										1385
+									],
+									[
+										1432,
+										1436
+									],
+									[
+										1521,
+										1525
+									],
+									[
+										1546,
+										1550
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								189,
+								189
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "gateway/_x-button.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6856,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2726,
+								2726
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1711.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"project": "platform.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/home/sidney/www/prometheus/prometheus.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 295.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

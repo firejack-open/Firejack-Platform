@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Firejack Platform - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<beans xmlns = "http://www.springframework.org/schema/beans" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns:context = "http://www.springframework.org/schema/context" xmlns:util = "http://www.springframework.org/schema/util" xmlns:aop = "http://www.springframework.org/schema/aop" xsi:schemaLocation = "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <import resource="properties-config.xml"/>
+    <import resource="classpath:/spring/upgrade-config.xml" />
+
+	<!-- Aspect Methods -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <bean id="schemaUpgrader" class="net.firejack.platform.core.config.upgrader.SchemaUpgrader">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="upgradeFolderPath" value="/dbupdate"/>
+        <property name="upgradeExecutor" ref="upgradeExecutor"/>
+    </bean>
+
+    <import resource="classpath:/spring/core-config.xml"/>
+    <import resource="mvc-config.xml" />
+	<import resource="cxf-servlet.xml"/>
+	<import resource="opf-security-config.xml"/>
+
+    <!-- Application Message Bundle -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <array>
+                <value>WEB-INF/messages/messages</value>
+                <value>classpath:/messages/messages</value>
+                <!--<value>classpath:/messages/common-messages</value>-->
+                <!--<value>classpath:/messages/validation-messages</value>-->
+            </array>
+        </property>
+        <property name="cacheSeconds" value="0"/>
+        <property name="parentMessageSource" ref="validationMessageSource"/>
+    </bean>
+
+    <context:component-scan base-package="net.firejack.platform.model"/>
+    <context:component-scan base-package="net.firejack.platform.web.mina"/>
+    <context:component-scan base-package="net.firejack.platform.core.provider"/>
+    <context:component-scan base-package="net.firejack.platform.core.domain"/>
+    <context:component-scan base-package="net.firejack.platform.api"/>
+    <context:component-scan base-package="net.firejack.platform.processor"/>
+    <context:component-scan base-package="net.firejack.platform.installation"/>
+
+
+    <!-- Registry Node Types Page Filter -->
+    <util:map id="registryNodeTypesPageFilter" key-type="net.firejack.platform.api.registry.model.PageType">
+        <entry key="DOMAIN">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>SUB_DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>SYSTEM</value>
+                <value>ENTITY</value>
+                <value>SUB_ENTITY</value>
+                <value>ACTION</value>
+                <value>RELATIONSHIP</value>
+                <value>SERVER</value>
+                <value>DATABASE</value>
+                <value>FILESTORE</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+                <value>REPORT</value>
+                <value>BI_REPORT</value>
+                <value>WIZARD</value>
+            </util:list>
+        </entry>
+        <entry key="DIRECTORY">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>SYSTEM</value>
+                <value>DIRECTORY</value>
+                <value>GROUP</value>
+            </util:list>
+        </entry>
+        <entry key="AUTHORIZATION">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>ENTITY</value>
+                <value>ACTION</value>
+            </util:list>
+        </entry>
+        <entry key="SITE">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>NAVIGATION_ELEMENT</value>
+            </util:list>
+        </entry>
+        <entry key="RESOURCE">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>SYSTEM</value>
+                <value>SERVER</value>
+                <value>DATABASE</value>
+                <value>FILESTORE</value>
+                <value>PACKAGE</value>
+                <value>DOMAIN</value>
+                <value>ENTITY</value>
+                <value>ACTION</value>
+                <value>RELATIONSHIP</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+                <value>FOLDER</value>
+                <value>COLLECTION</value>
+                <value>DIRECTORY</value>
+                <value>NAVIGATION_ELEMENT</value>
+            </util:list>
+        </entry>
+        <!--<entry key="PROCESS">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>ENTITY</value>
+                <value>PACKAGE</value>
+                <value>PROCESS</value>
+                <value>ACTOR</value>
+            </util:list>
+        </entry>-->
+        <entry key="TRACKING">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>SYSTEM</value>
+                <value>ENTITY</value>
+                <value>ACTION</value>
+            </util:list>
+        </entry>
+        <entry key="SEARCH">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>SUB_DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>SYSTEM</value>
+                <value>ENTITY</value>
+                <value>ACTION</value>
+                <value>RELATIONSHIP</value>
+                <value>SERVER</value>
+                <value>DATABASE</value>
+                <value>FILESTORE</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+            </util:list>
+        </entry>
+        <entry key="DOCUMENTATION">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROOT_DOMAIN</value>
+                <value>DOMAIN</value>
+                <value>SUB_DOMAIN</value>
+                <value>PACKAGE</value>
+                <value>SYSTEM</value>
+                <value>ENTITY</value>
+                <value>ACTION</value>
+                <value>RELATIONSHIP</value>
+                <value>SERVER</value>
+                <value>DATABASE</value>
+                <value>FILESTORE</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+            </util:list>
+        </entry>
+        <entry key="PROMETHEUS">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DOMAIN</value>
+                <value>ENTITY</value>
+            </util:list>
+        </entry>
+    </util:map>
+
+    <!-- Registry Allow Types -->
+    <util:map id="registryAllowTypes" key-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+        <entry key="ROOT_DOMAIN">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DOMAIN</value>
+                <value>SYSTEM</value>
+                <value>PACKAGE</value>
+                <value>ROLE</value>
+            </util:list>
+        </entry>
+        <entry key="DOMAIN">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DOMAIN</value>
+                <value>SYSTEM</value>
+                <value>ENTITY</value>
+                <value>FOLDER</value>
+                <value>COLLECTION</value>
+                <value>TEXT_RESOURCE</value>
+                <value>HTML_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+                <value>AUDIO_RESOURCE</value>
+                <value>VIDEO_RESOURCE</value>
+                <value>DOCUMENT_RESOURCE</value>
+                <value>FILE_RESOURCE</value>
+                <value>DIRECTORY</value>
+                <value>NAVIGATION_ELEMENT</value>
+                <value>ROLE</value>
+                <value>USER_PROFILE_FIELD</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+                <value>WIZARD</value>
+            </util:list>
+        </entry>
+        <entry key="SYSTEM">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DATABASE</value>
+                <value>SERVER</value>
+                <value>FILESTORE</value>
+            </util:list>
+        </entry>
+        <entry key="PACKAGE">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DOMAIN</value>
+                <!--<value>ENTITY</value>-->
+                <value>DIRECTORY</value>
+                <value>NAVIGATION_ELEMENT</value>
+                <value>ROLE</value>
+                <value>RESOURCE_LOCATION</value>
+                <!--<value>PROCESS</value>-->
+                <value>ACTOR</value>
+                <value>TEXT_RESOURCE</value>
+                <value>HTML_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+                <value>AUDIO_RESOURCE</value>
+                <value>VIDEO_RESOURCE</value>
+                <value>DOCUMENT_RESOURCE</value>
+                <value>FILE_RESOURCE</value>
+                <value>SCHEDULE</value>
+            </util:list>
+        </entry>
+        <entry key="ENTITY">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ENTITY</value>
+                <value>SUB_ENTITY</value>
+                <value>ACTION</value>
+                <value>RELATIONSHIP</value>
+                <value>ROLE</value>
+                <value>FOLDER</value>
+                <value>COLLECTION</value>
+                <value>TEXT_RESOURCE</value>
+                <value>HTML_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+                <value>AUDIO_RESOURCE</value>
+                <value>VIDEO_RESOURCE</value>
+                <value>DOCUMENT_RESOURCE</value>
+                <value>FILE_RESOURCE</value>
+                <value>REPORT</value>
+                <value>BI_REPORT</value>
+            </util:list>
+        </entry>
+        <entry key="ACTION">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>ROLE</value>
+                <value>PERMISSION</value>
+                <value>FOLDER</value>
+                <value>COLLECTION</value>
+                <value>TEXT_RESOURCE</value>
+                <value>HTML_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+                <value>AUDIO_RESOURCE</value>
+                <value>VIDEO_RESOURCE</value>
+                <value>DOCUMENT_RESOURCE</value>
+                <value>FILE_RESOURCE</value>
+            </util:list>
+        </entry>
+        <entry key="DIRECTORY">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>DIRECTORY</value>
+                <value>GROUP</value>
+                <value>USER</value>
+                <value>SYSTEM_USER</value>
+                <value>USER_PROFILE_FIELD</value>
+            </util:list>
+        </entry>
+        <entry key="GROUP">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>GROUP</value>
+                <value>USER</value>
+            </util:list>
+        </entry>
+        <entry key="NAVIGATION_ELEMENT">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>NAVIGATION_ELEMENT</value>
+                <value>TEXT_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+            </util:list>
+        </entry>
+        <entry key="FOLDER">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+                <value>COLLECTION</value>
+                <value>TEXT_RESOURCE</value>
+                <value>HTML_RESOURCE</value>
+                <value>IMAGE_RESOURCE</value>
+                <value>AUDIO_RESOURCE</value>
+                <value>VIDEO_RESOURCE</value>
+                <value>DOCUMENT_RESOURCE</value>
+                <value>FILE_RESOURCE</value>
+            </util:list>
+        </entry>
+        <entry key="PROCESS">
+            <util:list value-type="net.firejack.platform.core.model.registry.RegistryNodeType">
+               <value>ACTOR</value>
+            </util:list>
+        </entry>
+    </util:map>
+
+    <util:map id="fileUploadedResourceType" key-type="net.firejack.platform.api.content.model.ResourceType">
+        <entry key="IMAGE">
+            <util:list value-type="java.lang.String">
+                <value>jpg</value>
+                <value>jpeg</value>
+                <value>png</value>
+                <value>gif</value>
+                <value>bmp</value>
+            </util:list>
+        </entry>
+        <entry key="AUDIO">
+            <util:list value-type="java.lang.String">
+                <value>mp3</value>
+                <value>ogg</value>
+            </util:list>
+        </entry>
+        <entry key="VIDEO">
+            <util:list value-type="java.lang.String">
+                <value>mpg</value>
+                <value>mpeg</value>
+                <value>avi</value>
+                <value>wmv</value>
+                <value>mov</value>
+            </util:list>
+        </entry>
+    </util:map>
+
+</beans>

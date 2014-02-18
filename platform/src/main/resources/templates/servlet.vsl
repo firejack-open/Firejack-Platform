@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Gateway Prototype: ${navigationName}</title>
+        <base href="${baseUrl}" />
+
+        <style type="text/css">
+            #loading-mask{
+                position:absolute;
+                top: 0;
+                bottom: 0;
+                left:0;
+                right: 0;
+                background-color: #ffffff;
+                z-index:1;
+            }
+
+            #loading {
+                position: absolute;
+                height: 66px;
+                width: 66px;
+                top: 50%;
+                left: 50%;
+                margin-top: -33px;
+                margin-left: -33px;
+                background: url(${baseUrl}/images/loader.gif) no-repeat;
+                z-index:2;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="loading-mask" style=""></div>
+        <div id="loading"></div>
+
+        <script type="text/javascript">
+           debugger;
+           var currentUrl = document.URL;
+           var baseUrl    = '${baseUrl}';
+           // base url doesn't match real platform url
+           if (window.name.indexOf('afterReset') == -1 && currentUrl.indexOf(baseUrl) == -1) {
+              var baseUrlWithoutTrailingSlashes = baseUrl.replace(/\/+$/, "");
+              var arr = baseUrlWithoutTrailingSlashes.split("/");
+              var context = arr[3] ? "/"+arr[3] : "";
+              // go to reset url to update base url property
+              var resetUrl = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '')+context+'/reset-host';
+              window.name += 'afterReset'; // to prevent cyclic redirect to reset page
+              window.location.href = resetUrl;
+           }
+        </script>
+
+        <script type="text/javascript">
+            var BASE_URL = '${baseUrl}';
+            var OPF_CONSOLE_URL = '${opfConsoleUrl}';
+            var CACHE_VERSION = '${cacheVersion}';
+        </script>
+
+        #if($cacheVersion != "")
+            #set($versionParam = "?v=" + $cacheVersion)
+        #end
+
+        <script type="text/javascript" src="${opfConsoleUrl}/ext-4.1.3/bootstrap.js${versionParam}"></script>
+        <link rel="stylesheet" type="text/css" href="${opfConsoleUrl}/ext-4.1.3/resources/css/ext-all-gray.css?${versionParam}"/>
+
+        #if($isDebugMode)
+            <script type="text/javascript">
+                Ext.Loader.setConfig({
+                    enabled: true,
+                    disableCaching: false,
+                    paths : {
+                        'Ext.ux': '${opfConsoleUrl}/ext-4.1.3/ux',
+                        'OPF': '${opfConsoleUrl}/js/net/firejack/platform',
+                        'CMV': '${baseUrl}/js'
+                    }
+                });
+            </script>
+            <script type="text/javascript" src="${opfConsoleUrl}/js/net/firejack/platform/prometheus/Loader.js${versionParam}"></script>
+        #else
+            <script type="text/javascript" src="${baseUrl}/js/net/firejack/platform/prometheus/fjk-classes.js${versionParam}"></script>
+            <script type="text/javascript">
+                Ext.Loader.setConfig({
+                    enabled: true,
+                    disableCaching: false,
+                    paths : {
+                        'Ext.ux': '${opfConsoleUrl}/ext-4.1.3/ux',
+                        'OPF': '${baseUrl}/js/net/firejack/platform',
+                        'CMV': '${baseUrl}/js'
+                    }
+                });
+            </script>
+        #end
+
+        <script type="text/javascript">
+            OPF.Cfg.BASE_URL = '${baseUrl}';
+            OPF.Cfg.OPF_CONSOLE_URL = '${opfConsoleUrl}';
+            OPF.Cfg.DEBUG_MODE = ${isDebugMode};
+            OPF.Cfg.CAN_EDIT_RESOURCE = ${canEditResource};
+            OPF.Cfg.NAVIGATION_LOOKUP = '${navigationLookup}';
+            OPF.Cfg.PACKAGE_LOOKUP = '${packageLookup}';
+            OPF.Cfg.CACHE_VERSION = '${cacheVersion}';
+
+            OPF.Cfg.noCacheLoadScriptInit();
+
+            OPF.Cfg.USER_INFO = {
+                id: ${currentUserId},
+                username: '${currentUsername}',
+                isLogged: ${isLogged},
+                isPackageAdmin: ${isDomainAdmin}
+            };
+
+            OPF.Cfg.EXTRA_PARAMS = {
+                #foreach ($mapEntry in $extraParams.entrySet())
+                    '$mapEntry.key': $mapEntry.value#if($velocityHasNext),
+                #end
+                #end
+            };
+
+            OPF.Cfg.QUERY_PARAMS = {
+                #foreach ($mapEntry in $queryParams.entrySet())
+                    '$mapEntry.key': $mapEntry.value#if($velocityHasNext),
+                #end
+                #end
+            };
+
+            Ext.Ajax.defaultHeaders = {
+                'Page-UID': OPF.Cfg.PAGE_UID,
+                'Accept': 'application/json'
+            };
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="${baseUrl}/css/style.css${versionParam}" />
+        <link rel="stylesheet" type="text/css" href="${opfConsoleUrl}/css/wizards.css${versionParam}" />
+
+        #if(!$isDebugMode)
+            <script type="text/javascript" src="${baseUrl}/js/cmv-classes.js${versionParam}"></script>
+        #end
+
+        <script type="text/javascript" src="${baseUrl}/js/${pageUrl}/Application.js${versionParam}"></script>
+
+        <script type="text/javascript">
+            Ext.onReady(function(){
+                var loadingMask = Ext.get('loading-mask');
+                var loading = Ext.get('loading');
+                loadingMask.fadeOut({ duration: 0.1, remove: true });
+                loading.hide();
+            });
+        </script>
+
+        #if($navigationLookup.contains(".gateway"))
+            <div id="wrapper" class="reef gateway"></div>
+        #else
+            <div id="wrapper" class="reef"></div>
+        #end
+
+        #if(!$isDebugMode)
+            <script type="text/javascript">
+                if (OPF.Cfg.EXTRA_PARAMS.googleAnalyticsId) {
+                    var _gaq = _gaq || [];
+                    _gaq.push(['_setAccount', OPF.Cfg.EXTRA_PARAMS.googleAnalyticsId]);
+                    //            _gaq.push(['_setDomainName', 'firejack.net']);
+                    _gaq.push(['_trackPageview']);
+
+                    (function() {
+                        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                    })();
+                }
+            </script>
+        #end
+    </body>
+</html>

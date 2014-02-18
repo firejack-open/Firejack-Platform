@@ -1,0 +1,112 @@
+.header {  
+  padding: 0 20px;
+  background-color: #006fbf; // Old browsers
+  @include filter-gradient(#006fbf, #00548f, vertical); // IE6-9
+  @include background-image(linear-gradient(top, #006fbf 0%,#006bb8 11%,#005693 42%,#00538d 50%,#004e85 53%,#004c82 55%,#004c82 87%,#00548f 100%));
+  border: {
+    style: solid;
+    width: 1px 0 0 0;
+    color: #000;
+  }
+  overflow: hidden;
+
+  .side-l {
+    // float: left;
+    overflow: hidden;
+  }
+
+  .side-r {
+    // float: right;
+  }
+
+  // Logo
+
+  .logo {
+    display: block;
+    color: #fff;
+    font: 15px normal $osr;
+    text-decoration: none;
+    overflow: hidden;
+    padding-top: 3px;
+
+    .logo-img_w32 {   
+      width: 32px;
+      height: 24px;
+      background: sprite($sprite, opf_logo_w32);
+      margin-right: 5px;
+      top: -3px;
+      position: relative;
+    }
+    span {
+      display: block;
+      float: left;
+    }
+  }
+
+  /* Search */
+
+  .search {
+    .x-form-text {
+      padding: 3px 6px;
+      width: 230px - 12;
+      height: 24px;
+      border: 1px solid #004679;
+      @include border-radius(10px);
+      background-color: #002948; // Old browsers
+      @include filter-gradient(#001c30, #002948, vertical); // IE6-9
+      @include background-image(linear-gradient(#001c30, #002948));
+      color: #6fa2c5;
+    }
+  }
+
+  /* End Search */
+
+  .user-name {
+    color: #fff;
+    padding: 0 10px;
+    text-align: right;
+  }
+  
+  .x-btn-logout-toolbar-small {
+    .logout-ico {
+      display: block;
+      width: 12px;
+      height: 15px;
+      background: sprite($sprite,ico-logout) no-repeat;      
+      top: 0;
+      left: 0;
+    }
+  }
+}
+
+// .x-panel-user-menu {
+//   .x-menu-body {    
+//     background: #fff !important;
+//     @include border-radius(0 0 5px 5px);
+//     padding: 0;
+//   }
+
+//   .x-menu-item-link {
+//     margin: 0;
+//     font-family: $ossb;
+//     font-size: 11px;
+//     color: #919191;
+//     @include border-radius(0);
+//   }
+
+//   .x-menu-item-active {
+//     .x-menu-item-link {
+//       background-color: #079ee9; // Old browsers
+//       @include filter-gradient(#19aaf3, #079ee9, vertical); // IE6-9
+//       @include background-image(linear-gradient(#19aaf3, #079ee9));
+//       border: none;
+//     }
+//     .x-menu-item-text {
+//       color: #fff;      
+//     }
+//   }
+
+//   .x-menu-icon-separator {
+//     display: none;
+//   }
+// }

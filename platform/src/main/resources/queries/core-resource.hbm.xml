@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <query name = "ResourceVersion.findByResourceIdCultureAndVersion">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.id = :resourceId AND rv.culture = :culture AND rv.version = :version
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.findLastVersionByResourceIdCulture">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.id = :resourceId AND rv.culture = :culture AND rv.version = r.lastVersion
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.findLastVersionByResourceId">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.id = :resourceId AND rv.version = r.lastVersion
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.readResourcesByLookupList">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.lookup in (:lookup) AND rv.version = r.lastVersion
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.findLastVersionByResourceLookup">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.lookup = :lookup AND rv.version = r.lastVersion
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.findCulturesForLastVersionByResourceIds">
+        <![CDATA[
+            SELECT DISTINCT rv.culture
+            FROM AbstractResourceVersionModel rv
+                JOIN rv.resource r
+            WHERE r.id IN (:resourceIds) AND rv.version = r.lastVersion
+        ]]>
+    </query>
+
+    <query name = "ResourceVersion.findByResourceIdAndVersion">
+        <![CDATA[
+            SELECT rv
+            FROM AbstractResourceVersionModel rv
+                JOIN FETCH rv.resource r
+            WHERE r.id = :resourceId AND rv.version = :version
+        ]]>
+    </query>
+
+    <query name = "Resource.findAvailableCulturesByCollectionId">
+        <![CDATA[
+            SELECT DISTINCT (rv.culture)
+            FROM CollectionModel c, AbstractResourceVersionModel rv
+                JOIN c.collectionMembers cm
+            WHERE c.id = :collectionId AND cm.reference.id = rv.resource.id
+        ]]>
+    </query>
+
+    <query name="Collection.findReferences">
+        <![CDATA[
+            SELECT cm.reference
+            FROM CollectionModel c
+                JOIN c.collectionMembers cm
+            WHERE c.id = :collectionId
+            ORDER BY cm.order ASC
+        ]]>
+    </query>
+
+    <query name="DataBase.findAllDataSources">
+        <![CDATA[
+            SELECT db, dm
+            FROM DomainModel dm
+               INNER JOIN dm.database db
+            WHERE dm.lookup like :lookupPrefix
+        ]]>
+    </query>
+
+    <query name="DataBase.findAllNotAssociatedDatabases">
+        <![CDATA[
+            SELECT db
+            FROM DatabaseModel db
+            WHERE db.id NOT IN (
+                SELECT dm.database.id FROM DomainModel dm WHERE dm.database IS NOT NULL
+            ) AND db.id NOT IN (
+                SELECT pm.database.id FROM PackageModel pm WHERE pm.database IS NOT NULL
+            ) AND db.main.id IS NULL
+        ]]>
+    </query>
+    <query name="Domain.findXADomains">
+        <![CDATA[
+            SELECT dm.lookup
+            FROM DomainModel dm
+            WHERE dm.lookup like :lookupPrefix AND dm.xaSupport = true AND dm.database IS NOT NULL
+        ]]>
+    </query>
+</hibernate-mapping>

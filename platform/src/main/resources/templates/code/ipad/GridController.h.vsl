@@ -1,0 +1,19 @@
+#import "GWEntityViewController.h"
+#import "GWModel.h"
+#import "GWTextFieldView.h"
+#import "GWGridView.h"
+#import "GWGridCellView.h"
+#import "GWPopoverGridView.h"
+#import "${edit.name}.h"
+
+@interface $name : GWEntityViewController <UITextFieldDelegate, GWGridDataSource, GWGridDelegate, GWPagingDelegate, ASIHTTPRequestDelegate> {
+    GWGridView *_gridView;
+    GWTextFieldView *_searchFieldView;
+    UIPopoverController *_imagePopover;
+    GWPopoverGridView *_listPopover;
+    UIImageView *_imageView;
+    NSArray *_data;
+    NSMutableArray *_delete;
+}
+
+@end

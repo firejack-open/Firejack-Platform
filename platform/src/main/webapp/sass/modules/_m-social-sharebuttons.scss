@@ -1,0 +1,50 @@
+.m-social-sharebuttons {
+	overflow: hidden;
+	margin: 0 30px 0 0;
+	padding: 0;
+	display: inline-block;
+	
+	li {
+		float: left;
+		margin-left: 8px;
+		padding: 0;
+		list-style: none;
+		overflow: hidden;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	a {
+		color: #686d71;
+		text-decoration: none;
+	}
+
+	span {
+		display: block;
+		width: 26px;
+		height: 26px;
+		float: left;
+
+		&.facebook {
+			background: sprite($sprite, ico-social-facebook) no-repeat;
+		}
+
+		&.twitter {
+			background: sprite($sprite, ico-social-twitter) no-repeat;
+		}
+	}	
+
+	&.w_text {
+		display: block;
+
+		li {
+			margin-left: 0;
+		}
+		
+		span {
+			margin-right: 5px;
+		}	
+	}
+}

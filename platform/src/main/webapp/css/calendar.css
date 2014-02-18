@@ -1,0 +1,77 @@
+/*
+ * Firejack Platform - Copyright (c) 2012 Firejack Technologies
+ *
+ * This source code is the product of the Firejack Technologies
+ * Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+ * Asanov) and licensed only under valid, executed license agreements
+ * between Firejack Technologies and its customers. Modification and / or
+ * re-distribution of this source code is allowed only within the terms
+ * of an executed license agreement.
+ *
+ * Any modification of this code voids any and all warranties and indemnifications
+ * for the component in question and may interfere with upgrade path. Firejack Technologies
+ * encourages you to extend the core framework and / or request modifications. You may
+ * also submit and assign contributions to Firejack Technologies for consideration
+ * as improvements or inclusions to the platform to restore modification
+ * warranties and indemnifications upon official re-distributed in patch or release form.
+ */
+
+.cal-day-column {
+    position: relative;
+}
+
+.cal-cell-time-header {
+    background-color: #7efafa;
+    border-right: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+    color: #777777;
+    line-height: 30px;
+    text-align: center;
+}
+.cal-last-cell-time-header {
+    background-color: #7efafa;
+    border-bottom: 1px solid #7d7d7d;
+    color: #777777;
+    line-height: 30px;
+    text-align: center;
+}
+.cal-cell-day-header {
+    background-color: #7efafa;
+    border-right: 1px solid #7d7d7d;
+    border-bottom: 1px solid #7d7d7d;
+    color: #777777;
+    line-height: 30px;
+    text-align: center;
+}
+.cal-cell-time-legend {
+    background-color: #F6F9FC;
+    border-right: 1px solid #7d7d7d;
+    border-bottom: 1px solid #CCCCCC;
+    color: #777777;
+    line-height: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+.cal-cell-day-fullhour {
+    background-color: #FFFFFF;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+.cal-cell-day-halfhour {
+    background-color: #FFFFFF;
+    border-right: 1px solid #CCCCCC;
+    border-bottom: 1px dotted #DDDDDD;
+}
+.cal-cell-day-halfhour:hover,
+.cal-cell-day-fullhour:hover {
+    background-color: #BCFFFF;
+}
+
+.cal-event {
+    position: absolute;
+    overflow: hidden;
+    opacity: 0.7;
+    background-color: #FFD48E;
+    border: 1px solid #cc3300;
+    border-radius: 5px;
+}

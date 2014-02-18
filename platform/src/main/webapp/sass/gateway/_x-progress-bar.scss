@@ -1,0 +1,121 @@
+/* BEGIN PROGRESS BAR */
+
+.wizard-progress-bar {
+	@include border-radius(0);
+	background: #fff;
+	padding: 4px 130px 0;
+	
+	.x-window-header-top {		
+		@include border-radius(0);
+		background: #fff;
+		padding: 20px 0;
+	}
+
+	.x-window-header-text-container {
+		text-align: center;
+	}
+
+	.x-window-header-text {
+		color: #8c8c8c;			
+		font-size: 16px;
+		line-height: 16px;
+	}
+
+	.x-progress {
+		height: 59px;
+	}
+}
+
+.x-window-body-default {
+	background: #fff;
+	border: none;
+}
+
+.x-progress-default {
+	border-color: #bcc2c7;
+	background: #ecf0f1;
+
+	.x-progress-text {
+		height: 58px;
+		line-height: 56px;
+		font-size: 13px;
+	}
+
+	.x-progress-bar {
+		border: none;
+		background: #2896dd;
+		height: 58px;
+	}
+}
+
+
+.progress-bar-none {
+  color: #000000;
+}
+.progress-bar-trace {
+  color: #808080;
+}
+.progress-bar-debug {
+  color: #003399;
+}
+.progress-bar-info {
+  color: #008d00;
+}
+.progress-bar-warn {
+  color: #d6d903;
+}
+.progress-bar-error {
+  color: #d90c00;
+}
+
+/* END PROGRESS BAR */
+
+.wizard-progress-window-message {
+	@include border-radius(0);
+	background: #fff;
+	
+	.x-window-header-top {		
+		@include border-radius(0);
+		background: #fff;
+		padding: 20px 0;		
+	}
+
+	.x-window-header-text-container {
+		text-align: center !important;
+	}
+
+	.x-window-header-text {
+		color: #8c8c8c;			
+		font-size: 15px;
+	}
+
+	.x-window-body {
+		background: #fff;
+	}
+
+	.x-form-display-field {
+		color: #333;		
+	}
+
+	.x-form-item {
+		margin: 0;
+	}
+
+	.x-btn-default-small {
+	  .x-btn-inner {
+	    font-size: 17px;
+	    line-height: 17px;
+	    color: #fff;
+	    padding: 5px 10px;
+	  }
+	}
+
+	//Blue button
+	.x-btn-default-small {
+	  background: #2896dd;
+	}
+
+	.x-btn-default-small-over {
+	  background: #007bcb;
+	}
+}

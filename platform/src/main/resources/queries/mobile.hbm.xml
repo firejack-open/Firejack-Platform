@@ -1,0 +1,50 @@
+<?xml version="1.0"?><!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name = "Mobile.loadMenuTree">
+        <![CDATA[
+           SELECT ne.id as id, ne.id_parent as parentId, ne.name as name, rn.lookup as lookup, GROUP_CONCAT(p.lookup) as permission
+             FROM opf_registry_node ne
+                  LEFT JOIN opf_registry_node rn ON rn.url_path = ne.url_path AND (rn.type = 'ENT' OR rn.type = 'DOM')
+                  LEFT JOIN opf_navigation_element_permission np ON np.id_navigation_element = ne.id
+                  LEFT JOIN opf_permission p ON np.id_permission = p.id
+            WHERE ne.type = 'NAV' AND ne.lookup LIKE CONCAT(:lookup, '.%')
+           GROUP BY ne.id
+           ORDER BY rn.type, ne.sort_position
+          ]]>
+        <return-scalar column = "id" type="java.lang.Long"/>
+        <return-scalar column = "parentId" type="java.lang.Long"/>
+        <return-scalar column = "name" type="java.lang.String"/>
+        <return-scalar column = "lookup" type="java.lang.String"/>
+        <return-scalar column = "permission" type="java.lang.String"/>
+    </sql-query>
+
+    <query name = "Mobile.loadMenuResource">
+        <![CDATA[
+            SELECT r.lookup, rv.text
+            FROM TextResourceVersionModel rv
+               INNER JOIN rv.resource r
+            WHERE r.lookup LIKE CONCAT(:lookup, '.%.menu-name') AND rv.version = r.lastVersion
+          ]]>
+    </query>
+
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<project name = "Flash Socket" default = "build">
+
+	<property name="FLEX_HOME" value="C:/Flex"/>
+	<property name="src.dir" value="${basedir}/src"/>
+
+	<taskdef resource = "flexTasks.tasks" classpath = "${FLEX_HOME}\ant\lib\flexTasks.jar" />
+
+	<target name = "build">
+		<mxmlc file = "${src.dir}/FlashSocket.as" output = "${src.dir}/socket.swf" actionscript-file-encoding="UTF-8" >
+			<load-config filename = "${FLEX_HOME}/frameworks/flex-config.xml" />
+			<source-path path-element = "${FLEX_HOME}/frameworks" />
+			<compiler.debug>false</compiler.debug>
+		</mxmlc>
+	</target>
+</project>

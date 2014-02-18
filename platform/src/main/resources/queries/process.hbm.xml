@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <query name = "Process.findAllByUserId">
+        <![CDATA[
+            SELECT p
+            FROM ProcessModel p
+            WHERE p.id IN (
+                    SELECT activity1.parent.id
+                    FROM ActorModel a1
+                        JOIN a1.activities activity1
+                        JOIN a1.userActors userActor
+                    WHERE userActor.user.id = :userId
+                )
+                OR
+                p.id IN (
+                    SELECT activity2.parent.id
+                    FROM ActorModel a2
+                        JOIN a2.activities activity2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE userRoles.user.id = :userId
+                )
+                OR
+                p.id IN (
+                    SELECT activity3.parent.id
+                    FROM ActorModel a3, UserModel u
+                        JOIN a3.activities activity3
+                        JOIN a3.groups grp
+                    WHERE u.id = :userId AND u.registryNode.id = grp.id AND u.registryNode.class = 'GRP'
+                )
+            GROUP BY p.id
+        ]]>
+    </query>
+
+    <query name = "Process.findAllByUserIdAndLookupPrefix">
+        <![CDATA[
+            SELECT p
+            FROM ProcessModel p
+            WHERE (p.id IN (
+                    SELECT activity1.parent.id
+                    FROM ActorModel a1
+                        JOIN a1.activities activity1
+                        JOIN a1.userActors userActor
+                    WHERE userActor.user.id = :userId
+                )
+                OR
+                p.id IN (
+                    SELECT activity2.parent.id
+                    FROM ActorModel a2
+                        JOIN a2.activities activity2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE userRoles.user.id = :userId
+                )
+                OR
+                p.id IN (
+                    SELECT activity3.parent.id
+                    FROM ActorModel a3, UserModel u
+                        JOIN a3.activities activity3
+                        JOIN a3.groups grp
+                    WHERE u.id = :userId AND u.registryNode.id = grp.id AND u.registryNode.class = 'GRP'
+                )) AND p.lookup like :lookupPrefix
+            GROUP BY p.id
+        ]]>
+    </query>
+
+    <query name = "Process.findAllIdsByUser">
+        <![CDATA[
+            SELECT activity.parent
+            FROM ActorModel a
+                JOIN a.activities activity
+                JOIN a.userActors userActor
+            WHERE userActor.user.id = :userId
+            GROUP BY activity.parent.id
+        ]]>
+    </query>
+
+    <query name = "Process.findAllIdsByRole">
+        <![CDATA[
+            SELECT activity.parent
+            FROM ActorModel a
+                JOIN a.activities activity
+                JOIN a.roles role
+                    JOIN role.userRoles userRoles
+            WHERE userRoles.user.id = :userId
+            GROUP BY activity.parent.id
+        ]]>
+    </query>
+
+    <query name = "Process.findAllIdsByGroup">
+        <![CDATA[
+            SELECT activity.parent
+            FROM ActorModel a, UserModel u
+                JOIN a.activities activity
+                JOIN a.groups grp
+            WHERE u.id = :userId AND u.registryNode.id = grp.id AND u.registryNode.class = 'GRP'
+            GROUP BY activity.parent.id
+        ]]>
+    </query>
+
+    <query name = "UserActor.findIdListByUserAndByActorLookup">
+        <![CDATA[
+            SELECT
+                 ua.id
+            FROM UserActorModel ua
+                INNER JOIN ua.user u
+                INNER JOIN ua.actor a
+            WHERE u.id = :userId and a.lookup = :actorLookup
+        ]]>
+    </query>
+
+    <query name = "Actor.findActorsOfUser">
+        <![CDATA[
+            SELECT a
+            FROM ActorModel a
+            WHERE a.id IN (
+                    SELECT a1.id
+                    FROM ActorModel a1
+                        JOIN a1.userActors userActor
+                    WHERE userActor.user.id = :userId
+                )
+                OR
+                a.id IN (
+                    SELECT a2.id
+                    FROM ActorModel a2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE userRoles.user.id = :userId
+                )
+                OR
+                a.id IN (
+                    SELECT a3.id
+                    FROM ActorModel a3, UserModel u
+                        JOIN a3.groups grp
+                    WHERE u.id = :userId AND u.registryNode.id = grp.id AND u.registryNode.class = 'GRP'
+                )
+        ]]>
+    </query>
+
+    <query name = "Actor.isUserInActorSet">
+        <![CDATA[
+            SELECT COUNT(*)
+            FROM ActorModel a
+            WHERE a.id = :actorId
+            AND a.id IN (
+                    SELECT a1.id
+                    FROM ActorModel a1
+                        JOIN a1.userActors userActor
+                    WHERE userActor.user.id = :userId and a1.id = :actorId
+                )
+                OR
+                a.id IN (
+                    SELECT a2.id
+                    FROM ActorModel a2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE userRoles.user.id = :userId and a2.id = :actorId
+                )
+                OR
+                a.id IN (
+                    SELECT a3.id
+                    FROM ActorModel a3, UserModel u
+                        JOIN a3.groups grp
+                    WHERE u.id = :userId AND u.registryNode.id = grp.id AND u.registryNode.class = 'GRP' and a3.id = :actorId
+                )
+        ]]>
+    </query>
+
+    <query name = "User.findUsersBelongingToActor">
+        <![CDATA[
+            SELECT u
+            FROM UserModel u
+            WHERE u.id IN (
+                    SELECT userActor.user.id
+                    FROM ActorModel a1
+                        JOIN a1.userActors userActor
+                    WHERE a1.id = :actorId
+                )
+                OR
+                u.id IN (
+                    SELECT userRoles.user.id
+                    FROM ActorModel a2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE a2.id = :actorId
+                )
+                OR
+                u.id IN (
+                    SELECT user.id
+                    FROM ActorModel a3, UserModel user
+                        JOIN a3.groups grp
+                    WHERE a3.id = :actorId AND user.registryNode.id = grp.id AND user.registryNode.class = 'GRP'
+                )
+            ORDER BY u.username
+        ]]>
+    </query>
+
+    <query name = "User.findUsersBelongingToActorNotInCase">
+        <![CDATA[
+            SELECT u
+            FROM UserModel u
+            WHERE u.id IN (
+                    SELECT userActor.user.id
+                    FROM ActorModel a1
+                        JOIN a1.userActors userActor
+                    WHERE a1.id = :actorId AND userActor.case IS NULL
+                )
+                OR
+                u.id IN (
+                    SELECT userRoles.user.id
+                    FROM ActorModel a2
+                        JOIN a2.roles role
+                            JOIN role.userRoles userRoles
+                    WHERE a2.id = :actorId
+                )
+                OR
+                u.id IN (
+                    SELECT user.id
+                    FROM ActorModel a3, UserModel user
+                        JOIN a3.groups grp
+                    WHERE a3.id = :actorId AND user.registryNode.id = grp.id AND user.registryNode.class = 'GRP'
+                )
+            ORDER BY u.username
+        ]]>
+    </query>
+
+</hibernate-mapping>

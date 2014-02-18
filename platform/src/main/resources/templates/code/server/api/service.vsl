@@ -1,0 +1,20 @@
+package ${package};
+
+import java.util.*;
+import net.firejack.platform.core.response.ServiceResponse;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+public interface ${name}  {
+#foreach( $method  in $methods)
+	$!{method.description}
+	ServiceResponse<${method.broker.response.domain.name}> ${method.name}($!{render.renderServiceParams($method.params)});
+#end
+}

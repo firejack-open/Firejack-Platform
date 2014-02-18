@@ -1,0 +1,45 @@
+package ${package};
+
+import java.util.*;
+import net.firejack.platform.core.response.ServiceResponse;
+import net.firejack.platform.api.AbstractServiceProxy;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+public class ${name} extends AbstractServiceProxy implements ${service.name} {
+
+	private String url;
+
+	public ${name}() {
+	}
+
+	public ${name}(String url, Class[] classes) {
+		this.url = url;
+        setClasses(classes);
+	}
+
+#foreach( $method  in $methods)
+	$!{method.description}
+	@Override
+	public ServiceResponse<${method.broker.response.domain.name}> ${method.name}($!{render.renderServiceParams($method.params)}) {
+		return $render.renderProxyBody($method)
+	}
+#end
+
+	@Override
+	public String getServiceUrlSuffix() {
+		return "/$render.convertPath($classPath, $serviceName)";
+	}
+
+	@Override
+	protected String getUrl() {
+		return this.url;
+	}
+}

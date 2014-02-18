@@ -1,0 +1,58 @@
+Ext.require([
+    'OPF.prometheus.layout.StandardLayout'
+]);
+
+Ext.define('CMV.$fullName', {
+    extend: 'OPF.prometheus.layout.StandardLayout',
+    alias: 'widget.cmv.$lookup',
+
+    components: [
+        {
+            xtype: 'prometheus.component.toolbar-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.header-component',
+            area: 'top',
+            siteLogoLookup: '${projectPath}.site-logo'
+        },
+        {
+            xtype: 'prometheus.component.top-menu-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.breadcrumbs-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.left-menu-component',
+            area: 'leftnav'
+        },
+        {
+            xtype: 'prometheus.component.title-component',
+            area: 'body',
+            titleLookup: '${projectPath}.general.home-page-title'
+        },
+        {
+            xtype: 'prometheus.component.content-component',
+            area: 'body',
+            titleLookup: '${projectPath}.general.home-panel-title',
+            contentLookup: '${projectPath}.general.home-panel-text',
+            maxTitleLength: 40
+        },
+#foreach($domain in $domains)
+        {
+            xtype: 'prometheus.component.action-component',
+            area: 'sidebar',
+            entityLookup: '$domain.lookup',
+            maxTitleLength: 20
+        },
+#end
+        {
+            xtype: 'prometheus.component.footer-component',
+            area: 'footer',
+            footerLogoLookup: '${projectPath}.footer-site-logo',
+            copyRightLookup: '${projectPath}.copyright'
+        }
+    ]
+});

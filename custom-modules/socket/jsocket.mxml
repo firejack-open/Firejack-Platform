@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<s:Application xmlns:fx = "http://ns.adobe.com/mxml/2009" xmlns:s = "library://ns.adobe.com/flex/mx" initialize = "init()">
+	<fx:Script><![CDATA[
+		import mx.core.FlexGlobals;
+
+		private var socket:Socket = new Socket();
+
+		public function init():void {
+			if (ExternalInterface.available) {
+				ExternalInterface.addCallback("connect", connect);
+				ExternalInterface.addCallback("send", sendMessage);
+			}
+			var host:* = FlexGlobals.topLevelApplication.parameters.host;
+			var port:* = FlexGlobals.topLevelApplication.parameters.port;
+			if (host && port) {
+				connect(host, parseInt(port));
+			}
+		}
+
+		private function connect(host:String, port:int):void {
+			if (!this.socket.connected) {
+				Security.loadPolicyFile("xmlsocket://" + host + ":" + port);
+				this.socket.connect(host, port);
+				this.socket.addEventListener(Event.CONNECT, onSocketAction);
+				this.socket.addEventListener(Event.CLOSE, onSocketAction);
+				this.socket.addEventListener(ProgressEvent.SOCKET_DATA, onMessageReceived);
+			}
+		}
+
+		private function onSocketAction(event:Event):void {
+			if (event.type == Event.CONNECT) {
+				ExternalInterface.call("onConnected");
+			}
+			else if (event.type == Event.CLOSE) {
+				ExternalInterface.call("onDisconnected");
+			}
+		}
+
+		private function onMessageReceived(event:ProgressEvent):void {
+			var array:* = new ByteArray();
+			this.socket.readBytes(array);
+			var msg:* = array.toString();
+			for each (var json:String in msg.split("\n")) {
+				if (json.length != 0) {
+					ExternalInterface.call("onMessage", json);
+				}
+			}
+		}
+
+		private function sendMessage(json:String):void {
+			json = json + "\n";
+			var array:* = new ByteArray();
+			array.writeUTFBytes(json);
+			this.socket.writeBytes(array);
+			this.socket.flush();
+		}
+		]]></fx:Script>
+</s:Application>

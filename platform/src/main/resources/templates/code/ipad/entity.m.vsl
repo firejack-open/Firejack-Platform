@@ -1,0 +1,66 @@
+
+#import "${name}.h"
+#foreach($class in $classes)
+#import "${class}.h"
+#end
+
+@implementation ${name}
+
+- (id) initWithDictionary:(NSDictionary *) dictionary {
+	if (self = [super initWithDictionary:dictionary]) {
+#foreach($property in $properties)
+#if (!$property.exclude)
+#if($property.enum)
+		self.${property.name} = [Util getEnum:dictionary key:@"${property.name}"];
+#elseif($property.fieldType.string || $property.fieldType.number)
+		self.${property.name} = [Util get:dictionary key:@"${property.name}"];
+#elseif($property.fieldType.timeRelated)
+		self.${property.name} = [Util getDate:dictionary key:@"${property.name}"];
+#elseif($property.fieldType.boolean)
+		self.${property.name} = [Util getBool:dictionary key:@"${property.name}"];
+#elseif($property.fieldType.object)
+		self.${property.name} = [Util getObject:dictionary key:@"${property.name}" bean:[${property.entity.name} class]];
+#elseif($property.fieldType.list)
+		self.${property.name} = [Util getList:dictionary key:@"${property.name}" bean:[${property.entity.name} class]];
+#end
+#end
+#end
+	}
+
+	return self;
+}
+
+- (NSMutableDictionary *) dictionary {
+	NSMutableDictionary *dic = [super dictionary];
+
+#foreach($property in $properties)
+#if (!$property.exclude)
+#if($property.enum)
+		[Util addEnum:dic value:_${property.name} key:@"${property.name}"];
+#elseif($property.fieldType.string || $property.fieldType.number)
+		[Util add:dic value:_${property.name} key:@"${property.name}"];
+#elseif($property.fieldType.timeRelated)
+		[Util addDate:dic date:_${property.name} key:@"${property.name}"];
+#elseif($property.fieldType.boolean)
+		[Util addBool:dic value:_${property.name} key:@"${property.name}"];
+#elseif($property.fieldType.object)
+		[Util add:dic value:[_${property.name} dictionary] key:@"${property.name}"];
+#elseif($property.fieldType.list)
+		[Util addList:dic list:_${property.name} key:@"${property.name}"];
+#end
+#end
+#end
+
+	return dic;
+}
+
+- (void) dealloc {
+#foreach($property in $properties)
+#if (!$property.exclude && $render.isRetain($property.typeClass))
+	[_${property.name} release];
+#end
+#end
+	[super dealloc];
+}
+
+@end

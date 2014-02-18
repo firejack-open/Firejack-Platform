@@ -1,0 +1,33 @@
+.x-wizards-boundlist {
+	.x-boundlist-item {
+		border-top: 1px solid #DAD8D9;
+
+		&:first-child {
+			border-top: 0;	
+		}
+
+
+		h3 {
+			font: bold 12px Arial;
+			color: #2896dd
+		}
+
+		.enum-item {
+			font-size: 12px;
+			line-height: 14px;
+		}
+	}
+
+	//Select list
+	.x-boundlist {
+
+	}
+
+	.x-boundlist-item {
+	  min-height: 60px;
+	  color: #bcc2c7;
+	  font-size: 21px;
+		line-height: 47px;
+		padding: 6px 10px;
+	}
+}

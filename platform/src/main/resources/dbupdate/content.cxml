@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Firejack Platform - Copyright (c) 2012 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<content>
+    <folder name = "opf-doc" path = "net.firejack" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local.db" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local.server" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local.base" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local.config" />
+    <folder name = "opf-doc" path = "net.firejack.opf-local.content" />
+
+    <collection name = "documentation" path = "net.firejack.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.db.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.db.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.server.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.server.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.base.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.base.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.config.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.config.opf-doc.description" />
+    </collection>
+    <collection name = "documentation" path = "net.firejack.opf-local.content.opf-doc">
+        <collectionMembers order = "0" reference = "net.firejack.opf-local.content.opf-doc.description" />
+    </collection>
+
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Firejack Technologies is the developer
+                and distributor of the Open Flame Platform and all related
+                technologies. The Firejack.net domain is the primary domain for the
+                company and serves all internal and external corporate communications
+                and web presence needs. This domain also provides the root package
+                for all of our core products including the Open Flame Platform.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Firejack Technologies was founded in
+                2010 to provide superior, affordable development solutions and
+                consulting services both onshore and offshore. The company
+                specializes in delivering Integration, Security, and REST Web
+                services as well as Rich Internet Applications and Portal and CMS
+                Solutions. The Open Flame Platform allows us to bring our expertise
+                and experience to any size company with minimal repeat efforts.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Visit us on the web at
+                &lt;a href=&quot;http://www.firejack.net/&quot;&gt;http://www.firejack.net&lt;/a&gt;&lt;/p&gt;</html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The OPF-LOCAL system is the required
+                logical system that actually hosts the Open Flame Platform in a given
+                environment. This system may represent several servers used in
+                fail-over or load-balanced configurations, but all Open Flame
+                Platform components and client applications will assume that the
+                configured URL for the OPF-LOCAL server is the single point of access
+                to all key Open Flame services. The lookup name for this server
+                (net.firejack.opf-local) is not allowed to change, although the
+                server name may exist on any domain or at any reachable IP address on
+                the local network.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The OPF-LOCAL domain is typically
+                configured using the environment.xml file along with multiple other
+                key configuration data. On installation or upon reconfiguration
+                request (using the Open Flame administration scripts packaged with
+                the distribution) this data will be re-loaded into the system
+                database. Any client application (a remote application running on
+                another server) must set the OPF_ENV_PATH environment variable and
+                place the platform.properties file there to tell applications where
+                to reach the opf-local system.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Open Flame compliant packages may be
+                deployed to the OPF-LOCAL system through the Open Flame Console User
+                Interface. These applications will automatically be distributed
+                cleanly to all registered servers under the system declaration at
+                that time.&lt;/p&gt;
+            </html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.db.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The default database for the Open Flame
+                Platform houses the entire Open Flame Platform data model. This
+                database cannot change names or logical lookup or the system will
+                stop working.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Databases and connection information
+                allow Open Flame to manage data structures, run queries, and a host
+                of other key features. The default database for the platform is
+                declared in the environment.xml file at system installation and may
+                be changed at any time using the update script in the distribution
+                package.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;By default, the Open Flame installation
+                creates a schema called OPF-MAIN in the target database where it
+                stores all it's data. The tables themselves are created using the
+                domain-driven table creation engine that drives the platform itself.
+                In addition, a lot of meta-data including roles, permissions, users,
+                and this documentation resides in this database after a clean
+                installation. Alteration or corruption of this database will result
+                in failure of the Open Flame Platform and all clients applications,
+                so fault tolerance planning is highly recommended.&lt;/p&gt;
+            </html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.server.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The OPF-LOCAL Server must provide an
+                internally accessible IP address or URL for Open Flame to reach the
+                primary server. This is particularly important in load-balanced
+                environments where there may be many servers. This server is created
+                by default at installation based on settings in the environment.xml
+                file. Configuring systems and servers in this way allows code to move
+                from environment to environment by simply referring to and looking up
+                endpoint URLs by their logical name in the Open Flame Registry
+                Service. As a result, code does not have to change when it moves from
+                development to testing to production in complex, integration
+                scenarios like Portals and Mash-ups.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The name of this server may change, so
+                long as at least one internal server is configured for the logical
+                system. The separation of systems and servers allows Open Flame to
+                help configure multiple servers with similar software packages and
+                services and to re-distribute them in the cloud. Server URLs like
+                this one are not required or recommended to be publicly accessible,
+                but must be accessible and resolvable from wherever the master Open
+                Flame server resides.&lt;/p&gt;</html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.base.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The base directory is a local file
+                store where Open Flame can store configuration files and other
+                critical files. By default, other directories where Open Flame stores
+                configuration and content will be sub-directories of the base
+                directory. The base directory location is found in the
+                environment.xml file for each Open Flame installation and can be
+                altered using the configuration update script in the installation
+                home directory. The Application Server (Apache Tomcat in most
+                supported installations) user must have read and write permissions
+                for this directory for Open Flame to operate properly and typically
+                the OPF_ENV_PATH environment variable on the master server will be
+                set to this same directory location.&lt;/p&gt;
+            </html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.config.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The Config file store references a
+                local file path where Open Flame can store its configuration files
+                and data. These files are typically not edited by anyone, but the
+                named directory must be accessible by the application server user for
+                Open Flame to operate. This directory path is typically set in the
+                environment.xml file during installation and updated the same way by
+                running the update script in the installation package directory.&lt;/p&gt;
+            </html>
+        </html-resource-version>
+    </resource>
+    <resource last-version = "1" type = "HTML" name = "Description" path = "net.firejack.opf-local.content.opf-doc">
+        <html-resource-version>
+            <culture>AMERICAN</culture>
+            <status>WORKING</status>
+            <updated>2012-01-12T18:20:47+02:00</updated>
+            <version>1</version>
+            <html>&lt;p style=&quot;margin-bottom: 0cm&quot;&gt;The Open Flame Platform uses the
+                content directory to store XML files, source code, generated assets,
+                maven projects, and binary files like images, videos, and documents.
+                The Content Resource services in Open Flame, as well as code
+                generation features require this directory to be accessible (read and
+                write) by the application server user. This is typically a
+                sub-directory of the base directory file store, but because content
+                and code generation may require special storage capacity parameters,
+                the location of this directory may be set to any location via the
+                environment.xml file.&lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;&lt;br&gt;
+                &lt;/p&gt;
+                &lt;p style=&quot;margin-bottom: 0cm&quot;&gt;Since Open Flame stores files and
+                content here, for load-balanced configurations a shared SAN device or
+                shared remote file folder provides for cleaner operations. Shared
+                storage is critical to allow each of the load-balanced servers to
+                access the content files and documents when required by service
+                calls.&lt;/p&gt;
+            </html>
+        </html-resource-version>
+    </resource>
+
+</content>

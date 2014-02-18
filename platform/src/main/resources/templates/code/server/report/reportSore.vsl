@@ -1,0 +1,17 @@
+package ${package};
+
+import net.firejack.platform.core.store.ProjectionStore;
+import org.springframework.stereotype.Component;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+@Component("${fullName}")
+public class ${name} extends ProjectionStore<${model.model.name}, ${model.name}, ${model.model.key.name}> implements ${interface.name} {
+}

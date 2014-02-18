@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<beans xmlns = "http://www.springframework.org/schema/beans" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--RN elements factories-->
+    <bean name="roleElementFactory" class="net.firejack.platform.core.config.meta.factory.RoleElementFactory"/>
+    <bean name="permissionElementFactory" class="net.firejack.platform.core.config.meta.factory.PermissionElementFactory"/>
+    <bean name="folderElementFactory" class="net.firejack.platform.core.config.meta.factory.FolderElementFactory"/>
+    <bean name="actionElementFactory" class="net.firejack.platform.core.config.meta.factory.ActionElementFactory">
+        <property name="elementClass" value="net.firejack.platform.core.config.meta.element.action.ActionElement"/>
+        <property name="entityClass" value="net.firejack.platform.core.model.registry.domain.ActionModel"/>
+    </bean>
+    <bean name="navigationElementFactory" class="net.firejack.platform.core.config.meta.factory.NavigableElementFactory">
+        <property name="elementClass" value="net.firejack.platform.core.config.meta.element.NavigationConfigElement"/>
+        <property name="entityClass" value="net.firejack.platform.core.model.registry.site.NavigationElementModel"/>
+    </bean>
+    <bean name="resourceLocationElementFactory" class="net.firejack.platform.core.config.meta.factory.NavigableElementFactory">
+        <property name="elementClass" value="net.firejack.platform.core.config.meta.element.authority.ResourceLocationElement"/>
+        <property name="entityClass" value="net.firejack.platform.core.model.registry.authority.ResourceLocationModel"/>
+    </bean>
+    <bean name="directoryElementFactory" class="net.firejack.platform.core.config.meta.factory.DirectoryElementFactory"/>
+    <bean name="groupElementFactory" class="net.firejack.platform.core.config.meta.factory.GroupElementFactory"/>
+    <bean name="scheduleElementFactory" class="net.firejack.platform.core.config.meta.factory.ScheduleElementFactory"/>
+    <bean name="userElementFactory" class="net.firejack.platform.core.config.meta.factory.UserElementFactory"/>
+    <bean name="resourceElementFactory" class="net.firejack.platform.core.config.meta.factory.ResourceElementFactory"/>
+    <bean name="resourceVersionElementFactory" class="net.firejack.platform.core.config.meta.factory.ResourceVersionElementFactory"/>
+    <bean name="configsElementFactory" class="net.firejack.platform.core.config.meta.factory.ConfigsElementFactory"/>
+    <bean name="actorElementFactory" class="net.firejack.platform.core.config.meta.factory.ActorElementFactory"/>
+    <bean name="processElementFactory" class="net.firejack.platform.core.config.meta.factory.ProcessElementFactory"/>
+    <bean name="statusElementFactory" class="net.firejack.platform.core.config.meta.factory.StatusElementFactory"/>
+    <bean name="activityElementFactory" class="net.firejack.platform.core.config.meta.factory.ActivityElementFactory"/>
+    <bean name="processFieldElementFactory" class="net.firejack.platform.core.config.meta.factory.ProcessFieldElementFactory"/>
+    <bean name="collectionElementFactory" class="net.firejack.platform.core.config.meta.factory.CollectionElementFactory"/>
+    <bean name="userProfileFieldElementFactory" class="net.firejack.platform.core.config.meta.factory.UserProfileFieldElementFactory"/>
+    <bean name="userProfileFieldGroupElementFactory" class="net.firejack.platform.core.config.meta.factory.UserProfileFieldGroupElementFactory"/>
+    <bean name="reportElementFactory" class="net.firejack.platform.core.config.meta.factory.ReportElementFactory"/>
+    <bean name="biReportElementFactory" class="net.firejack.platform.core.config.meta.factory.BIReportElementFactory"/>
+    <bean name="wizardElementFactory" class="net.firejack.platform.core.config.meta.factory.WizardElementFactory"/>
+
+</beans>

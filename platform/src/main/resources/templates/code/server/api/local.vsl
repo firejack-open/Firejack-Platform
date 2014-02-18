@@ -1,0 +1,43 @@
+package ${package};
+
+import java.util.*;
+import net.firejack.platform.core.request.ServiceRequest;
+import net.firejack.platform.core.response.ServiceResponse;
+import net.firejack.platform.core.domain.NamedValues;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+@Component("${fullName}")
+public class ${name} implements ${service.name} {
+
+#foreach( $method  in $methods)
+	@Autowired
+	private ${method.broker.name} ${method.broker.path};
+#end
+#foreach( $method  in $methods)
+	$!{method.description}
+	@Override
+	public ServiceResponse<${method.broker.response.domain.name}> ${method.name}($!{render.renderServiceParams($method.params)}) {
+#set( $var = 'data' )
+#if($method.params && $method.params.size() > 1)
+	#set( $var = 'values' )
+#end
+#if(($method.broker.httpMethod != "PUT" && $method.broker.httpMethod != "POST" ) ||  ($method.params && $method.params.size() > 1) )
+		NamedValues $var = new NamedValues();
+#foreach( $param  in $method.params)
+		${var}.put("${param.name}",${param.name});
+#end
+#end
+		return ${method.broker.path}.execute(new ServiceRequest<${render.renderBrokerInput($method.broker.httpMethod, $method.broker.request.domain, $method.params)}>($var));
+	}
+#end
+}

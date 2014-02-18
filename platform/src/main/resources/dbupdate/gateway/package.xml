@@ -1,0 +1,248 @@
+<package path="net.firejack" name="gateway" prefix="" context-url="" version="0.0.1" uid="f6e1e099-b8c3-4e8a-800b-04ed0a7d2519">
+  <description></description>
+  <navigation name="Gateway" path="net.firejack.gateway" uid="14fbdc35-7092-410b-96ce-e80a971f671e">
+    <description>This is an auto generated navigation element for code generation.</description>
+    <parent-path>/gateway</parent-path>
+    <url-path>/</url-path>
+    <order>1</order>
+    <pageUrl>/home</pageUrl>
+    <type>PAGE</type>
+  </navigation>
+  <navigation name="Login" path="net.firejack.gateway.gateway" uid="b6a1cb4c-b25c-4a8d-b277-9f3cb2200612">
+    <description>This is an auto generated navigation element for code generation.</description>
+    <parent-path>/gateway</parent-path>
+    <url-path>/login</url-path>
+    <order>1</order>
+    <pageUrl>/login</pageUrl>
+    <type>PAGE</type>
+  </navigation>
+  <navigation name="Forgot Password" path="net.firejack.gateway.gateway" uid="68936302-03ec-4307-a406-4cb7c2f99cd6">
+    <description>This is an auto generated navigation element for code generation.</description>
+    <parent-path>/gateway</parent-path>
+    <url-path>/forgot-password</url-path>
+    <order>2</order>
+    <pageUrl>/forgot-password</pageUrl>
+    <type>PAGE</type>
+  </navigation>
+  <navigation name="Home" path="net.firejack.gateway.gateway" uid="c2012241-5b4e-42ca-b1d9-34c55fa05dea">
+    <description>This is an auto generated navigation element for code generation.</description>
+    <parent-path>/gateway</parent-path>
+    <url-path>/home</url-path>
+    <order>3</order>
+    <pageUrl>/home</pageUrl>
+    <type>PAGE</type>
+  </navigation>
+  <navigation name="Inbox" path="net.firejack.gateway.gateway" uid="dde12241-544e-edca-3459-edc55fa05dea">
+    <description>This is an auto generated navigation element for code generation.</description>
+    <parent-path>/gateway</parent-path>
+    <url-path>/inbox</url-path>
+    <order>4</order>
+    <pageUrl>/inbox</pageUrl>
+    <type>PAGE</type>
+  </navigation>
+  <role name="admin" path="net.firejack.gateway" uid="bd6bfe07-e498-4e6a-ae85-bdd0fcb7fd91">
+    <description>This is an auto generated role for code generation.</description>
+    <role-permission path="net.firejack.gateway.gateway"/>
+    <role-permission path="net.firejack.gateway.gateway.home"/>
+    <role-permission path="net.firejack.gateway.gateway.inbox"/>
+  </role>
+  <role name="user" path="net.firejack.gateway" uid="2fbb5828-ae69-47c5-98ca-5bb0481b3d33">
+    <description>This is an auto generated role for code generation.</description>
+    <role-permission path="net.firejack.gateway.gateway"/>
+    <role-permission path="net.firejack.gateway.gateway.home"/>
+  </role>
+  <role name="guest" path="net.firejack.gateway" uid="bc29c8dc-4b33-4475-94c7-1e2f0b1f2ebd">
+    <description>This is an auto generated role for code generation.</description>
+    <role-permission path="net.firejack.gateway.gateway.login"/>
+    <role-permission path="net.firejack.gateway.gateway.forgot-password"/>
+  </role>
+  <permission name="Gateway" path="net.firejack.gateway" uid="0112fb5d-297e-45ff-9674-80ece74cbd59"/>
+  <permission name="Login" path="net.firejack.gateway.gateway" uid="ebf586d7-c7f5-47e2-a18a-f3f083317cd1"/>
+  <permission name="Forgot Password" path="net.firejack.gateway.gateway" uid="2666b866-0dd0-4eaf-b12b-39d71e6d5bd6"/>
+  <permission name="Home" path="net.firejack.gateway.gateway" uid="abdd1c6e-f7e2-4a4f-8340-96f09479b796"/>
+  <permission name="Inbox" path="net.firejack.gateway.gateway" uid="ecde45cf-831f-4b0f-8ef5-bbacce581c07"/>
+  <folder name="opf-doc" path="net.firejack.gateway" uid="657d81cc-4c88-4d8b-a48b-b9a347e863ea"/>
+  <folder name="opf-doc" path="net.firejack.gateway.gateway" uid="c99b1240-80d1-4243-9306-4ae175841c98"/>
+  <folder name="opf-doc" path="net.firejack.gateway.gateway.login" uid="67d78a62-6415-47a1-a709-4f8ca53ed638"/>
+  <folder name="opf-doc" path="net.firejack.gateway.gateway.forgot-password" uid="0117516f-0ef2-46fe-878c-e9fd414ac976"/>
+  <folder name="opf-doc" path="net.firejack.gateway.gateway.home" uid="62112e05-7bb0-416d-aee6-9094d38f7545"/>
+  <folder name="opf-doc" path="net.firejack.gateway.gateway.inbox" uid="7e10961e-3c5a-447a-b543-07f6a71661e4"/>
+  <folder name="general" path="net.firejack.gateway" uid="f7869649-9ffe-4bcc-9c81-2e4b8e75377d">
+    <description>General folder is specific folder for store general resources like Site name, Site logo and etc.</description>
+  </folder>
+  <resource name="Description" path="net.firejack.gateway.gateway.opf-doc" uid="c678596d-4f3f-421d-bbc5-213e25427de9" last-version="1" type="HTML">
+    <html-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <html>This is an auto generated navigation element for code generation.</html>
+    </html-resource-version>
+  </resource>
+  <resource name="Description" path="net.firejack.gateway.gateway.login.opf-doc" uid="2e1d5830-6f19-4b6c-aa38-55a368bd9d58" last-version="1" type="HTML">
+    <html-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <html>This is an auto generated navigation element for code generation.</html>
+    </html-resource-version>
+  </resource>
+  <resource name="Description" path="net.firejack.gateway.gateway.forgot-password.opf-doc" uid="70daa0f1-b7ff-4986-b3eb-9411bbb211a6" last-version="1" type="HTML">
+    <html-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <html>This is an auto generated navigation element for code generation.</html>
+    </html-resource-version>
+  </resource>
+  <resource name="Description" path="net.firejack.gateway.gateway.home.opf-doc" uid="36e0b278-e2d3-4f9b-b41b-cb9fa7e0ee18" last-version="1" type="HTML">
+    <html-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <html>This is an auto generated navigation element for code generation.</html>
+    </html-resource-version>
+  </resource>
+  <resource name="Description" path="net.firejack.gateway.gateway.inbox.opf-doc" uid="23b680cd-0f5e-4d95-b7f7-534bce061f30" last-version="1" type="HTML">
+    <html-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <html>This is an auto generated navigation element for code generation.</html>
+    </html-resource-version>
+  </resource>
+  <resource name="Site Name" path="net.firejack.gateway" uid="80a3adf7-1bf3-4af0-8e76-7580efba6a93" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>firejack.net: gateway</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Site Description" path="net.firejack.gateway" uid="7f6f679f-ee6a-44e0-a990-22c2ed648d7e" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>Data Management Interface</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Site Logo" path="net.firejack.gateway" uid="27e4d101-1cc5-430f-9f0d-a07ee10a09e6" last-version="1" type="IMAGE">
+    <image-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <title>gateway Logo</title>
+      <width>129</width>
+      <height>21</height>
+      <resourceFilename>Vn0X06uw3F26xP6C.1368621212280</resourceFilename>
+    </image-resource-version>
+  </resource>
+  <resource name="Copyright" path="net.firejack.gateway" uid="84052752-7286-4299-8a8c-ed43d400bbb2" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>All Content and Information Copyright (C) 2013 firejack.net</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Footer Site Logo" path="net.firejack.gateway" uid="566dd14a-ce04-44d8-974b-9a0158cdbc33" last-version="1" type="IMAGE">
+    <image-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <title>gateway Logo</title>
+      <width>129</width>
+      <height>21</height>
+      <resourceFilename>T82ol5ozvzaX9GBW.1368621212280</resourceFilename>
+    </image-resource-version>
+  </resource>
+  <resource name="Login Welcome Title" path="net.firejack.gateway.general" uid="9ac66f38-787c-4b95-ae29-efe568619718" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>Welcome</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Login Welcome Message" path="net.firejack.gateway.general" uid="9b8c198f-ef93-4cd9-9445-b2cf11a64489" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>You have reached the Gateway Interface for firejack.net. This application requires an internal login. Please provide your login information below.</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Forgot Password Title" path="net.firejack.gateway.general" uid="61dfd035-28fd-4e88-97f0-96ce8da24fb9" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:31.0 EEST</updated>
+      <text>Forgot Password</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Forgot Password Message" path="net.firejack.gateway.general" uid="e5d1541a-c970-4a24-a39c-14c767262bbd" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:32.0 EEST</updated>
+      <text>Here you can reset you exist password.</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Home Page Title" path="net.firejack.gateway.general" uid="59b9d0a0-024c-4ada-b9d1-9fcd7e4be947" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:32.0 EEST</updated>
+      <text>Home</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Home Panel Title" path="net.firejack.gateway.general" uid="b55bd793-599e-405f-abd1-f1d9a2398b81" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:32.0 EEST</updated>
+      <text>Welcome</text>
+    </text-resource-version>
+  </resource>
+  <resource name="Home Panel Text" path="net.firejack.gateway.general" uid="9518b552-3b39-425e-8abb-4c7b8f31fe11" last-version="1" type="TEXT">
+    <text-resource-version>
+      <version>1</version>
+      <culture>AMERICAN</culture>
+      <status>PUBLISHED</status>
+      <updated>2013-05-15 15:33:32.0 EEST</updated>
+      <text>The firejack.net Gateway Interface allows for the management and editing of all firejack.net: gateway data. Any user with proper privileges may use this interface to manage data. Administrators may also alter the text headings.</text>
+    </text-resource-version>
+  </resource>
+  <collection name="documentation" path="net.firejack.gateway.opf-doc" uid="3a8bf134-2da1-4863-8f5a-e734569d0c79"/>
+  <collection name="documentation" path="net.firejack.gateway.gateway.opf-doc" uid="30ce7e08-ac17-4623-b719-976022ee13c2">
+    <collection-member ref="net.firejack.gateway.gateway.opf-doc.description" order="0"/>
+  </collection>
+  <collection name="documentation" path="net.firejack.gateway.gateway.login.opf-doc" uid="ce6df18e-b30f-4859-8614-3f86e9958fca">
+    <collection-member ref="net.firejack.gateway.gateway.login.opf-doc.description" order="0"/>
+  </collection>
+  <collection name="documentation" path="net.firejack.gateway.gateway.forgot-password.opf-doc" uid="c5eec23e-bb3a-4353-9d0a-0221d66ab47d">
+    <collection-member ref="net.firejack.gateway.gateway.forgot-password.opf-doc.description" order="0"/>
+  </collection>
+  <collection name="documentation" path="net.firejack.gateway.gateway.home.opf-doc" uid="565c8726-6808-458f-9a09-34fe6d728b28">
+    <collection-member ref="net.firejack.gateway.gateway.home.opf-doc.description" order="0"/>
+  </collection>
+  <collection name="documentation" path="net.firejack.gateway.gateway.inbox.opf-doc" uid="39ea582a-7fac-46b1-b505-30aecb32c45b">
+    <collection-member ref="net.firejack.gateway.gateway.inbox.opf-doc.description" order="0"/>
+  </collection>
+</package>

@@ -1,0 +1,64 @@
+#import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import "ASIHTTPRequest+Storage.h"
+#import "ASIFormDataRequest.h"
+#import "ASINetworkQueue.h"
+#import "Reachability.h"
+
+#import "GWServerError.h"
+#import "OFAuthentication.h"
+#import "OFImageFile.h"
+#import "OFImageResource.h"
+#import "OFImageResourceVersion.h"
+#import "OFFolder.h"
+#import "OFUser.h"
+#import "OFSimpleIdentifier.h"
+#import "GWMenuItem.h"
+#import "GWModel.h"
+#foreach($import in $imports)
+#import "${import}.h"
+#end
+
+@protocol APIDelegate <NSObject>
+@optional
+- (void) error:(NSString *) message;
+@end
+
+@interface $name : NSObject<ASIHTTPRequestDelegate>
+
+@property (nonatomic, retain) NSString *openflameUrl;
+@property (nonatomic, retain) NSString *gatewayUrl;
+@property (nonatomic, retain) NSString *token;
+@property (nonatomic, retain) NSString *package;
+@property (nonatomic, retain) OFUser *user;
+@property (nonatomic, retain) ASINetworkQueue *queue;
+@property (nonatomic, assign) id<APIDelegate> delegate;
+
++ (id) shared;
+
+- (NetworkStatus) checkConnection;
+- (void) executeQueue;
+- (void) resetQueue;
+
+- (OFAuthentication *) login:(NSString *)username password:(NSString *)password;
+- (void) logout;
+- (void) image:(NSString *) lookup delegate:(id<ASIHTTPRequestDelegate>) async;
+- (OFImageFile *) uploadPhoto:(NSData *) image;
+- (OFFolder *) readFolder:(NSString *) lookup;
+
+- (OFImageResourceVersion *) createImageResource:(OFImageFile *) file name:(NSString *) name entity:(NSString *) lookup;
+- (OFImageResourceVersion *) updateImageResource:(OFImageFile *) file name:(NSString *) name resource:(NSString *) lookup;
+- (BOOL) deleteImageResource:(NSString *) lookup;
+- (NSArray *) loadMenu;
+- (void) loadRule:(GWModel *) entity target:(id) target selector:(SEL) selector;
+
+- (BOOL) status:(ASIHTTPRequest *) request;
+- (NSMutableArray *) dataList:(ASIHTTPRequest *) request total:(NSNumber **) total bean:(Class)bean;
+- (id) data:(ASIHTTPRequest *) request bean:(Class) bean;
+- (void) error:(NSString *) message;
+
+
+#foreach($method in $methods)
+$!render.signatureMethod($method);
+#end
+@end

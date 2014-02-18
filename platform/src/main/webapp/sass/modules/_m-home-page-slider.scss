@@ -1,0 +1,66 @@
+.slider-wrapper {
+	position: relative;
+	margin: 0 -20px;
+
+	.navigation {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+		margin-top: -16px;
+		z-index: 10;
+
+		a  {
+			display: block;
+			width: 32px;
+			height: 32px;
+			position: absolute;			
+			top: 0;
+			cursor: pointer;
+		}
+		.prev-btn {
+			left: 30px;
+			background: sprite($sprite, slider-prev-btn) no-repeat;
+		}
+		.next-btn {
+			right: 30px;
+			background: sprite($sprite, slider-next-btn) no-repeat;			
+		}
+		.disabled {
+			display: none;
+		}
+	}
+}
+
+.scrollable {
+  position:relative;
+  overflow:hidden;
+  width: $default-page-width;
+  height: 461px;
+
+  .items {
+    /* this cannot be too large */
+    margin: 0;
+    padding: 0;
+    width:20000em;
+    position:absolute;
+
+    li {
+      float:left;
+      list-style: none;
+      position: relative;
+      margin: 0;
+      padding: 0;
+    }
+    span {
+    	display: block;
+    	position: absolute;
+    	top: 35px;
+    	left: 90px;
+    	font-family: $ab;
+    	font-size: 40px;
+    	color: #fff;
+    	@include text-shadow(2px 2px 2px #3c3c3c);
+    }
+  }  
+}

@@ -1,0 +1,41 @@
+body {
+  // background-color: #34495e;
+}
+
+.wrapper {
+  // width: $default-page-width;
+  // min-height: 100%;
+  margin: 0 auto;
+  // padding-bottom: 130px;
+  overflow: hidden;
+  background-color: #fff;
+
+}
+
+.main {
+	padding: 0 20px 30px;
+	min-height: 450px;
+	overflow: hidden;
+
+	&.w_l-sidebar {
+		.content {
+			float: left;
+			width: 760px;
+		}
+	}
+
+	&.w_l-sidebar.w_r-sidebar {
+		.content {
+			float: left;
+			width: 480px;
+			margin-right: 20px;
+		}
+
+		.content {
+			&.wide {
+				width: 760px;
+				margin-left: 250px;
+			}
+		}
+	}
+}

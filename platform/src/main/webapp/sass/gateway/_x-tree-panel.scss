@@ -1,0 +1,194 @@
+.x-tree-panel {
+	&:first-child {
+		border-right: 1px solid #fff;
+
+		.x-grid-body {
+			border: none;
+		}
+	}
+
+	.x-panel-header-horizontal {
+	  padding: 9px 0 19px;
+	}
+	
+	.x-grid-body {		
+		background: #bcc2c7;
+	}
+
+	.x-grid-cell-inner img {
+		vertical-align: middle;
+		margin-top: 0;
+	}
+
+	.x-grid-cell-inner {
+		.x-tree-icon-parent,
+		.x-tree-icon-leaf {
+			display: none;
+		}		
+	}
+
+	.x-grid-row {
+		.x-grid-cell {
+			border: none;
+		}
+		.x-grid-cell-inner {
+			background: #bcc2c7;
+		}
+
+		.x-grid-cell-treecolumn {
+			.x-grid-cell-inner {
+				line-height: 21px;
+				color: #ecf0f1;
+			}
+		}
+		&.x-grid-row-selected,
+		&.x-grid-row-over {
+			.x-grid-cell-inner {
+				background: #a4adb5;				
+			}
+		}
+	}
+	.x-tree-checkbox {
+		margin-right: 10px;
+	}
+
+	//Row Action Toolbar
+	.row-action-toolbar {
+		height: 30px;
+		line-height: 30px;
+		
+		.x-btn-action-small {
+			margin: 4px 0 0 4px;
+			.x-btn-icon {
+				width: 20px;
+				height: 20px;
+				top: 0;
+				left: 0;
+			}
+		}
+		
+		.add-btn {
+			background: sprite($sprite,grid-add-btn-s) no-repeat;
+		}
+
+		.edit-btn {
+			background: sprite($sprite,grid-edit-btn-s) no-repeat;
+		}
+
+		.delete-btn {
+			background: sprite($sprite,grid-delete-btn-s) no-repeat;
+		}
+	}
+	
+	.invalid-node {
+		.x-grid-cell-inner {
+			background: #ff0000;
+		}		
+	}
+	
+}
+
+/* White tree */
+
+.x-panel-white {
+	.x-grid-body {
+		background: #fff;
+	}
+
+	.x-grid-row {
+		.x-grid-cell-inner {
+			padding: 15px 6px;
+			height: 60px;
+			background: #BCC2C7;
+			font-size: 16px;
+			line-height: 30px !important;
+		}
+	}
+
+	// .x-grid-row {
+	// 	.x-grid-cell-treecolumn {
+	// 		.x-grid-cell-inner {
+	// 			color: #478acc;
+	// 		}
+	// 	}	
+	// }	
+
+	// Grid editor
+	.x-grid-editor,
+	.x-grid-row-editor {
+	  .x-form-display-field {
+	    padding: 15px 6px;
+	    height: 60px;
+	    font-size: 16px;
+	    line-height: 30px !important
+	  }
+	}
+}
+
+/* End White tree */
+
+.x-tree-elbow, 
+.x-tree-elbow-end, 
+.x-tree-elbow-plus,
+.x-tree-elbow-end-plus, 
+.x-tree-elbow-empty, 
+.x-tree-elbow-line {	
+	height: 30px;
+	margin-right: 10px;
+}
+
+.x-tree-elbow, 
+.x-tree-elbow-end, 
+.x-tree-elbow-plus,
+.x-tree-elbow-empty, 
+.x-tree-elbow-line {
+	width: 21px;
+}
+
+.x-tree-elbow-plus,
+.x-tree-elbow-end-plus {
+	width: 50px;	
+}
+
+.x-tree-lines .x-tree-elbow-plus {	
+	background: sprite($sprite,tree-elbow-plus) no-repeat;
+}
+
+.x-tree-lines .x-tree-expander-over .x-tree-elbow-plus {
+	background: sprite($sprite,tree-elbow-plus-h) no-repeat;
+}
+
+.x-tree-lines .x-tree-elbow-end-plus {
+	background: sprite($sprite,tree-elbow-end-plus) no-repeat;
+}
+
+.x-tree-lines .x-tree-expander-over .x-tree-elbow-end-plus {
+	background: sprite($sprite,tree-elbow-end-plus-h) no-repeat;
+}
+
+.x-tree-lines .x-grid-tree-node-expanded .x-tree-elbow-end-plus {
+	background: sprite($sprite,tree-elbow-end-minus) no-repeat;
+}
+
+.x-tree-lines .x-grid-tree-node-expanded .x-tree-expander-over .x-tree-elbow-end-plus {
+	background: sprite($sprite,tree-elbow-end-minus-h) no-repeat;
+}
+
+.x-tree-lines .x-grid-tree-node-expanded .x-tree-elbow-plus {
+	background: sprite($sprite,tree-elbow-minus) no-repeat;
+}
+
+.x-tree-lines .x-grid-tree-node-expanded .x-tree-expander-over .x-tree-elbow-plus {
+	background: sprite($sprite,tree-elbow-minus-h) no-repeat;
+}
+
+.x-tree-lines .x-tree-elbow-line {
+	background: sprite($sprite,tree-elbow-line) no-repeat;
+}
+.x-tree-lines .x-tree-elbow {
+	background: sprite($sprite,tree-elbow) no-repeat;
+}
+
+.x-tree-lines .x-tree-elbow-end {
+	background: sprite($sprite,tree-elbow-end) no-repeat;
+}

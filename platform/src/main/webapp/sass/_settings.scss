@@ -1,0 +1,29 @@
+// $use-mozilla-ellipsis-binding: true;
+$legacy-support-for-ie6: false;
+
+$default-page-width: 1050px;
+
+$default-body-bg: #fff;
+
+//Link
+$default-link-color: #9966cc;
+$default-link-underline: false;
+
+//Fonts
+
+$osr: open_sansregular;
+$ossb: open_sanssemibold;
+$vrr: varela_roundregular;
+
+$default-font-family: Arial, sans-serif;
+$default-font-size: 12px;
+$default-font-color: #666666;
+
+$default-inputs-font-family: Arial, sans-serif;
+
+$sprite: sprite-map("sprite/*.png",
+  $position: 0%, $spacing: 15px, $repeat: no-repeat
+  //$sprite-carousel-bg-repeat: repeat-x,
+  //$sprite-b-paginator-repeat: repeat-x,
+  //$sprite-b-recent-topics-circle-repeat: repeat-x
+);

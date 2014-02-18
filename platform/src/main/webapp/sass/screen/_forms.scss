@@ -1,0 +1,67 @@
+.enquiry-form {
+	width: 366px;
+
+	input[type="text"],
+	input[type="email"],
+	input[type="date"],
+	textarea {
+		float: right;
+	}
+}
+
+.form-bottom {
+	padding-left: 110px;
+	overflow: hidden;
+
+	span {
+		display: block;
+		float: right;
+	}
+}
+
+.form-field {
+	margin: 0 0 11px;
+	overflow: hidden;
+}
+
+
+label {
+	line-height: 30px;
+}
+
+input {
+	width: 189px;
+	height: 30px;
+	padding: 3px 5px 3px;
+	background: none;	
+}
+
+input[type="submit"] {
+	width: 122px;
+	height: 42px;
+	font-size: 22px;
+	color: #fff;
+	border: none;
+	background: sprite($sprite, btn-submit) no-repeat;
+}
+
+textarea {
+	width: 418px;
+	height: 102px;
+	resize: none;
+	overflow: auto;
+}
+
+input,
+textarea {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 3px 5px;
+	border: 1px solid #686d71;
+	width: 255px;
+
+	&:focus {
+		border: 1px solid #5a22b7;
+		outline: none;
+	}
+}

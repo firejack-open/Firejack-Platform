@@ -1,0 +1,138 @@
+package ${package};
+
+import java.util.*;
+
+import net.firejack.platform.core.model.SpecifiedIdsFilter;
+import net.firejack.platform.web.security.InstantSecurity;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import net.firejack.platform.web.statistics.annotation.TrackDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import net.firejack.platform.core.utils.SearchQuery;
+import net.firejack.platform.core.utils.SortField;
+import net.firejack.platform.core.utils.Paging;
+import net.firejack.platform.utils.WebUtils;
+import org.springframework.stereotype.Component;
+import net.firejack.platform.core.broker.ServiceBroker;
+import net.firejack.platform.core.request.ServiceRequest;
+import net.firejack.platform.core.response.ServiceResponse;
+import net.firejack.platform.core.domain.NamedValues;
+import net.firejack.platform.core.exception.BusinessFunctionException;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+#set ($request = $render.renderBrokerInput($httpMethod, $request.domain, $params))
+$!render.prepareDefaultType($method.type, $params)
+$!{description}
+@TrackDetails
+@Component("${fullName}")
+public class ${name} extends ServiceBroker<ServiceRequest<$request>, ServiceResponse<${response.domain.name}>> {
+
+#if($method.type == "readAll" || $method.type == "search" || $method.type == "advancedSearch")
+    private static final String MODEL_TYPE = "${model.lookup}";
+#end
+#if ($response.store)
+
+    @Autowired
+	private ${response.store.interface.name} store;
+#end
+#if ($wsdl)
+
+    @Autowired
+	private Invoker invoker;
+#end
+
+	@Override
+	protected ServiceResponse<${response.domain.name}> perform(ServiceRequest<$request> request) throws Exception {
+#if($request == "NamedValues")
+#foreach( $param  in $params)
+		${render.renderType($param)} ${param.name} = (${render.renderType($param)}) request.getData().get("${param.name}");
+#end
+#else
+		$request data = request.getData();
+#end
+
+#if($method.type == "create" || $method.type == "update")
+		$response.name model =  factory.convertFrom(${response.name}.class, data);
+		store.${method.type}(model);
+		data = factory.convertTo(${response.domain.name}.class, model);
+		return new ServiceResponse<${response.domain.name}>(data, "Action completed successfully.", true);
+#elseif($method.type == "read")
+		${response.name} model =  store.${method.type}(${render.getParamNameId($params)});
+		${response.domain.name} vo = factory.convertTo(${response.domain.name}.class, model);
+		return new ServiceResponse<${response.domain.name}>(vo, "Action completed successfully.", true);
+#elseif($method.type == "readAll")
+		Integer total;
+        List<${response.name}> models = null;
+        if (InstantSecurity.securityEnabledForType(MODEL_TYPE)) {
+            SpecifiedIdsFilter filter = InstantSecurity.getFilter(null, MODEL_TYPE);
+            total = store.count(null, null, filter);
+            if (total > 0) {
+                models = store.readAllWithFilter(new Paging(offset, limit, sortColumn, sortDirection), filter);
+            }
+        } else {
+            total = store.searchCount((String) null);
+            if (total > 0) {
+                models = store.${method.type}(new Paging(offset, limit, sortColumn, sortDirection));
+            }
+        }
+        List<${response.domain.name}> vo = factory.convertTo(${response.domain.name}.class, models);
+
+		return new ServiceResponse<${response.domain.name}>(vo, "Action completed successfully.", true, total);
+#elseif($method.type == "search")
+        Integer total;
+        List<${response.name}> models = null;
+        if (InstantSecurity.securityEnabledForType(MODEL_TYPE)) {
+            SpecifiedIdsFilter filter = InstantSecurity.getFilter(null, MODEL_TYPE);
+            total = store.searchCountWithFilter(terms, filter);
+            if (total > 0) {
+                models = store.searchWithFilter(terms, new Paging(offset, limit, sortColumn, sortDirection), filter);
+            }
+        } else {
+            total = store.searchCount(terms);
+            if (total > 0) {
+                models = store.${method.type}(terms, new Paging(offset, limit, sortColumn, sortDirection));
+            }
+        }
+        List<${response.domain.name}> vo = factory.convertTo(${response.domain.name}.class, models);
+
+		return new ServiceResponse<${response.domain.name}>(vo, "Action completed successfully.", true, total);
+#elseif($method.type == "advancedSearch")
+		List<List<SearchQuery>> searchQueries = WebUtils.deserializeJSON(queryParameters, List.class, List.class, SearchQuery.class);
+
+        boolean securityEnabled = InstantSecurity.securityEnabledForType(MODEL_TYPE);
+        Integer total;
+        List<${response.name}> models = null;
+        if (securityEnabled) {
+            SpecifiedIdsFilter filter = InstantSecurity.getFilter(null, MODEL_TYPE);
+            total = store.advancedSearchCountWithIdsFilter(searchQueries, filter);
+            if (total > 0) {
+               List<SortField> sortFields = WebUtils.deserializeJSON(sortOrders, List.class, SortField.class);
+               models = store.advancedSearchWithIdsFilter(searchQueries, new Paging(offset, limit, sortFields), filter);
+            }
+        } else {
+            total = store.advancedSearchCount(searchQueries);
+            if (total > 0) {
+               List<SortField> sortFields = WebUtils.deserializeJSON(sortOrders, List.class, SortField.class);
+               models = store.${method.type}(searchQueries, new Paging(offset, limit, sortFields));
+            }
+        }
+        List<${response.domain.name}> vo = factory.convertTo(${response.domain.name}.class, models);
+
+        return new ServiceResponse<${response.domain.name}>(vo, "Action completed successfully.", true, total);
+#elseif($method.type == "delete")
+		store.${method.type}(${render.getParamNameId($params)});
+		return new ServiceResponse<${response.domain.name}>("Action completed successfully.", true);
+#elseif($wsdl)
+		${response.domain.name} response = invoker.invoke("${wsdlMethod}", data, ${response.domain.name}.class);
+		return new ServiceResponse<${response.domain.name}>(response, "Action completed successfully.", true);
+#else
+		return new ServiceResponse<${response.domain.name}>("Action completed successfully.", true);
+#end
+	}
+}

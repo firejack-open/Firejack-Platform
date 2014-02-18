@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Firejack Platform - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+<urlrewrite default-match-type="wildcard">
+	<rule>
+		<from>/resources/**</from>
+		<to>/ext-3.3.1/resources/$1</to>
+	</rule>
+    <rule>
+		<from>/images/**</from>
+		<to>/images/$1</to>
+	</rule>
+	<rule>
+		<from>/ext-4.1.3/**</from>
+		<to>/ext-4.1.3/$1</to>
+	</rule>
+        <rule>
+		<from>/fonts/**</from>
+		<to>/fonts/$1</to>
+	</rule>
+	<rule>
+		<from>/ext-4.0.7/**</from>
+		<to>/ext-4.0.7/$1</to>
+	</rule>
+	<rule>
+		<from>/js/**</from>
+		<to>/js/$1</to>
+	</rule>
+	<rule>
+		<from>/css/**</from>
+		<to>/css/$1</to>
+	</rule>
+	<rule>
+		<from>/flex/**</from>
+		<to>/flex/$1</to>
+	</rule>
+    <!-- Audio Download Url -->
+    <rule match-type="regex">
+        <from>/rest/registry/resource/audio/(\d+)/([\w_]+).mp3</from>
+        <to>/rest/registry/resource/audio/$1/$2</to>
+    </rule>
+    <rule match-type="regex">
+        <from>/rest/registry/resource/file/tmp/(\w+\.\d+).mp3</from>
+        <to>/rest/registry/resource/file/tmp/$1</to>
+    </rule>
+
+    <rule>
+		<from>/rest/**</from>
+		<to>/rest/$1</to>
+	</rule>
+    <rule match-type="regex">
+        <from>/console/documentation/(\w{2})/([\w/]*\w+)</from>
+        <to>/app/console/documentation?country=$1&amp;lookup=$2</to>
+    </rule>
+    <rule match-type="regex">
+		<from>/ws/(.*)</from>
+		<to>/ws/$1</to>
+	</rule>
+    <rule>
+		<from>/**</from>
+		<to>/app/$1</to>
+	</rule>
+	<outbound-rule>
+		<from>/app/**</from>
+		<to>/$1</to>
+	</outbound-rule>
+</urlrewrite>

@@ -1,0 +1,36 @@
+package ${package};
+
+import net.firejack.platform.core.model.CustomPK;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+* Created by Open Flame Platform
+* Date: $date
+*/
+
+public class ${name} extends CustomPK implements java.io.Serializable {
+	private static final long serialVersionUID = $render.generateSerialUID()L;
+
+#foreach($field in $fields)
+	private ${field.typeName} ${field.name};
+#end
+
+	public ${name}() {
+	}
+
+	public ${name}(String key) {
+		super(key);
+	}
+#foreach($field in $fields)
+
+	public ${field.typeName} get${field.method}() {
+		return this.${field.name};
+	}
+
+	public void set${field.method}(${field.typeName} ${field.name}) {
+		this.${field.name} = ${field.name};
+	}
+#end
+}

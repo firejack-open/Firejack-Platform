@@ -1,0 +1,44 @@
+.left-sidebar {
+	width: 230px;
+	margin-right: 20px;
+	float: left;
+}
+
+.sidebar-menu {
+	margin: 0;
+	padding: 0;
+
+	li {
+		list-style: none;		
+	}
+
+	a {
+		display: block;
+		text-decoration: none;
+		margin-bottom: 20px;
+		color: #686d71;
+	}
+
+	> li {
+		margin-bottom: 20px;
+
+		> a {
+			font-size: 26px;						
+
+			&:hover,
+			&.active {
+				color: #9966cc;
+			}
+		}
+
+		ul {
+			margin: 0;
+			padding: 0;
+		}
+		li {			
+			a {
+				font-size: 18px;
+			}
+		}
+	}
+}

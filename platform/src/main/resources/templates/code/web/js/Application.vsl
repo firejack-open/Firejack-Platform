@@ -1,0 +1,24 @@
+Ext.application({
+    name: 'CMV.$navigationLookup',
+
+    appFolder: OPF.Cfg.BASE_URL + '/js/$lookupPath',
+
+    controllers: [
+        'CMV.$controller.fullName'
+    ],
+
+    launch: function() {
+
+        Ext.QuickTips.init();
+
+        Ext.create('Ext.container.Container', {
+            layout: 'fit',
+            renderTo: 'wrapper',
+            items: [
+                {
+                    xtype: 'cmv.$lookup'
+                }
+            ]
+        });
+    }
+});

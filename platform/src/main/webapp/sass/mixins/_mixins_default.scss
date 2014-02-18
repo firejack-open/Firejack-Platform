@@ -1,0 +1,35 @@
+@mixin underline($state: false) {
+  
+  @if $state == false {
+    text-decoration: none;
+  }
+  @else {
+    text-decoration: underline; 
+  }
+}
+
+//Gradient RGBA
+@mixin bg($color: #000, $opacity:.75) {
+  @include filter-gradient(rgba($color,$opacity),rgba($color,$opacity));
+  background: rgba($color,$opacity);
+}
+//Gradient linear
+@mixin bg-linear($color1, $color2,$type:top) {
+  $type-num: if($type == top,vertical,0);
+  @include filter-gradient($color1,$color2,$type-num);
+  @include background(linear-gradient($type,$color1,$color2));
+}
+
+
+//Placeholder color
+@mixin placeholder() {
+  &::-webkit-input-placeholder {
+    @content
+  }
+  &:-moz-placeholder {
+    @content
+  }
+  &:-ms-input-placeholder {
+    @content
+  }
+}

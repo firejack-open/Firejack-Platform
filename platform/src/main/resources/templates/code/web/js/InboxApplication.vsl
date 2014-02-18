@@ -1,0 +1,24 @@
+Ext.application({
+    name: 'CMV.$navigationLookup',
+
+    appFolder: OPF.Cfg.BASE_URL + '/js/net/firejack/prometheus/page/inbox',
+
+    controllers: [
+        'OPF.prometheus.page.inbox.controller.InboxController'
+    ],
+
+    launch: function() {
+
+        Ext.QuickTips.init();
+
+        Ext.create('Ext.container.Container', {
+            layout: 'fit',
+            renderTo: 'wrapper',
+            items: [
+                {
+                    xtype: 'prometheus.page.inbox'
+                }
+            ]
+        });
+    }
+});

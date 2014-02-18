@@ -1,0 +1,18 @@
+@import "compass";
+@import "compass/layout/stretching";
+@import "settings";
+
+//import mixins
+@import "mixins/_mixins_default";
+@import "mixins/_mixins_custom";
+
+$sprite: sprite-map("wizards/*.png",
+  $position: 0%, $spacing: 40px, $repeat: no-repeat,
+  $sprite-fire-word-position: 100%
+);
+
+@import "gateway/_x-window";
+@import "gateway/_x-button";
+@import "gateway/_x-progress-bar";
+@import "gateway/_x-boundlist";
+@import "gateway/_x-panel";

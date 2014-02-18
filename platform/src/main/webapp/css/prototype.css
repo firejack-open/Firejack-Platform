@@ -1,0 +1,154 @@
+/*
+ * Firejack Platform - Copyright (c) 2012 Firejack Technologies
+ *
+ * This source code is the product of the Firejack Technologies
+ * Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+ * Asanov) and licensed only under valid, executed license agreements
+ * between Firejack Technologies and its customers. Modification and / or
+ * re-distribution of this source code is allowed only within the terms
+ * of an executed license agreement.
+ *
+ * Any modification of this code voids any and all warranties and indemnifications
+ * for the component in question and may interfere with upgrade path. Firejack Technologies
+ * encourages you to extend the core framework and / or request modifications. You may
+ * also submit and assign contributions to Firejack Technologies for consideration
+ * as improvements or inclusions to the platform to restore modification
+ * warranties and indemnifications upon official re-distributed in patch or release form.
+ */
+
+
+/*.x-mask {*/
+    /*position: fixed;*/
+    /*top: 0 !important;*/
+/*}*/
+
+/* Message Panel */
+.message-content {
+    border: 1px solid #fe9797;
+    background-color: #ffd7d7;
+    border-radius: 5px;
+    padding: 5px;
+}
+.message-content div {
+    color: #9f0a0a;
+    background-color: transparent;
+}
+
+/* Field Container */
+.x-container.x-form-invalid input {
+    background-color: white;
+    background-image: url("../ext-4.0.7/resources/themes/images/gray/grid/invalid_line.gif");
+    background-position: center bottom;
+    background-repeat: repeat-x;
+    border-color: #CC3300;
+}
+
+/* Grid Component*/
+button span.icon-add {
+    background-image:url(../images/icons/prototype/add.png) !important;
+    background-repeat:no-repeat;
+}
+
+button span.icon-delete {
+    background-image:url(../images/icons/prototype/delete.png) !important;
+    background-repeat:no-repeat;
+}
+
+button span.icon-save {
+    background-image:url(../images/icons/prototype/save.png) !important;
+    background-repeat:no-repeat;
+}
+
+button span.icon-cancel {
+    background-image:url(../images/icons/prototype/cancel.png) !important;
+    background-repeat:no-repeat;
+}
+
+button span.icon-manage {
+    background-image:url(../images/icons/prototype/manage.png) !important;
+    background-repeat:no-repeat;
+}
+
+button span.icon-search {
+    background-image:url(../images/icons/prototype/search.png) !important;
+    background-repeat:no-repeat;
+}
+
+/* Content Panel */
+.content-panel {
+    border: 1px solid #D0D0D0;
+    border-radius: 7px;
+}
+
+.content-panel-title {
+    border-bottom: 1px solid #D0D0D0;
+}
+
+.content-panel-title div,
+.content-panel-content div,
+.title-panel-title div,
+.header-panel-title div,
+.header-panel-sub-title div {
+    display: inline;
+}
+
+a.text-resource-edit,
+a.image-resource-edit {
+    display: inline;
+    border: 1px solid transparent;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+a.text-resource-edit:hover,
+a.image-resource-edit:hover {
+    border: 1px dotted #D0D0D0;
+}
+
+a.text-resource-edit img,
+a.image-resource-edit img {
+    display: inline;
+    padding-top: 2px;
+}
+
+.content-panel div {
+    background-color: transparent;
+}
+
+.content-panel .x-panel-body {
+    border: none;
+}
+
+.content-panel .content-panel-title-text {
+    font-size: 14px;
+    font-weight: 600;
+    padding-left: 10px;
+    text-shadow: 1px 1px white;
+}
+
+.content-panel .content-panel-content {
+    padding: 0 10px;
+}
+
+/* Title Panel*/
+.title-panel .title-panel-title-text {
+    font-size: 18px;
+    font-weight: 600;
+    /*padding-left: 10px;*/
+    text-shadow: 1px 1px white;
+}
+
+/* Breadscrumbs */
+.search-field input {
+    border-radius: 5px;
+}
+
+/* Grid Panel */
+.grid-panel {
+    /*border-radius: 7px;*/
+}
+
+/* user Association Component */
+.opf-user-association > label {
+    margin-left: 10px;
+}

@@ -1,0 +1,55 @@
+Ext.require([
+    'OPF.prometheus.layout.StandardLayout',
+#foreach($model in $models)
+    'CMV.$model.fullName'#if($velocityHasNext),
+#end
+#end
+]);
+
+Ext.define('CMV.$fullName', {
+    extend: 'OPF.prometheus.layout.StandardLayout',
+    alias: 'widget.cmv.$lookup',
+
+    components: [
+        {
+            xtype: 'prometheus.component.toolbar-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.header-component',
+            area: 'top',
+            siteLogoLookup: '${projectPath}.site-logo'
+        },
+        {
+            xtype: 'prometheus.component.top-menu-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.breadcrumbs-component',
+            area: 'top'
+        },
+        {
+            xtype: 'prometheus.component.left-menu-component',
+            area: 'leftnav'
+        },
+        {
+            xtype: 'prometheus.component.title-component',
+            area: 'body',
+            entityLookup: '$lookup'
+        },
+#foreach($model in $models)
+        {
+            xtype: 'prometheus.component.action-component',
+            area: 'body',
+            entityLookup: '$model.lookup',
+            maxTitleLength: 70
+        },
+#end
+        {
+            xtype: 'prometheus.component.footer-component',
+            area: 'footer',
+            footerLogoLookup: '${projectPath}.footer-site-logo',
+            copyRightLookup: '${projectPath}.copyright'
+        }
+    ]
+});

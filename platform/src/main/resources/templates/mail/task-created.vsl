@@ -1,0 +1,6 @@
+Hi ${task.assignee.username}!
+
+Task has been created.
+
+Task description:
+${task.description}

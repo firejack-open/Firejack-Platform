@@ -1,0 +1,10 @@
+Ext.define('CMV.$fullName', {
+    extend: 'Ext.app.Controller',
+
+    views: ['CMV.$view.fullName'],
+    #if($model)models: ['CMV.$model.fullName'#if($model.associations),#foreach($field in $model.associations)'CMV.$field.model.fullName'#if($velocityHasNext),#end#end#end#if($view.model.factModel),'CMV.$view.model.factModel.fullName'#end#if($associations),#foreach($field in $associations)'CMV.$field.model.fullName'#if($velocityHasNext),#end#end#end],#end
+
+    init: function() {
+        this.control();
+    }
+});

@@ -1,0 +1,185 @@
+.grid-panel {
+	.x-panel-header-default {
+		border: none;
+		background: none;
+	}
+
+	.x-panel-header-horizontal {
+		padding: 4px 0;
+	}
+
+	.x-panel-header-default-top {
+		@include box-shadow(none);
+	}
+
+	.x-panel-header-text-default {
+		color: #738999;
+		font-size: 14px;
+		font-weight: normal;
+	}
+}
+
+.x-grid {
+	margin-bottom: 0;
+}
+
+//Grids Header
+.x-column-header {
+	font-size: 13px;
+	color: #ffffff;
+	background: #2896dd;
+	border-color: #0273bc;
+	text-shadow: none;
+}
+
+.x-column-header-over,
+.x-column-header-sort-ASC,
+.x-column-header-sort-DESC {
+	color: #808080;
+	background: #d4eaf8;
+}
+
+.x-column-header-inner {
+	// line-height: 30px;
+	line-height: 53px;
+	font-size: 18px;
+}
+
+.x-column-header-trigger {
+	background: sprite($sprite,grid-column-header-trigger-btn) no-repeat;
+}
+
+.x-grid-row-focused {
+
+}
+
+.x-grid-row .x-grid-cell {
+	color: #478acc;
+	font-size: 13px;
+
+	&.cell-invalid {
+		outline: 1px solid #ff0000;
+	}
+}
+
+.x-grid-row .x-grid-cell-first {
+	color: #7f7f7f;
+}
+
+//Sorting  A to Z
+.x-column-header-sort-ASC {
+
+}
+
+//Sorting  Z to A
+.x-column-header-sort-DESC {
+
+}
+
+.x-grid-with-row-lines .x-grid-cell {
+	border-width: 0 1px 0 0;
+}
+
+//Common Grid Row
+.x-grid-with-row-lines {
+	.x-grid-cell-inner {
+		padding: 15px 6px;
+		font-size: 16px;
+		line-height: 30px;
+	}
+}
+
+//Check Column in Form Wizard
+.required-ico,
+.searchable-ico,
+.visible-ico {
+	width: 50px;
+	height: 60px;
+	&:hover {
+		background-color: #d4eaf8;
+
+		.x-column-header-over {
+			background: transparent;
+		}
+	}
+}
+
+.required-ico {
+	background: #2896dd sprite($sprite,grid-required) no-repeat;
+}
+
+.searchable-ico {
+	background: #2896dd sprite($sprite,grid-searchable) no-repeat;
+}
+
+.visible-ico {
+	background: #2896dd sprite($sprite,grid-visible) no-repeat;
+}
+
+//Cell Images 
+.cell-img {
+	vertical-align: middle;
+	.x-form-display-field {
+		text-align: center;
+	}
+}
+
+//Toolbar for add entity btn
+.x-toolbar-left-grid {
+	padding: 0;
+	// border-right: 1px solid #bcc2c7 !important;
+}
+
+//Row Action Toolbar
+.row-action-toolbar {
+	position: absolute;
+	height: 60px;
+	line-height: 60px;
+	// background: #191919;
+	background: #282828;
+	opacity: 0.9;
+	z-index: 100;
+	
+	.x-btn-action-small {
+		margin: 0 0 0 40px;
+		.x-btn-icon {
+			width: 26px;
+			height: 26px;
+			top: 0;
+			left: 0;
+		}
+	}
+	
+	// .add-btn {
+	// 	background: sprite($sprite,grid-add-btn) no-repeat;
+	// }
+
+	.edit-btn {
+		background: sprite($sprite,grid-edit-btn) no-repeat;
+	}
+
+	.delete-btn {
+		background: sprite($sprite,grid-delete-btn) no-repeat;
+	}
+}
+
+.x-html-editor-tb {
+	display: none;
+}
+
+// Row Editor
+.x-grid-row-editor {
+	.x-box-item {
+		.x-form-display-field {
+			padding: 17px 0;
+			height: 50px;
+			font-size: 16px;
+			// text-align: center;
+
+			// Cut long text
+			overflow:hidden; 
+		  white-space:nowrap; 
+		  text-overflow:ellipsis;
+		}
+	}
+}

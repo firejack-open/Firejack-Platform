@@ -1,0 +1,12 @@
+# Admin user login and password
+app.admin.email=[ADMIN_EMAIL]
+app.admin.name=[ADMIN_NAME]
+app.admin.password=[ADMIN_PASSWORD]
+
+#Memcached
+memcached.url=[MEMCACHED_URL]
+memcached.port=[MEMCACHED_PORT]
+memcached.cache.size=[MEMCACHED_CACHE_SIZE]
+
+#Master Openflame URL
+#opf.master.url=[OPF_MASTER_URL]

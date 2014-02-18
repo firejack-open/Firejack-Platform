@@ -1,0 +1,109 @@
+.opf-field-container, //Advanced search (Operation One of Value)
+.opf-combo-field,
+.opf-number-field {
+  .x-form-text {
+    @include border-radius(0);  
+  }  
+}
+
+.x-form-textarea,
+.x-form-text {
+  font-size: 21px;
+  @include box-sizing(border-box);
+  @include border-radius(0px);
+  background: #fff;
+  border: 1px solid #bcc2c7;
+  @include placeholder {
+    color: #bcc2c7;
+  };
+  &:hover {
+    border: 1px solid #aeb2b6;
+  }
+}
+
+.x-form-text {
+  height: 60px;
+}
+
+  .x-form-required-field,
+  .x-form-display-field,
+  .x-form-field {
+    color: #bcc2c7;
+  }
+
+.x-form-checkbox,
+.x-grid-checkheader {
+  background: sprite($sprite, form-checkbox) no-repeat;
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+}
+
+.x-form-item {
+  margin: 0 0 12px;
+  &.x-form-cb-checked {
+    .x-form-checkbox {
+      background: sprite($sprite, form-checkbox-checked) no-repeat;
+    }
+  }
+}
+
+.x-grid-checkheader-checked {
+  background: sprite($sprite, form-checkbox-checked) no-repeat;
+}
+
+// New checkboxes
+.opf-check-box {
+	label {
+		padding-top: 8px;
+	}
+}
+
+//Tirgger
+.x-form-trigger {
+  height: 60px;
+  background: sprite($sprite, x-form-trigger) no-repeat;
+  
+  .x-form-spinner-up,
+  .x-form-spinner-down {
+    height: 30px;
+  }
+
+  .x-form-spinner-up {
+    background: sprite($sprite, x-form-trigger-spinner-up) no-repeat;  
+  }
+
+  .x-form-spinner-down {
+    background: sprite($sprite, x-form-trigger-spinner-down) no-repeat;  
+  }
+}
+
+.x-form-trigger-over {
+  background: sprite($sprite, x-form-trigger-h) no-repeat;
+
+  .x-form-spinner-up {
+    background: sprite($sprite, x-form-trigger-spinner-up-h) no-repeat;  
+  }
+
+  .x-form-spinner-down {
+    background: sprite($sprite, x-form-trigger-spinner-down-h) no-repeat;  
+  }
+}
+
+// Grid editor
+.x-grid-editor,
+.x-grid-row-editor {
+  .x-form-text {
+    height: 50px;
+    font-size: 16px;
+  }
+  .x-form-trigger {
+    padding: 0px 5px;
+    height: 50px;
+    background: sprite($sprite, x-form-trigger-h50) no-repeat;
+  }
+
+  .x-form-trigger-over {
+    background: sprite($sprite, x-form-trigger-h50-h) no-repeat;
+  }
+}

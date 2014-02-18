@@ -1,0 +1,107 @@
+Ext.define('CMV.$fullName', {
+    extend: 'Ext.data.Model',
+
+    statics: {
+        restSuffixUrl: OPF.Cfg.restUrl('$path', true),
+#if($fields)
+        ruleId: 'CMV.$lookup',
+#end
+#if($factModel)
+        factModel: 'CMV.$factModel.fullName',
+#end
+#if ($referenceHeading || $referenceSubHeading || $referenceDescription)
+        lookup: '$lookup',
+        template: [
+            '<div class="reference-heading">$!referenceHeading</div>',
+            '<div class="reference-sub-heading">$!referenceSubHeading</div>',
+            '<div class="reference-description">$!referenceDescription</div>'
+        ],
+        rowTemplate: '<span class="reference-heading">$referenceHeading</span>'
+#else
+        lookup: '$lookup'
+#end
+    },
+
+#if($fields)
+    idProperty: 'id',
+    displayProperty: '$displayName',
+#end
+
+    fields: [
+#if($fields)
+#if($compositeKey)
+        {
+            name: 'id',
+            type: 'auto',
+            useNull: true,
+            persist: false,
+            hidden: true,
+            fieldType: 'UNIQUE_ID',
+            convert: function(value, record) {
+                return OPF.ModelHelper.getCompositeId(record, [#foreach($field in $compositeKey.fields)'${field.name}'#if($velocityHasNext),#end#end], true);
+            }
+        },
+#end
+        /* dynamic fields */
+#foreach($field in $fields)
+        {
+            name: '$field.name',
+#if ($field.type == 'TIME')
+            type: 'string',
+            convert: OPF.convertTime,
+#elseif($field.type == 'DATE')
+            type: 'string',
+            convert: OPF.convertDate,
+#else
+            type: '$field.jsonType',
+#end
+            useNull: $field.nullable,
+            persist: true,
+            fieldType: '$field.type',
+#if($field.jsonType == 'date')
+            dateFormat: 'time',
+#end
+#if($field.allowValues)
+            mapping: '${field.name}.display',
+            hasAllowValues: true,
+#end
+#if($field.hidden)
+            hidden: true,
+#end
+            displayName: '$!{field.displayName}',
+            displayDescription: '$!{field.displayDescription}',
+			defaultValue: '$!{field.value}'
+        },
+#end
+        /* constant fields */
+        { name: 'canUpdate', type: 'boolean', persist: false },
+        { name: 'canDelete', type: 'boolean', persist: false }
+#end
+    ],
+
+    associations: [
+#foreach($field in $associations)
+        {
+            type: '$field.type',
+            model: 'CMV.$field.model.fullName',
+            name: '$field.field.name',
+            associatedName: '$field.field.name',
+            associationKey: '$field.field.name',
+            foreignKey: 'id',
+            displayName: '$field.displayName',
+            displayDescription: '$!{field.field.hint}'
+        }#if($velocityHasNext),
+#end
+#end
+    ],
+    children: [
+#foreach($child in $relatedChildren)
+        {
+            displayName: '$child.source.originalName',
+            model: 'CMV.$child.source.view.fullName',
+            navigationUrl: '$child.source.url'
+        }#if($velocityHasNext),
+#end
+#end
+    ]
+});

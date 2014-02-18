@@ -1,0 +1,91 @@
+<!--
+  ~ Firejack Platform - Copyright (c) 2012 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<package name = "platform" path = "net.firejack" fromVersion = "1.2.0" toVersion = "1.3.0" prefix = "opf">
+
+	<drop-foreign-key table = "opf_activity" name = "FK_ACTIVITY_UID" />
+	<drop-foreign-key table = "opf_config" name = "FK_CONFIG_UID" />
+	<drop-foreign-key table = "opf_permission" name = "FK_PERMISSION_UID" />
+	<drop-foreign-key table = "opf_registry_node" name = "FK_REGISTRY_NODE_UID" />
+	<drop-foreign-key table = "opf_registry_node_field" name = "FK_REGISTRY_NODE_FIELD_UID" />
+	<drop-foreign-key table = "opf_role" name = "FK_ROLE_UID" />
+	<drop-foreign-key table = "opf_status" name = "FK_STATUS_UID" />
+	<drop-foreign-key table = "opf_user_profile_field" name = "FK_USER_PROFILE_FIELD_UID" />
+	<drop-foreign-key table = "opf_user_profile_field_group" name = "FK_USER_PROFILE_FIELD_GROUP_UID" />
+	<drop-foreign-key table = "opf_user_profile_field_value" name = "FK_USER_PROFILE_FIELD_VALUE_UID" />
+	<drop-foreign-key table = "opf_action_parameter" name = "FK_ACTION_PARAMETER_UID" />
+
+	<add-foreign-key table = "opf_activity" name = "FK_ACTIVITY_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_config" name = "FK_CONFIG_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_permission" name = "FK_PERMISSION_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_registry_node" name = "FK_REGISTRY_NODE_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_registry_node_field" name = "FK_REGISTRY_NODE_FIELD_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_role" name = "FK_ROLE_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_status" name = "FK_STATUS_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_user_profile_field" name = "FK_USER_PROFILE_FIELD_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_user_profile_field_group" name = "FK_USER_PROFILE_FIELD_GROUP_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_user_profile_field_value" name = "FK_USER_PROFILE_FIELD_VALUE_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+	<add-foreign-key table = "opf_action_parameter" name = "FK_ACTION_PARAMETER_UID" field = "id_uid" reference-table = "opf_uid" reference-field = "id" on-delete = "CASCADE" />
+
+	<drop-foreign-key table = "opf_registry_node" name = "FK_ACTION_INPUT_VO_ENTITY" />
+	<drop-foreign-key table = "opf_registry_node" name = "FK_ACTION_OUTPUT_VO_ENTITY" />
+
+	<add-foreign-key table = "opf_registry_node" name = "FK_ACTION_INPUT_VO_ENTITY" field = "id_input_vo_entity" reference-table = "opf_registry_node" reference-field = "id" on-delete = "SET_NULL" />
+	<add-foreign-key table = "opf_registry_node" name = "FK_ACTION_OUTPUT_VO_ENTITY" field = "id_output_vo_entity" reference-table = "opf_registry_node" reference-field = "id" on-delete = "SET_NULL" />
+
+	<modify-column table="opf_resource_version" old-name="html" new-name="html" type="LONG_TEXT"/>
+
+	<add-column table="opf_registry_node_field" name="searchable" type="FLAG"/>
+	<add-column table="opf_registry_node_field" name="display_name" type="NAME"/>
+	<add-column table="opf_registry_node_field" name="display_description" type="DESCRIPTION"/>
+
+	<add-column table="opf_registry_node" name="page_url" type="URL"/>
+
+    <custom-sql>
+        <![CDATA[
+            DELETE FROM opf_registry_node_field WHERE auto_generated = 1;
+        ]]>
+    </custom-sql>
+
+	<custom-sql>
+        <![CDATA[
+            UPDATE opf_registry_node package
+            INNER JOIN opf_registry_node system on package.id_system = system.id
+            	SET
+                	package.server_name = system.server_name,
+                	package.port = system.port,
+                	package.url_path = system.url_path
+            WHERE package.type = 'PKG';
+		]]>
+    </custom-sql>
+	<custom-sql>
+        <![CDATA[
+			UPDATE opf_lookup lookup
+			INNER JOIN opf_permission permission on permission.id_hash = lookup.id
+			SET
+			  lookup.hash = MD5(CONCAT(permission.lookup, '#permission'))
+		]]>
+    </custom-sql>
+    <rename-table name="action_permission" new-name="opf_action_permission"/>
+    <rename-table name="actor_group" new-name="opf_actor_group"/>
+    <rename-table name="actor_role" new-name="opf_actor_role"/>
+    <rename-table name="navigation_element_permission" new-name="opf_navigation_element_permission"/>
+    <rename-table name="resource_location_permission" new-name="opf_resource_location_permission"/>
+    <rename-table name="role_permission" new-name="opf_role_permission"/>
+    <rename-table name="secured_record_parent" new-name="opf_secured_record_parent"/>
+</package>

@@ -1,0 +1,21 @@
+Ext.require([
+    'OPF.prometheus.layout.BaseLayout'
+]);
+
+Ext.define('CMV.$fullName', {
+    extend: 'OPF.prometheus.layout.BaseLayout',
+    alias: 'widget.cmv.$lookup',
+
+    cls: 'login-page',
+
+    components: [
+        {
+            xtype: 'prometheus.component.login-component',
+            area: 'body',
+            submitUrl: '/authentication/sign-in',
+            forgotPasswordPageUrl: '/forgot-password',
+            siteLogoLookup: '${projectPath}.site-logo'
+        }
+    ]
+
+});

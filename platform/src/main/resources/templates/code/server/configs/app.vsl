@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+##	<import resource="classpath:/spring/upgrade-config.xml" />
+	<import resource="classpath:/spring/velocity-config.xml" />
+
+	<bean class="net.firejack.platform.model.config.placeholder.OpenFlamePropertyPlaceholderConfigurer">
+        <property name = "ignoreResourceNotFound" value="true"/>
+        <property name = "runtimeOverride" value="true"/>
+    </bean>
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basenames">
+	        <array>
+	            <value>classpath:/messages</value>
+	        </array>
+	    </property>
+	    <property name="cacheSeconds" value="0"/>
+	    <property name="parentMessageSource" ref="validationMessageSource"/>
+	</bean>
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+	<import resource="classpath:spring/spring-core-config.xml"/>
+
+	<import resource="hibernate-config.xml"/>
+	<import resource="jersey-config.xml"/>
+
+	<bean class="net.firejack.platform.core.utils.Factory">
+     <property name = "adapters">
+         <list>
+             <bean class="net.firejack.platform.core.adapter.DateTimeAdapter"/>
+             <bean class="net.firejack.platform.core.adapter.XmlGregorianCalendarAdapter"/>
+         </list>
+     </property>
+	</bean>
+
+
+	<context:component-scan base-package="net.firejack.platform.core.utils"/>
+	<context:component-scan base-package="${api.package}"/>
+
+#foreach($endpoint in $api.endpoints)
+	<jaxws:endpoint implementor = "${endpoint.package}.${endpoint.name}" address = "/$render.convertPath($endpoint.classPath,$endpoint.serviceName)" />
+#end
+</beans>

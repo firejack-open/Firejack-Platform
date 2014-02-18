@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns = "http://www.springframework.org/schema/beans" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd ">
+
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader</prop>
+                <prop key="class.resource.loader.cache">false</prop>
+                <prop key="input.encoding">UTF-8</prop>
+                <prop key="runtime.log">${log.directory}/velocity.log</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

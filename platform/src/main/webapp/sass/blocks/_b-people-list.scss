@@ -1,0 +1,26 @@
+.people-list {	
+	
+	.persona {
+		overflow: hidden;
+		margin-bottom: 20px;
+
+		h2 {
+			font: normal 36px/48px $ab;
+			margin: 0 0 20px
+		}
+	}
+
+	.text {
+		min-height: 350px;
+		width: 500px;
+		float: left;
+		margin-right: 20px;
+	}
+
+	.b-img {
+		width: 240px;
+		height: 350px;
+		float: left;
+		background-color: #686d71;
+	}
+}

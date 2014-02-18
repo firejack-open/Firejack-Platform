@@ -1,0 +1,89 @@
+package ${package};
+
+import java.util.*;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
+#if($name.equalsIgnoreCase('property'))
+import net.firejack.platform.core.*;
+#else
+import net.firejack.platform.core.annotation.Property;
+#end
+import net.firejack.platform.core.validation.annotation.*;
+import net.firejack.platform.core.validation.constraint.RuleSource;
+import net.firejack.platform.core.adapter.*;
+import net.firejack.platform.web.jackson.*;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+$!{description}
+@RuleSource("CMV.${lookup}")
+@Component("${fullName}")
+@XmlRootElement(namespace = "$render.reverse($package)")
+@XmlType(namespace = "$render.reverse($package)")
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ${name}#if (${parent.name}) extends #if($imports.contains($parent))$parent.name#else$parent.fullName#end#end {
+	private static final long serialVersionUID = $render.generateSerialUID()L;
+
+#foreach($field in $fields)
+	/**
+	*$!{field.description}
+	*/
+#if($name.equalsIgnoreCase('property'))
+	@net.firejack.platform.core.annotation.Property
+#else
+	@Property
+#end
+#if (${field.domainTypeName} == "java.sql.Date")
+	@JsonDeserialize(using = SqlDateDeserializer.class)
+	@XmlJavaTypeAdapter(SQLDateAdapter.class)
+#end
+#if (${field.domainTypeName} == "java.sql.Time")
+	@JsonDeserialize(using = SqlTimeDeserializer.class)
+	@XmlJavaTypeAdapter(SQLTimeAdapter.class)
+#end
+#if($field.optionExist)
+	@XmlElements({
+#foreach($option in $field.options)
+      @XmlElement(name = "${option.domain.normalize}", namespace = "$render.reverse($option.domain.package)", type = ${option.domain.name}.class),
+#end
+	})
+#end
+	private ${field.domainTypeName} ${field.name};
+#end
+#foreach($field in $fields)
+	/**
+	*$!{field.description}
+	*@return
+	*/
+	$render.renderValidateAnnotation($field)
+	public ${field.domainTypeName} get${field.method}() {
+		return this.${field.name};
+	}
+
+	/**
+	*$!{field.description}
+	*@param ${field.name}
+	*/
+	public void set${field.method}(${field.domainTypeName} ${field.name}) {
+		this.${field.name} = ${field.name};
+	}
+#end
+
+#if($subclasses)
+#set( $subs = $subclass )
+#parse("/templates/code/server/service/subdomain.vsl")
+#end
+}

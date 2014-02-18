@@ -1,0 +1,69 @@
+// html, body {
+//  height: 100%;
+// }
+
+body {
+  background: $default-body-bg;
+  font: $default-font-size $default-font-family;
+  color: $default-font-color;
+}
+
+input, textarea {
+  font: $default-font-size $default-inputs-font-family;
+  color: $default-font-color;
+}
+
+.clr {
+  zoom: 1;
+  
+  &:before, &:after {
+    content: "\0020"; display: block; height: 0; overflow: hidden;   
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+a {  
+  color: $default-link-color;
+  text-decoration: none;
+  &:hover {
+    // text-decoration: underline;
+  }
+}
+
+// h1, h2, h3, h4, h5, h6 {
+//   color: #9966cc;
+
+//   &.gray {
+//     color: #686d71;
+//   }
+// }
+
+// h1 {
+//   font: normal 36px/48px $ab;
+//   margin: 0 0 20px;  
+// }
+
+// h2 {
+//   // font-size: 18px;
+//     font: normal 26px $ab;
+//   margin: 20px 0;
+//   }
+
+// h3 {
+//   font-size: 14px;
+//   margin: 10px 0; 
+// }
+
+// p {
+//   line-height: 22px;
+
+//   &:first-child {
+//     margin-top: 0;
+//   }
+// }
+
+.opf_logo {
+  display: block;
+}

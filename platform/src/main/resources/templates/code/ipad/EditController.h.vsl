@@ -1,0 +1,21 @@
+#import "GWBaseViewController.h"
+#import "UIImage+Utils.h"
+#import "GWSlideView.h"
+#import "GWPropertyView.h"
+#import "GWPropertyViewFactory.h"
+
+@interface $name : GWBaseViewController <GWPropertyViewDelegate, GWImagePickerDelegate, GWSlideDataSource, GWSlideDelegate> {
+    GWSlideView *_slideView;
+    UIScrollView *_scrollView;
+    NSMutableArray *_properties;
+    UIButton *_add;
+    UIButton *_action;
+    GWPropertyView *_active;
+    NSMutableArray *_data;
+}
+
+@property (nonatomic, retain) GWModel *model;
+@property (nonatomic, retain) GWEntity *parent;
+@property (nonatomic, retain) GWEntity *entity;
+
+@end

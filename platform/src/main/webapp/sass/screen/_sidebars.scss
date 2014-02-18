@@ -1,0 +1,28 @@
+.sidebars-wrapper {
+	float: right;
+
+	&.two-col {		
+		width: 444px + 18;
+	}
+	.sidebars {
+		overflow: hidden;
+	}
+}
+
+.with-sidebar_default {
+	
+	aside {
+	float: left;
+	margin-right: 18px;		
+	}
+}
+aside {
+	width: 222px;
+
+	&.col-left {
+		float: left;
+	}
+	&.col-right {
+		float: right;
+	}
+}

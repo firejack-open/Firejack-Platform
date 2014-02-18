@@ -1,0 +1,30 @@
+# For JBoss: Avoid to setup Log4J outside $JBOSS_HOME/server/default/deploy/log4j.xml!
+# For all other servers: Comment out the Log4J listener in web.xml to activate Log4J.
+log4j.rootLogger=DEBUG, stdout, logfile
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Threshold=INFO
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d %p [$name] [%c{1}:%L] -> %m%n
+
+log4j.appender.logfile=net.firejack.platform.core.utils.log4j.IPPrefixSupportedFileAppender
+log4j.appender.logfile.Threshold=DEBUG
+log4j.appender.logfile.File=${catalina.base}/logs/${name}.log
+log4j.appender.logfile.DatePattern='.'yyyy-MM-dd
+log4j.appender.logfile.Append=true
+# Keep three backup files.
+# log4j.appender.logfile.MaxBackupIndex=10
+# Pattern to output: date priority [category] - message
+log4j.appender.logfile.layout=org.apache.log4j.PatternLayout
+log4j.appender.logfile.layout.ConversionPattern=%d %p [$name] [%c:%L] - %m%n
+
+log4j.logger.org.apache.commons=INFO
+log4j.logger.org.apache=INFO
+log4j.logger.org.hibernate=INFO
+#log4j.logger.org.hibernate.event.def.AbstractFlushingEventListener=FATAL
+#log4j.logger.org.hibernate.util.JDBCExceptionReporter=FATAL
+log4j.logger.org.hibernate.SQL=INFO
+log4j.logger.org.hibernate.type=INFO
+log4j.logger.org.hibernate.stat.Statistics=WARN
+log4j.logger.org.springframework=INFO
+log4j.logger.atomikos=ERROR

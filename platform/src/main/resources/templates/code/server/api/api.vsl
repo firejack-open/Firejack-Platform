@@ -1,0 +1,68 @@
+package ${package};
+
+import net.firejack.platform.core.domain.AbstractDTO;
+import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
+#foreach($import in $imports)
+import ${import.fullName};
+#end
+
+import java.util.ArrayList;
+import java.util.Map;
+
+/**
+ * Created by Open Flame Platform
+ * Date: $date
+ */
+
+
+@Component
+public class $name implements ApplicationContextAware {
+	private static final Logger logger = Logger.getLogger(${name}.class);
+	private static boolean initialized = false;
+	private static String url =  "$!{url}";
+#foreach( $local  in $locals)
+
+	public static $local.service.name $local.service.name;
+#end
+
+	@Override
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+        Class[] classes = getBeans(context);
+#foreach( $local  in $locals)
+
+		try {
+			${name}.${local.service.name} = context.getBean("${local.fullName}", ${local.service.name}.class);
+		} catch (NoSuchBeanDefinitionException e) {
+			${name}.${local.service.name} = new ${local.proxy.name}(url, classes);
+		}
+		logger.info("Local implementation for ${name}.${local.service.name} was found. Using class - [" + ${name}.${local.service.name}.getClass() + "].");
+#end
+	}
+
+    public static void initialize() {
+        if (!initialized) {
+			initialized = true;
+
+			logger.info("Initializing $name services...");
+			ApplicationContext context = new ClassPathXmlApplicationContext("api-config.xml");
+            new ${name}().setApplicationContext(context);
+        }
+    }
+
+    private Class[] getBeans(ApplicationContext context) {
+        Map<String, AbstractDTO> map = context.getBeansOfType(AbstractDTO.class);
+        Class[] classes = new Class[map.size() + 1];
+        int i = 0;
+        for (AbstractDTO dto : map.values()) {
+            classes[i++] = dto.getClass();
+        }
+        classes[i] = ArrayList.class;
+        return classes;
+    }
+}

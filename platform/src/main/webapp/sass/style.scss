@@ -1,0 +1,30 @@
+@import "import";
+
+// @import "reset";
+// @import "normalize";
+// @import "fonts";
+
+@import "screen/_common";
+@import "screen/_layout";
+@import "screen/_header";
+@import "screen/_footer";
+// @import "screen/forms";
+
+//Layouts
+// @import "screen/_sidebars.scss";
+
+
+//Blocks
+// @import "blocks/_b-people-list";
+
+
+//Modules
+// @import "modules/_m-sidebars";
+// @import "modules/_m-home-page-slider";
+// @import "modules/_m-social-sharebuttons";
+@import "modules/_m-navigation";
+
+
+//Plugins 
+
+// @import "plugins/_p-uniform";

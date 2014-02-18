@@ -1,0 +1,29 @@
+REST invocation requires an HTTP $method to the following URL: $rest
+<br>
+Instructions to acquire security token needed for REST invocation can be found [<a href="platform/console/documentation/us/net/platform/platform/security">here</a>]
+<br>
+An example request is provided below.
+<br><br>
+#if($request)
+<pre>
+$method $rest HTTP/1.1
+Accept	application/json
+Accept-Encoding	gzip, deflate
+Connection	keep-alive
+Cookie	opf.authentication.token=32e1a481-42a1-4dc7-aaf3-055a497bb0b6
+
+$request
+</pre>
+<br>
+#end
+An example response is provided below.
+<br>
+<pre>
+Content-Type	application/json;charset=UTF-8
+Date	$date
+Server	Apache-Coyote/1.1
+Transfer-Encoding	chunked
+Content-length: $length
+
+$response
+</pre>

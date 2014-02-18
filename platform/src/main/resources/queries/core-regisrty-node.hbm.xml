@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<!--
+  ~ Firejack Open Flame - Copyright (c) 2011 Firejack Technologies
+  ~
+  ~ This source code is the product of the Firejack Technologies
+  ~ Core Technologies Team (Benjamin A. Miller, Oleg Marshalenko, and Timur
+  ~ Asanov) and licensed only under valid, executed license agreements
+  ~ between Firejack Technologies and its customers. Modification and / or
+  ~ re-distribution of this source code is allowed only within the terms
+  ~ of an executed license agreement.
+  ~
+  ~ Any modification of this code voids any and all warranties and indemnifications
+  ~ for the component in question and may interfere with upgrade path. Firejack Technologies
+  ~ encourages you to extend the core framework and / or request modifications. You may
+  ~ also submit and assign contributions to Firejack Technologies for consideration
+  ~ as improvements or inclusions to the platform to restore modification
+  ~ warranties and indemnifications upon official re-distributed in patch or release form.
+  -->
+
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <!--<query name = "Directory.findByIdWithFields">-->
+        <!--<![CDATA[-->
+            <!--FROM Directory d-->
+                <!--LEFT JOIN FETCH d.fields f-->
+            <!--WHERE d.id = :id-->
+        <!--]]>-->
+    <!--</query>-->
+
+    <query name = "IndexStore.findIndexesByEntityId">
+	    <![CDATA[
+            FROM IndexModel i
+                INNER JOIN FETCH i.uid
+                LEFT JOIN FETCH i.relationship
+            WHERE i.parent.id = :entityId
+        ]]>
+    </query>
+
+    <query name = "IndexStore.findIndexByRelationshipId">
+        <![CDATA[
+            FROM IndexModel i
+                INNER JOIN FETCH i.uid
+            WHERE i.relationship.id = :relationshipId
+        ]]>
+    </query>
+
+    <query name = "FieldStore.findFieldsByRegistryNodeId">
+	    <![CDATA[
+            SELECT DISTINCT f
+            FROM FieldModel f
+                LEFT JOIN FETCH f.options
+                INNER JOIN FETCH f.uid
+            WHERE f.parent.id = :registryNodeId
+        ]]>
+    </query>
+
+    <query name = "FieldStore.findFieldByParentLookupAndName">
+	    <![CDATA[
+            SELECT
+                f
+            FROM FieldModel f
+                JOIN f.parent rn
+            WHERE rn.lookup = :parentLookup and f.name = :name
+        ]]>
+    </query>
+
+    <query name = "ActionParameterStore.findAllByActionId">
+	    <![CDATA[
+            FROM ActionParameterModel ap
+            WHERE ap.parent.id = :actionId
+        ]]>
+    </query>
+
+    <query name="Role.findByIdWithPermissions">
+        <![CDATA[
+            FROM RoleModel r
+                LEFT JOIN FETCH r.permissions
+            WHERE r.id = :id
+        ]]>
+    </query>
+
+    <query name="Role.findByLookupWithPermissions">
+        <![CDATA[
+            FROM RoleModel r
+                LEFT JOIN FETCH r.permissions
+            WHERE r.lookup = :lookup
+        ]]>
+    </query>
+
+    <query name="Role.findByName">
+        <![CDATA[
+            FROM RoleModel r
+            WHERE r.name = :name
+        ]]>
+    </query>
+
+    <query name="Role.findRolesWithPermissionsByUserId">
+        <![CDATA[
+            SELECT DISTINCT r
+            FROM RoleModel r
+                LEFT JOIN FETCH r.permissions
+                JOIN r.userRoles ur
+            WHERE ur.user.id = :userId
+        ]]>
+    </query>
+
+    <query name="Role.findRolesByUserId">
+        <![CDATA[
+            SELECT DISTINCT r
+            FROM RoleModel r
+                JOIN r.userRoles ur
+            WHERE ur.user.id = :userId
+        ]]>
+    </query>
+    
+    <query name="Permission.findByIdWithRoles">
+	    <![CDATA[
+            FROM PermissionModel p
+                LEFT JOIN FETCH p.roles
+            WHERE p.id = :id
+        ]]>
+    </query>
+
+    <query name="Group.findByIdWithDirectory">
+        <![CDATA[
+            FROM GroupModel g
+                LEFT JOIN FETCH g.directory
+            WHERE g.id = :id
+        ]]>
+    </query>
+
+    <query name="Relationship.findByIdWithEntities">
+        <![CDATA[
+            FROM RelationshipModel r
+                JOIN FETCH r.sourceEntity
+                LEFT JOIN FETCH r.targetEntity
+            WHERE r.id = :id
+        ]]>
+    </query>
+
+    <sql-query name="RegistryNode.findExternalCountByLookup">
+        SELECT COUNT(*) FROM opf_registry_node WHERE lookup RLIKE (
+            SELECT GROUP_CONCAT(DISTINCT lookup, '.*' SEPARATOR '|')
+            FROM opf_registry_node
+            WHERE type = 'RSP' AND lookup NOT LIKE CONCAT(:lookup, '.%')
+                AND
+                (
+                    id_source_entity IN (SELECT id FROM opf_registry_node WHERE (lookup LIKE CONCAT(:lookup, '.%') OR lookup = :lookup) AND type = 'ENT')
+                OR
+                    id_target_entity IN (SELECT id FROM opf_registry_node WHERE (lookup LIKE CONCAT(:lookup, '.%') OR lookup = :lookup) AND type = 'ENT')
+                )
+        )
+    </sql-query>
+
+    <query name="RegistryNode.countChildByParentId">
+	    <![CDATA[
+            SELECT COUNT(rn)
+            FROM RegistryNodeModel rn
+            WHERE rn.parent.id = :parentId
+        ]]>
+    </query>
+
+    <query name="Permission.findPermissionsByRoleId">
+        <![CDATA[
+            SELECT p
+            FROM RoleModel r
+                JOIN r.permissions p
+            WHERE r.id = :roleId
+        ]]>
+    </query>
+
+    <query name="Permission.findPermissionsByRoleIdAndBaseLookup">
+        <![CDATA[
+            SELECT p
+            FROM RoleModel r
+                JOIN r.permissions p
+            WHERE r.id = :roleId and p.lookup like :baseLookup
+        ]]>
+    </query>
+
+    <query name="Permission.findRolesByPermissions">
+        <![CDATA[
+            SELECT r
+            FROM RoleModel r
+               JOIN r.permissions p
+            WHERE p in (:permissions)
+        ]]>
+    </query>
+
+    <query name="NavigationElement.findByIdWithPermissions">
+        <![CDATA[
+            FROM NavigationElementModel ne
+                LEFT JOIN FETCH ne.permissions
+            WHERE ne.id = :id
+        ]]>
+    </query>
+
+    <query name="NavigationElement.findAllWithPermissions">
+        <![CDATA[
+            FROM NavigationElementModel rl
+                LEFT JOIN FETCH rl.permissions
+        ]]>
+    </query>
+    <query name="NavigationElement.findAllWithPermissionsByBaseLookup">
+        <![CDATA[
+            FROM NavigationElementModel elem
+                LEFT JOIN FETCH elem.main
+                LEFT JOIN FETCH elem.permissions
+            WHERE elem.lookup like :lookupPattern
+        ]]>
+    </query>
+
+    <query name="ResourceLocation.findByIdWithPermissions">
+        <![CDATA[
+            FROM ResourceLocationModel rl
+                LEFT JOIN FETCH rl.permissions
+            WHERE rl.id = :id
+        ]]>
+    </query>
+
+    <query name="ResourceLocation.findAllWithPermissions">
+        <![CDATA[
+            FROM ResourceLocationModel rl
+                LEFT JOIN FETCH rl.permissions
+        ]]>
+    </query>
+    <query name="ResourceLocation.findAllWithPermissionsByBaseLookup">
+        <![CDATA[
+            FROM ResourceLocationModel rl
+                LEFT JOIN FETCH rl.permissions
+            WHERE rl.lookup like :lookupPattern
+        ]]>
+    </query>
+
+    <query name="Collections.findAllRefCollectionId">
+        <![CDATA[
+			SELECT col.id, ref.id
+            FROM CollectionMemberModel cm
+                INNER JOIN  cm.collection col
+                INNER JOIN  cm.reference ref
+            WHERE ref.class = 'COL'
+        ]]>
+    </query>
+
+    <query name = "Role.findRolesByUserIdAndPackage">
+        <![CDATA[
+               SELECT DISTINCT role
+               FROM RoleModel role
+                   LEFT JOIN FETCH role.permissions
+                   JOIN role.userRoles ur
+               WHERE role.parent.id = :parentId and ur.user.id = :userId
+           ]]>
+    </query>
+
+    <query name="Entity.resetReverseEngineerMark">
+        <![CDATA[
+           UPDATE EntityModel e
+           SET e.reverseEngineer = null
+           WHERE e.lookup LIKE :lookupPrefix
+       ]]>
+    </query>
+
+    <query name="Relationship.resetReverseEngineerMark">
+        <![CDATA[
+           UPDATE RelationshipModel e
+           SET e.reverseEngineer = null
+           WHERE e.lookup LIKE :lookupPrefix
+       ]]>
+    </query>
+</hibernate-mapping>
