@@ -9,7 +9,7 @@ What Is The Firejack Platform
 Some text here
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    introduction/index
    dev_accelerator/index

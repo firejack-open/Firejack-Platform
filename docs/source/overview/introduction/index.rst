@@ -11,7 +11,7 @@ Some text here
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    fjkplatform
    jeearchitecure

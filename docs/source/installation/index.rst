@@ -11,6 +11,6 @@ want to run the daemon.
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    aws
