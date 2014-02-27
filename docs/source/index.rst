@@ -1,10 +1,9 @@
-.. Platform documentation master file, created by
-   sphinx-quickstart on Fri Feb 21 12:23:24 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+:title: Platform Documentation
+:description: An overview of the Platform Documentation
+:keywords: platform, concepts, explanation
 
 Welcome to the Firejack Platform's documentation!
-====================================
+=================================================
 
 Be sure to see our 'how to' guides and 'tutorials' in the 'knowledge center' - accessable from the top menu of the firejack.org website.
 
@@ -19,15 +18,9 @@ The Registry also automatically generates detailed documentation and copies ente
 Last but not least, Firejack can leverage declared assets like packages, domains, entities, relationships, and actions to automatically generate complete, working services and database structures. Once generated, Firejack automatically provides a buildable, editable version of the source code and compiles the code into a ready-to-run web application that can be deployed right from the Firejack Console.
 In combination, these three aspects of the Firejack Registry: declaration and lookup, documentation, and system generation, establish the foundation for everything else the Firejack Platform can do. Having one place to deal with your services, security, and system infrastructure is power even large organizations struggle with. The Firejack Registry puts that power at your fingertips.
 
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   overview/index
+   installation/index
