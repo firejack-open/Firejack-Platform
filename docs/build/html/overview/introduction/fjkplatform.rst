@@ -2,6 +2,7 @@
 :description: Firejack Platform description
 :keywords: Firejack Platform
 
+.. _rhel:
 
 Firejack Platform
 ========================

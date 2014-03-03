@@ -24,3 +24,8 @@ In combination, these three aspects of the Firejack Registry: declaration and lo
 
    overview/index
    installation/index
+   buildinggateway/index 	
+   buildingconsole/index
+   reverseengineering/index
+   businessintelligencefeatures/index
+   firejacksalesdocuments/index
